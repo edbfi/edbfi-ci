@@ -10,7 +10,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | S1 | shared hooks, tests and typing gate | done | [#2](https://github.com/edbfi/edbfi-ci/pull/2) |
 | S2 | validated workflow, Dependabot and hook templates | done | [#3](https://github.com/edbfi/edbfi-ci/pull/3) |
 | S3 | weekly upstream watcher with deduplicated issues and dry-run | done | [#4](https://github.com/edbfi/edbfi-ci/pull/4) |
-| S4 | dogfood: `edbfi-ci` adopts the core (owner: D5 PAT and secret, settings, ruleset); gate and auto-merge verification | pending | — |
+| S4 | dogfood: `edbfi-ci` adopts the core (owner: D5 PAT and secret, settings, ruleset); gate and auto-merge verification | in progress | — |
 | S5 | Phase 0 in target repos: B2 fixes, `refresh-hotio.yml` pinning, default-branch check, required-peer mismatches fixed | pending | — |
 | S6 | core pilot: portaler | pending | — |
 | S7 | core pilot: obzorarr | pending | — |

@@ -1,9 +1,10 @@
+# SPDX-License-Identifier: AGPL-3.0-only
 name: CI
 on:
   pull_request:
   push: { branches: [main] }
   workflow_dispatch:
-  schedule: [{ cron: "41 2 * * 0" }]   # weekly main revalidation; minute unique per repo
+  schedule: [{ cron: "41 2 * * 0" }]   # weekly audit + main revalidation; minute unique per repo
 permissions: {}
 concurrency:
   group: ${{ github.event_name == 'pull_request' && format('ci-pr-{0}-{1}', github.event.pull_request.number, github.event.pull_request.head.sha) || format('ci-{0}', github.sha) }}
@@ -39,3 +40,19 @@ jobs:
             | length > 0 and all(to_entries[]; .value.result == "success"
                 or (.value.result == "skipped" and (.key | IN($allowed[]))))
           ' <<<"$NEEDS" >/dev/null || { echo "::error::ci-ok failed: $(jq -c 'map_values(.result)' <<<"$NEEDS")"; exit 1; }
+  audit:
+    if: github.event_name != 'pull_request'
+    strategy: { fail-fast: false, matrix: { dir: ["."] } }
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: { contents: read }
+    defaults: { run: { working-directory: "${{ matrix.dir }}" } }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with: { python-version-file: "${{ matrix.dir }}/.python-version" }
+      - run: |
+          requirements="$RUNNER_TEMP/audit-requirements.txt"
+          uv export --locked --all-groups --no-emit-project --no-emit-workspace --format requirements-txt --output-file "$requirements"
+          uvx pip-audit --require-hashes --disable-pip -r "$requirements"
