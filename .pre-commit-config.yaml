@@ -47,14 +47,14 @@ repos:
     hooks:
       - id: doc-guard
         name: doc-guard
-        entry: python3 -B tools/doc-guard/doc_guard.py
+        entry: python3 tools/doc-guard/doc_guard.py
         language: python
         language_version: "3.14"
         pass_filenames: false
         always_run: true
       - id: doc-guard-tests
         name: doc-guard tests
-        entry: python3 -B -m unittest discover -s tools/doc-guard
+        entry: python3 -m unittest discover -s tools/doc-guard
         language: python
         language_version: "3.14"
         pass_filenames: false

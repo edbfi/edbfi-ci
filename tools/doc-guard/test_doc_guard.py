@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-"""Each guard failing and passing. Run: python3 -B -m unittest discover -s tools/doc-guard"""
+"""Each guard failing and passing. Run: python3 -m unittest discover -s tools/doc-guard"""
 
 import contextlib
 import io
