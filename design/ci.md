@@ -10,10 +10,10 @@
 6. Every workflow MUST start with `permissions: {}`. Every job MUST have minimal grants and `timeout-minutes`; every checkout MUST set `persist-credentials: false`.
 7. Every action MUST be pinned to a full SHA with a `# vX.Y.Z` comment, which Dependabot updates together. `pull_request_target` MUST NOT be used anywhere.
 8. Toolchains MUST come from repo files: `setup-bun` with `bun-version-file: package.json`, `setup-uv` with `.python-version`, `rust-toolchain.toml`, `setup-zig` reading `build.zig.zon`.
-9. Installs MUST be frozen: `bun ci`, or `bun ci --ignore-scripts` plus an explicit `bun run prepare` where install scripts run `prek install` (obzorarr's postinstall, zondarr's root prepare); `uv sync --locked`; `cargo … --locked`.
+9. Installs MUST be frozen: `bun ci`, or `bun ci --ignore-scripts` with required project preparation run explicitly, omitting lifecycle steps that only install Git hooks; `uv sync --locked`; `cargo … --locked`.
 10. Runners MUST use `-latest` labels (D12). Linux ARM64 has none, so it uses the `ubuntu-<gen>-arm` label of `ubuntu-latest`'s generation.
 11. CI MUST call repo-local commands (`scripts/smoke.*`, package scripts), so every check also runs locally.
-12. Deploys MUST depend only on the `push` run of the squash commit on main. A PR run tests `refs/pull/N/merge` against the base at that moment, not that commit.
+12. Deploys MUST use a successful non-PR run of a commit on main (`push`, scheduled revalidation or dispatch), never a PR run. A PR run tests a synthetic merge ref, not the final squash commit.
 13. `audit` MUST run only outside PRs, with one matrix entry per independent lockfile: `bun audit --audit-level=high` per Bun directory, and `uvx pip-audit` (unpinned; no secrets) over `uv export --locked` per uv project. The directories are the bun and uv entries of the Dependabot column in [repos.md](repos.md#parameters).
 14. A uv `audit` entry MUST stay until ci-A1 closes for that project.
 
@@ -28,98 +28,19 @@
 
 ## Parameters
 
-- Weekly cron: Sunday about 02:00 UTC, a distinct minute per repo that is never `:00`, clear of Dependabot's Monday slot.
-- Runner labels: `ubuntu-latest` is 24.04, so the ARM64 label is `ubuntu-24.04-arm`; `macos-latest` is arm64 [V, 2026-09-27]. Per-repo runners are in [repos.md](repos.md#parameters). actionlint 1.7.12 knows `ubuntu-24.04-arm` but would need a `self-hosted-runner.labels` allowance for `ubuntu-26.04-arm`.
-- Reference template (Bun, with Pages); S2 re-resolves every SHA when writing templates. It passes actionlint 1.7.12 with the Pages allowance ([prek.md](prek.md#contract)) and zizmor 1.30.1 `--offline`:
+Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [repos.md](repos.md#parameters). Templates use repo-local smoke/check entry points: the rollout must supply or adapt them, allocate a distinct schedule minute, and include every added PR job in the gate.
 
-```yaml
-name: CI
-on:
-  pull_request:
-  push: { branches: [main] }
-  workflow_dispatch:
-  schedule: [{ cron: "17 2 * * 0" }]   # weekly audit + main revalidation/redeploy; minute unique per repo
-permissions: {}
-concurrency:
-  group: ${{ github.event_name == 'pull_request' && format('ci-pr-{0}-{1}', github.event.pull_request.number, github.event.pull_request.head.sha) || format('ci-{0}', github.sha) }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-jobs:
-  checks:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions: { contents: read }
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: { persist-credentials: false }
-      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
-        with: { bun-version-file: package.json }
-      - run: bun ci
-      - uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
-        with: { extra-args: "--all-files --hook-stage manual" }   # no prek-version: defaults to latest
-  smoke:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions: { contents: read }
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: { persist-credentials: false }
-      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
-        with: { bun-version-file: package.json }
-      - run: bun ci
-      - run: bun run build
-      - run: bun run smoke
-      - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'   # Pages repos only
-        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
-        with: { path: dist }
-  ci-ok:
-    if: always()
-    needs: [checks, smoke]
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions: {}
-    steps:
-      - env:
-          NEEDS: ${{ toJSON(needs) }}
-          ALLOWED_SKIPS: ""
-        run: |
-          jq -e --arg skips "$ALLOWED_SKIPS" '
-            ($skips | split(",") | map(select(. != ""))) as $allowed
-            | length > 0 and all(to_entries[]; .value.result == "success"
-                or (.value.result == "skipped" and (.key | IN($allowed[]))))
-          ' <<<"$NEEDS" >/dev/null || { echo "::error::ci-ok failed: $(jq -c 'map_values(.result)' <<<"$NEEDS")"; exit 1; }
-  audit:
-    if: github.event_name != 'pull_request'
-    strategy: { fail-fast: false, matrix: { dir: ["."] } }
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions: { contents: read }
-    defaults: { run: { working-directory: "${{ matrix.dir }}" } }
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with: { persist-credentials: false }
-      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
-        with: { bun-version-file: "${{ matrix.dir }}/package.json" }
-      - run: bun audit --audit-level=high
-  deploy:                                # Pages repos only
-    needs: [ci-ok]
-    if: always() && needs.ci-ok.result == 'success' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions: { contents: read, pages: write, id-token: write }
-    environment: { name: github-pages, url: "${{ steps.deploy.outputs.page_url }}" }
-    concurrency: { group: pages-deploy, cancel-in-progress: false, queue: max }
-    steps:
-      - id: tip
-        run: |
-          tip="$(gh api "repos/${GITHUB_REPOSITORY}/commits/main" --jq .sha)"
-          echo "current=$([ "$tip" = "$GITHUB_SHA" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
-        env: { GH_TOKEN: "${{ github.token }}" }
-      - id: deploy
-        if: steps.tip.outputs.current == 'true'
-        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
-```
+| Stack | Templates |
+|---|---|
+| Bun web | [Bun](../templates/ci-bun-web.yml), [Bun + Pages](../templates/ci-bun-pages.yml) |
+| Python | [uv](../templates/ci-python.yml), [Python + Bun](../templates/ci-python-bun.yml); stdlib-only repos start from [Special](../templates/ci-special.yml) and add their smoke/runner |
+| Native | [Rust/Windows](../templates/ci-rust.yml), [Zig](../templates/ci-zig.yml), [Homebrew](../templates/ci-homebrew.yml) |
+| Shell | [Shell](../templates/ci-shell.yml) |
+| Content | [Content](../templates/ci-content.yml), [static Pages](../templates/ci-content-pages.yml) |
+| Special | [repo-patches](../templates/ci-special.yml), [replex](../templates/ci-replex.yml), [dox](../templates/ci-dox.yml) |
 
-- Other pins [V, 2026-09-27]: `astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0`, `mlugg/setup-zig@d1434d08867e3ee9daa34448df10607b98908d29 # v2.2.1`, `Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2`.
+- Pins, schedules, runners and commands live in those templates. Runner architectures were verified [V, 2026-09-27]; re-check at rollout (ci-A2).
+- Pages linter allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml), copied to `.github/actionlint.yaml`.
 
 ## Verification
 

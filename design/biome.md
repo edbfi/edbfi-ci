@@ -20,6 +20,7 @@
 
 ## Parameters
 
+- Workflow: [biome-migrate.yml](../templates/biome-migrate.yml); migration hook: [Bun config](../templates/pre-commit.bun-web.yaml). The publisher applies patches to the index without checking out PR files.
 - Biome repos (ten): guides, isfuglen, portaler, yt-redirect, docrewind, obzorarr, otpravkarr, poyo-studio, setun, zondarr.
 - Credential: PAT `edbfi-biome-migrate` (Contents RW), installed as the Dependabot secret `BIOME_MIGRATE_TOKEN` in the ten repos.
 

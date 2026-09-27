@@ -14,6 +14,7 @@
 
 ## Parameters
 
+- Workflow and inline validation: [pr-policy.yml](../templates/pr-policy.yml).
 - The commits endpoint returns at most 250 commits; a PR with more fails closed by rule 7.
 
 ## Verification
