@@ -15,7 +15,7 @@
    - Progress lives only in `STATE.md`.
 5. **No reports in the repo.** Session summaries, logs, test evidence, migration checklists and "what I did" go in the **PR body**, never in a file. `git log` and the PR history are the history.
 6. **Be precise, not complete.** Leave out anything that doesn't change what someone would do. A one-line reason is enough; drop reasons that restate the rule. Don't add a new doc file unless an existing module truly can't hold the content.
-7. **Automated guards back these rules** ([`tools/doc-guard`](tools/doc-guard/doc_guard.py)). Never weaken a guard or raise a cap to get past it. Trim the content instead.
+7. **Automated guards back these rules** ([`tools/doc_guard`](tools/doc_guard/doc_guard.py)). Never weaken a guard or raise a cap to get past it. Trim the content instead.
 8. **Never write secret values.** Secret names are fine. Don't change GitHub settings, secrets or other repos, except where the current step says so. Anything that needs the owner goes under "Owner actions" in the PR body.
 
 ## Design modules

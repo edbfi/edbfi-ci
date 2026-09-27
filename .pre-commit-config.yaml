@@ -45,6 +45,19 @@ repos:
 
   - repo: local
     hooks:
+      - id: basedpyright-config
+        name: Guard basedpyright configuration
+        entry: python3 tools/check_basedpyright_config.py
+        language: python
+        language_version: "3.14"
+        pass_filenames: false
+        always_run: true
+      - id: basedpyright
+        name: Type-check all Python
+        entry: uvx basedpyright@latest
+        language: system
+        pass_filenames: false
+        always_run: true
       - id: privileged-jobs
         name: Check privileged workflow jobs
         entry: python3 hooks/edbfi_hooks/privileged_jobs.py
@@ -68,15 +81,15 @@ repos:
         files: ^(hooks/|package\.json|\.pre-commit-hooks\.yaml)
       - id: doc-guard
         name: doc-guard
-        entry: python3 tools/doc-guard/doc_guard.py
+        entry: python3 tools/doc_guard/doc_guard.py
         language: python
         language_version: "3.14"
         pass_filenames: false
         always_run: true
-      - id: doc-guard-tests
-        name: doc-guard tests
-        entry: python3 -m unittest discover -s tools/doc-guard
+      - id: tooling-tests
+        name: tooling guard tests
+        entry: python3 -m unittest discover -s tools -t .
         language: python
         language_version: "3.14"
         pass_filenames: false
-        files: ^tools/doc-guard/
+        files: ^(tools/|pyproject\.toml)

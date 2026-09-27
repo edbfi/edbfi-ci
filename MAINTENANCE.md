@@ -12,7 +12,7 @@ The last part of every step; it blocks the step.
 6. All guards (§D.3) pass. If a cap is hit, merge, trim or split content. Don't raise the cap.
 7. The PR body has: what changed, the evidence (the commands run and their results), deviations from the design with reasons, and Owner actions.
 
-Guards: `prek run --all-files --hook-stage manual` (runs [`tools/doc-guard`](tools/doc-guard/doc_guard.py) and its tests).
+Guards: `prek run --all-files --hook-stage manual` (runs [`tools/doc_guard`](tools/doc_guard/doc_guard.py) and its tests).
 
 ## Watch triggers
 

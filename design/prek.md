@@ -23,6 +23,7 @@
 10. `check-peers` (Bun) MUST check, for each direct dependency, every non-optional peer, resolved from the dependent's own directory, and MUST fail if a peer is missing or unsatisfied (`Bun.semver.satisfies`). It MUST NOT have an allowlist. It runs once per `audit` matrix directory.
 11. `check-peers` MUST use the consumer's installed Bun and dependencies. Consumers MUST pass each audit directory through hook arguments (default: repo root); filenames are disabled in the [manifest](../.pre-commit-hooks.yaml).
 12. A repo's required-peer mismatches on main MUST be fixed before `check-peers` is enabled there, or main starts red.
+13. Python in `edbfi-ci` MUST pass the latest basedpyright with zero errors and warnings. The [config guard](../tools/check_basedpyright_config.py) MUST reject global overrides, baselines and file-wide suppressions; only justified inline rule-specific suppressions at untyped third-party boundaries are allowed.
 
 ## Parameters
 
