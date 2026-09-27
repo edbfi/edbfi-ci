@@ -8,7 +8,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 |---|---|---|---|
 | S0 | bootstrap `edbfi-ci` | done | [#1](https://github.com/edbfi/edbfi-ci/pull/1) |
 | S1 | shared hooks, tests and typing gate | done | [#2](https://github.com/edbfi/edbfi-ci/pull/2) |
-| S2 | templates: `ci-<stack>.yml` per stack in [repos.md](design/repos.md), `dependabot-auto-merge.yml`, `pr-policy.yml`, `dependabot.<stack>.yml`, `pre-commit.<stack>.yaml`, `actionlint.pages.yaml`, `biome-migrate.yml`; lint- and hook-clean in this repo's CI; move code out of docs | pending | — |
+| S2 | validated workflow, Dependabot and hook templates | done | [#3](https://github.com/edbfi/edbfi-ci/pull/3) |
 | S3 | `watch.yml` and the weekly watcher ([MAINTENANCE.md](MAINTENANCE.md#watch-triggers)) | pending | — |
 | S4 | dogfood: `edbfi-ci` adopts the core (owner: D5 PAT and secret, settings, ruleset); gate and auto-merge verification | pending | — |
 | S5 | Phase 0 in target repos: B2 fixes, `refresh-hotio.yml` pinning, default-branch check, required-peer mismatches fixed | pending | — |
