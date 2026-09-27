@@ -16,6 +16,7 @@
 
 - Workflow and inline validation: [pr-policy.yml](../templates/pr-policy.yml).
 - The commits endpoint returns at most 250 commits; a PR with more fails closed by rule 7.
+- Title failure then correction on one SHA blocks then restores mergeability [V, 2026-09-27]. Re-running an older run uses the current title, but if it cancels a newer edit run, re-run that newer run too.
 
 ## Verification
 
@@ -28,7 +29,6 @@
 ## Open
 
 - prpolicy-A1: that auto-merge enabled without `--subject` uses the title at merge time. Closes by retitling a PR after enabling auto-merge and reading the squash commit (S4).
-- prpolicy-A2: that the ruleset evaluates the most recent `pr-policy` check run on a SHA. Closes by failing then fixing a title on one SHA and seeing the PR become mergeable (S4).
 - prpolicy-A3: whether Dependabot commits carry a sign-off, and that they pass the exemption as designed. Closes with the first Dependabot PR on `edbfi-ci` (S4).
 
 ## Why

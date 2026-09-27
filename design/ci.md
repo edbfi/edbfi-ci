@@ -60,6 +60,6 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 
 - A skipped workflow leaves required checks pending, so no `paths:` filter.
 - Queue order isn't guaranteed and a re-run keeps its SHA, so a per-PR group could cancel the current head; one main group would drop the middle of three fast merges.
-- GitHub's dependency graph lists neither `bun.lock` nor `uv.lock`, so `audit` covers them.
+- Declared dependencies in the graph do not establish coverage of every locked transitive package.
 - The tip check stops an older run overwriting a newer site; `withastro/action` installs Bun `latest` unfrozen.
 - GitHub blocks `pull_request_target` on public repos from 2026-11-02.
