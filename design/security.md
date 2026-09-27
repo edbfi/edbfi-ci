@@ -3,7 +3,7 @@
 ## Contract
 
 1. A job is **privileged** if (case 1) it references any non-`GITHUB_TOKEN` secret, in any workflow, workflow-level `env:` included; or (case 2) it is PR-reachable and grants any `write` permission, `write-all` and workflow defaults included.
-2. A job is **PR-reachable** if its workflow has a PR-event trigger (`pull_request`, `pull_request_target`, `pull_request_review*`, `issue_comment`, `merge_group`), unless the job's `if:` is a pure `&&` chain with `github.event_name != 'pull_request'` as a top-level conjunct.
+2. A job is **PR-reachable** if its workflow has a PR-event trigger (`pull_request`, `pull_request_target`, `pull_request_review*`, `issue_comment`, `merge_group`), unless the job's `if:` is a pure `&&` chain with a literal `github.event_name != '<event>'` top-level conjunct for every configured PR-event trigger.
 3. A privileged job MUST NOT have `uses:`, `container:` or `services:`, MUST NOT check out PR code, and MUST NOT restore caches. It uses only inline shell and preinstalled tools (`git`, `gh`, `jq`, `curl`), plus toolchains installed inline from a pinned URL whose SHA-256 is checked.
 4. A privileged job MUST validate PR-derived data as data and never execute it.
 5. A privileged job consuming an artifact MUST:
@@ -19,7 +19,7 @@
 
 ## Parameters
 
-- Enforced by the `privileged-jobs` shared hook ([prek.md](prek.md#contract)).
+- Action/container/service restrictions are enforced by [privileged-jobs](../hooks/edbfi_hooks/privileged_jobs.py); shell and artifact-intake rules require review.
 - Only the owner has write access today.
 
 ## Verification

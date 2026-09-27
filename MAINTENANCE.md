@@ -12,7 +12,7 @@ The last part of every step; it blocks the step.
 6. All guards (§D.3) pass. If a cap is hit, merge, trim or split content. Don't raise the cap.
 7. The PR body has: what changed, the evidence (the commands run and their results), deviations from the design with reasons, and Owner actions.
 
-Guards: `prek run --all-files --hook-stage manual` (runs [`tools/doc-guard`](tools/doc-guard/doc_guard.py) and its tests).
+Guards: `prek run --all-files --hook-stage manual` (runs [`tools/doc_guard`](tools/doc_guard/doc_guard.py) and its tests).
 
 ## Watch triggers
 
@@ -20,6 +20,7 @@ S3 turns this table into `watch.yml` and deletes it. The watcher runs weekly wit
 
 | id | when | do |
 |---|---|---|
+| hooks-initial-release | edbfi-ci#2 merged | tag its merge commit with `v` + the version in [pyproject.toml](pyproject.toml), before S2 consumes the hooks |
 | bun-v2 | dependabot-core#16071 merged | uncomment the Bun blocks ([dependabot.md](design/dependabot.md#contract)) and pilot `biome-migrate.yml` |
 | biome-const | `@biomejs/biome` > 2.5.14 | check the seven `{@const}` repos go green, then re-check docrewind's overrides (B4) |
 | actionlint-queue | actionlint > 1.7.12 | test `queue` and `ubuntu-26.04-arm` support, and drop the allowances ([prek.md](design/prek.md#contract)) |

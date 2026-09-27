@@ -19,11 +19,14 @@ The single source of truth for CI across the edbfi repos: the design every repo'
 | [DECISIONS.md](DECISIONS.md) | resolved decisions and blockers, with what enforces each |
 | [MAINTENANCE.md](MAINTENANCE.md) | the cleanup gate that ends every step; watch triggers |
 | [design/](design/) | normative rules, one module per topic |
-| [tools/doc-guard](tools/doc-guard/doc_guard.py) | documentation guards, run by prek and CI |
+| [tools/doc_guard](tools/doc_guard/doc_guard.py) | documentation guards, run by prek and CI |
+| [hooks/](hooks/) · [hook manifest](.pre-commit-hooks.yaml) | shared CI policy hooks and their tests |
 | [.pre-commit-config.yaml](.pre-commit-config.yaml) | this repo's hooks |
 | [.github/](.github/) | this repo's CI and Dependabot config |
 
 Design modules: [ci](design/ci.md) · [prek](design/prek.md) · [dependabot](design/dependabot.md) · [auto-merge](design/auto-merge.md) · [pr-policy](design/pr-policy.md) · [settings](design/settings.md) · [security](design/security.md) · [biome](design/biome.md) · [watchdog](design/watchdog.md) · [d8](design/d8.md) · [repos](design/repos.md).
+
+Before local Python checks, install the locked development environment using the setup command in [CI](.github/workflows/ci.yml). The [prek config](.pre-commit-config.yaml) runs basedpyright and the [typing config guard](tools/check_basedpyright_config.py).
 
 ## License
 

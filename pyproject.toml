@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "edbfi-ci-hooks"
+version = "0.1.0"
+description = "Shared CI policy hooks for edbfi repositories"
+requires-python = ">=3.14"
+license = "AGPL-3.0-only"
+dependencies = ["PyYAML>=6.0.3"]
+
+[project.scripts]
+privileged-jobs = "edbfi_hooks.privileged_jobs:main"
+
+[tool.setuptools.packages.find]
+where = ["hooks"]
+include = ["edbfi_hooks"]
+
+[dependency-groups]
+dev = ["types-PyYAML>=6.0.12"]
+
+[tool.basedpyright]
+# HARD RULE — NO GLOBAL DIAGNOSTIC OVERRIDES IN THIS TABLE. EVER.
+# Only these three keys are allowed; tools/check_basedpyright_config.py enforces
+# them in prek and CI. Never add failOnWarnings, report* overrides or a baseline.
+# Fix diagnostics. An untyped third-party boundary may use only an inline
+# pyright: ignore[ruleName] with a short justification.
+pythonVersion = "3.14"
+typeCheckingMode = "recommended"
+include = ["hooks", "tools"]

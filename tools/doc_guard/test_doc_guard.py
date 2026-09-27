@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-"""Each guard failing and passing. Run: python3 -m unittest discover -s tools/doc-guard"""
+"""Each documentation guard failing and passing."""
 
 import contextlib
 import io
@@ -8,7 +8,7 @@ import unittest
 from pathlib import Path
 from typing import override
 
-import doc_guard
+from . import doc_guard
 
 FENCE = "```"
 DESIGN_OK = (

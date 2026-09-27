@@ -1,0 +1,13 @@
+- id: privileged-jobs
+  name: Check privileged workflow jobs
+  entry: privileged-jobs
+  language: python
+  language_version: "3.14"
+  files: ^\.github/workflows/[^/]+\.ya?ml$
+
+- id: check-peers
+  name: Check required package peers
+  entry: hooks/check-peers.ts
+  language: script
+  pass_filenames: false
+  always_run: true
