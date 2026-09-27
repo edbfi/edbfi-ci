@@ -28,6 +28,7 @@
 ## Parameters
 
 - Tools [V, 2026-09-27]: prek 0.5.3, actionlint 1.7.12, zizmor 1.30.1.
+- A second CI run of the same config restores the prek cache and passes the Go actionlint hook [V, 2026-09-27]; gitleaks stays local-only.
 - Hook entries and filters: [manifest](../.pre-commit-hooks.yaml); implementations and tests: [hooks/](../hooks/). Both remote language modes pass against setun [V, 2026-09-27]; `script` avoids installing a second Bun environment.
 - Baseline: [Content](../templates/pre-commit.content.yaml). Stack additions: [Bun](../templates/pre-commit.bun-web.yaml), [Python](../templates/pre-commit.python.yaml), [Python + Bun](../templates/pre-commit.python-bun.yaml), [Rust](../templates/pre-commit.rust.yaml) (also replex), [Zig](../templates/pre-commit.zig.yaml), [Homebrew](../templates/pre-commit.homebrew.yaml), [Shell](../templates/pre-commit.shell.yaml), [Special](../templates/pre-commit.special.yaml), [dox](../templates/pre-commit.dox.yaml). Preserve existing project hooks and apply [repos.md](repos.md#parameters).
 - Pages allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml).
@@ -46,7 +47,6 @@
 
 ## Open
 
-- prek-A1: prek-action cache keys, and golang hooks (actionlint, gitleaks) under prek in CI. Closes when a second CI run of the same config shows a cache hit and actionlint ran (S4).
 - prek-A2: zizmor accepting `queue`, and the actionlint ignore text, on each linter bump. Closes per bump, through the actionlint watch trigger ([MAINTENANCE.md](../MAINTENANCE.md#watch-triggers)).
 - prek-A3: whether Dependabot's `pre-commit` ecosystem tolerates `repo: builtin`. Closes when the first `pre-commit` update run on `edbfi-ci` succeeds (S4).
 

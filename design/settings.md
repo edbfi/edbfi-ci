@@ -15,6 +15,8 @@
 
 - A required check can be selected only after it has run within the last 7 days, so each repo's rollout PR runs `ci-ok` and `pr-policy` before the ruleset is applied.
 - Current drift is recorded in [STATE.md](../STATE.md#github-state).
+- Personal-account rulesets accept an empty bypass list and enforce both checks [V, 2026-09-27].
+- The pinned `j178/prek-action` and `oven-sh/setup-bun` use Node 24 and run with SHA pinning required [V, 2026-09-27].
 
 ## Verification
 
@@ -24,8 +26,7 @@
 
 ## Open
 
-- settings-A1: rulesets on a personal account: an empty bypass list, a deploy-key bypass actor, and deploy-key pushes starting CI. Closes when S4 applies an empty-bypass ruleset to `edbfi-ci`, and S19 pushes with homebrew-taps' deploy key.
-- settings-A2: the effect of `sha_pinning_required` on composite actions' internal refs. Closes when a composite action with tag-pinned internals (`j178/prek-action`, `oven-sh/setup-bun`) runs under the setting (S4, S6).
+- settings-A1: a deploy-key bypass actor and deploy-key pushes starting CI on a personal account. Closes when S19 pushes with homebrew-taps' deploy key.
 
 ## Why
 
