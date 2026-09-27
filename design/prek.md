@@ -29,8 +29,8 @@
 
 - Tools [V, 2026-09-27]: prek 0.5.3, actionlint 1.7.12, zizmor 1.30.1.
 - Hook entries and filters: [manifest](../.pre-commit-hooks.yaml); implementations and tests: [hooks/](../hooks/). Both remote language modes pass against setun [V, 2026-09-27]; `script` avoids installing a second Bun environment.
-- The edbfi baseline is this repo's [`.pre-commit-config.yaml`](../.pre-commit-config.yaml) without `doc-guard`.
-- Pages `actionlint.yaml`: `paths: { .github/workflows/ci.yml: { ignore: ['unexpected key "queue"'] } }`.
+- Baseline: [Content](../templates/pre-commit.content.yaml). Stack additions: [Bun](../templates/pre-commit.bun-web.yaml), [Python](../templates/pre-commit.python.yaml), [Python + Bun](../templates/pre-commit.python-bun.yaml), [Rust](../templates/pre-commit.rust.yaml) (also replex), [Zig](../templates/pre-commit.zig.yaml), [Homebrew](../templates/pre-commit.homebrew.yaml), [Shell](../templates/pre-commit.shell.yaml), [Special](../templates/pre-commit.special.yaml), [dox](../templates/pre-commit.dox.yaml). Preserve existing project hooks and apply [repos.md](repos.md#parameters).
+- Pages allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml).
 - The 20 existing `prek.toml` configs convert 1:1 [V, 2026-09-27]: identical data, `prek validate-config` passes, `prek list` identical, `glob` excludes behave the same.
 
 ## Verification

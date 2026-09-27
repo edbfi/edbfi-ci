@@ -26,17 +26,7 @@ DESIGN_CAP = 150
 DESIGN_SECTIONS = ("Contract", "Parameters", "Verification", "Open", "Why")
 MAX_BLOCK_LINES = 12
 
-# Fenced blocks allowed to exceed MAX_BLOCK_LINES, keyed by (file, first line).
-LONG_BLOCK_EXEMPTIONS: frozenset[tuple[str, str]] = frozenset(
-    {
-        ("design/ci.md", "name: CI"),  # Step 2 moves it to templates/
-        ("design/dependabot.md", "version: 2"),  # Step 2 moves it to templates/
-        (
-            "design/auto-merge.md",
-            "name: Dependabot auto-merge",
-        ),  # Step 2 moves it to templates/
-    }
-)
+LONG_BLOCK_EXEMPTIONS: frozenset[tuple[str, str]] = frozenset()
 
 MARKER = re.compile(r"\b(TODO|TBD|FIXME)\b")
 INLINE_CODE = re.compile(r"(`+)(?:(?!\1).)+\1")

@@ -2,9 +2,9 @@
 
 ## Contract
 
-1. Every entry MUST run weekly, Monday 05:00 `Europe/Copenhagen`; replex runs monthly.
-2. Every entry MUST have `cooldown: { exclude: ["*"] }` with the suppression comment `# zizmor: ignore[dependabot-cooldown] -- D2: no cooldown` (D2).
-3. Every entry MUST use `commit-message: { prefix: chore, include: scope }`.
+1. Every entry MUST follow the schedule in its stack template; replex and the fuzz project use their monthly variants.
+2. Every entry MUST disable cooldown with the template exclusion and its scoped linter suppression (D2).
+3. Every entry MUST use the template commit-message settings to produce Conventional Commit titles.
 4. Groups MUST be, first match winning: `biome` (`@biomejs/*`); `playwright` (`playwright`, `@playwright/*`); `vitest` (`vitest`, `@vitest/*`); `slint` (EasyHDR: `slint`, `slint-build`); `compose-images` (setun); then `patch-minor` (`patterns: ["*"]`, `update-types: [minor, patch]`). The special groups may contain majors; other majors get one PR each.
 5. There MUST NOT be any `ignore:` entry, pinned-back version or hold. A broken upstream release keeps its PR red until a later release fixes it.
 6. Ecosystems and directories MUST follow [repos.md](repos.md#parameters). Every repo gets `github-actions` and `pre-commit`, except dox, whose hook revs are updated by hand.
@@ -17,28 +17,8 @@
 
 ## Parameters
 
-Template shape (Bun web):
-
-```yaml
-version: 2
-updates:
-  - package-ecosystem: github-actions
-    directory: /
-    schedule: { interval: weekly, day: monday, time: "05:00", timezone: Europe/Copenhagen }
-    cooldown: { exclude: ["*"] } # zizmor: ignore[dependabot-cooldown] -- D2: no cooldown
-    commit-message: { prefix: chore, include: scope }
-    groups:
-      actions-patch-minor: { patterns: ["*"], update-types: [minor, patch] }
-  - package-ecosystem: pre-commit
-    directory: /
-    schedule: { interval: weekly, day: monday, time: "05:00", timezone: Europe/Copenhagen }
-    cooldown: { exclude: ["*"] } # zizmor: ignore[dependabot-cooldown] -- D2: no cooldown
-    commit-message: { prefix: chore, include: scope }
-    groups:
-      hooks-patch-minor: { patterns: ["*"], update-types: [minor, patch] }
-  # Bun updates are PAUSED (D3): dependabot-core#16026 / #16071 (bun.lock v2).
-  # - package-ecosystem: bun   (same schedule/cooldown/commit-message; groups: biome, playwright, vitest, patch-minor)
-```
+- Configs: [Bun](../templates/dependabot.bun-web.yml), [setun](../templates/dependabot.setun.yml), [Python](../templates/dependabot.python.yml), [Python + Bun](../templates/dependabot.python-bun.yml), [Rust](../templates/dependabot.rust.yml), [Zig](../templates/dependabot.zig.yml), [Homebrew](../templates/dependabot.homebrew.yml), [Shell](../templates/dependabot.shell.yml), [Content](../templates/dependabot.content.yml), [Special](../templates/dependabot.special.yml), [replex](../templates/dependabot.replex.yml), [dox](../templates/dependabot.dox.yml).
+- Copy the matching config to `.github/dependabot.yml`; adapt ecosystems and directories to [repos.md](repos.md#parameters).
 
 - All 12 `bun.lock` files are lockfile v2; Dependabot's bun updater supports only v1.
 

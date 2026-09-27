@@ -15,31 +15,7 @@
 
 - PAT `edbfi-dependabot-auto-merge`: no expiry; Contents, Pull requests and Workflows RW (`github-actions` PRs modify workflow files).
 - Current coverage and leftover Actions copies: [STATE.md](../STATE.md#github-state).
-- Template (actionlint 1.7.12 and zizmor 1.30.1 pass):
-
-```yaml
-name: Dependabot auto-merge
-on:
-  pull_request:
-    types: [opened, reopened, synchronize]
-permissions: {}
-jobs:
-  enable:
-    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.event.pull_request.head.repo.full_name == github.repository && github.actor == 'dependabot[bot]' # zizmor: ignore[bot-conditions] -- PR author is checked; actor only filters later pushes
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions: {}
-    steps:
-      - run: |
-          if gh pr merge --auto --squash --match-head-commit "$HEAD_SHA" "$PR_URL"; then exit 0; fi
-          current="$(gh pr view "$PR_URL" --json headRefOid --jq .headRefOid)" || { echo "::error::enable failed and head lookup failed"; exit 1; }
-          if [ -n "$current" ] && [ "$current" != "$HEAD_SHA" ]; then echo "head moved to $current; its writer enables auto-merge"; exit 0; fi
-          echo "::error::enable failed for the current head"; exit 1
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          GH_TOKEN: ${{ secrets.DEPENDENCY_AUTOMERGE_TOKEN }}
-```
+- Workflow: [dependabot-auto-merge.yml](../templates/dependabot-auto-merge.yml).
 
 ## Verification
 
