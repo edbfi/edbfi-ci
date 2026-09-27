@@ -32,7 +32,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
-| edbfi-ci | — | S4 | live; audit in #5 | #5 green | active | #5; secret absent | — | PAT access, grouped security updates and live auto-merge unverified |
+| edbfi-ci | — | S4 | live; audit in #5 | #5 green | active | #5; secret absent | — | PAT access and live auto-merge unverified |
 | portaler | Bun web | S6 | — | — | — | — | — | B1 |
 | obzorarr | Bun web | S7 | — | — | — | — | — | B1, B4 |
 | wtfnzb-adapter | Python | S8 | — | — | — | — | — | — |
