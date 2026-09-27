@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+triggers:
+  - id: bun-v2
+    kind: merged_pr
+    repo: dependabot/dependabot-core
+    number: 16071
+    action: Pilot Bun lockfile v2 updates, restore the commented Bun blocks after a successful pilot, and pilot biome-migrate.yml (design/dependabot.md and design/biome.md).
+  - id: biome-const
+    kind: npm_release
+    package: '@biomejs/biome'
+    above: 2.5.14
+    action: Check the seven {@const} repos go green, then re-check docrewind's formatter overrides (B4 in DECISIONS.md).
+  - id: actionlint-queue
+    kind: github_release
+    repo: rhysd/actionlint
+    above: 1.7.12
+    action: Test queue and ubuntu-26.04-arm support and remove the allowances that are no longer needed (design/prek.md).
+  - id: prek-toml
+    kind: merged_pr
+    repo: dependabot/dependabot-core
+    number: 15271
+    action: Informational — review Dependabot's prek.toml support; the current YAML configuration remains supported.
+  - id: replex-green
+    kind: manual
+    action: Move replex to the normal auto-merge path after manually verifying its CI is green and enforced (design/auto-merge.md).

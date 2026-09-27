@@ -17,7 +17,8 @@ The single source of truth for CI across the edbfi repos: the design every repo'
 | [AGENTS.md](AGENTS.md) | working model and environment for agents (`CLAUDE.md` imports it) |
 | [STATE.md](STATE.md) | rollout steps, per-repo status, current GitHub state |
 | [DECISIONS.md](DECISIONS.md) | resolved decisions and blockers, with what enforces each |
-| [MAINTENANCE.md](MAINTENANCE.md) | the cleanup gate that ends every step; watch triggers |
+| [MAINTENANCE.md](MAINTENANCE.md) | the cleanup gate that ends every step |
+| [watch.yml](watch.yml) | upstream conditions and follow-up actions |
 | [design/](design/) | normative rules, one module per topic |
 | [tools/doc_guard](tools/doc_guard/doc_guard.py) | documentation guards, run by prek and CI |
 | [hooks/](hooks/) · [hook manifest](.pre-commit-hooks.yaml) | shared CI policy hooks and their tests |
