@@ -10,7 +10,7 @@ import yaml
 
 type Value = str | list[Value] | dict[str, Value]
 
-EXPRESSION = re.compile(r"\$\{\{(.*?)\}\}", re.DOTALL)
+EXPRESSION = re.compile(r"\$\{\{((?:'(?:[^']|'')*'|[^'])*?)\}\}", re.DOTALL)
 TOKEN = re.compile(r"'(?:[^']|'')*'|[a-zA-Z_][\w-]*|!=|&&|\|\||[^\s]")
 PR_EVENTS = {"pull_request", "pull_request_target", "issue_comment", "merge_group"}
 

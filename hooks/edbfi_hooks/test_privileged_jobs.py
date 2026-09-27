@@ -55,6 +55,7 @@ class PrivilegedJobsTest(unittest.TestCase):
                 "${{ secrets[inputs.name] }}",
                 "${{ toJSON(secrets) }}",
                 "${{ SECRETS.STATS_READ_TOKEN }}",
+                "${{ format('}}{0}', secrets.PAT) }}",
             ):
                 with self.subTest(event=event, secret=secret):
                     result = self.job(
