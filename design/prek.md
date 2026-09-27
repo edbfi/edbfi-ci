@@ -19,14 +19,15 @@
 ### Shared hooks (`.pre-commit-hooks.yaml` in this repo)
 
 8. A `vX.Y.Z` tag MUST be cut only when `hooks/` or `.pre-commit-hooks.yaml` change. Consumers pin the tag's frozen SHA; Dependabot updates it.
-9. `privileged-jobs` (`language: python`) MUST fail when a privileged job ([security.md](security.md#contract)) has a step or job-level `uses:`, `container:` or `services:`. PyYAML MUST be declared in the hook package's `pyproject.toml`, so Dependabot updates it.
+9. `privileged-jobs` (`language: python`) MUST fail when a privileged job ([security.md](security.md#contract)) has a step or job-level `uses:`, `container:` or `services:`. PyYAML MUST be declared in the hook package's [pyproject.toml](../pyproject.toml) and covered by Dependabot.
 10. `check-peers` (Bun) MUST check, for each direct dependency, every non-optional peer, resolved from the dependent's own directory, and MUST fail if a peer is missing or unsatisfied (`Bun.semver.satisfies`). It MUST NOT have an allowlist. It runs once per `audit` matrix directory.
-11. `check-peers` uses `language: bun` or `language: script` (`#!/usr/bin/env bun`), whichever works as a remote hook against a copy of a real Bun repo; S1 runs both and picks.
+11. `check-peers` MUST use the consumer's installed Bun and dependencies. Consumers MUST set `pass_filenames: false` and pass each audit directory through `args` (default: repo root).
 12. A repo's required-peer mismatches on main MUST be fixed before `check-peers` is enabled there, or main starts red.
 
 ## Parameters
 
 - Tools [V, 2026-09-27]: prek 0.5.3, actionlint 1.7.12, zizmor 1.30.1.
+- Hook entries and filters: [manifest](../.pre-commit-hooks.yaml); implementations and tests: [hooks/](../hooks/). Both remote language modes pass against setun [V, 2026-09-27]; `script` avoids installing a second Bun environment.
 - The edbfi baseline is this repo's [`.pre-commit-config.yaml`](../.pre-commit-config.yaml) without `doc-guard`.
 - Pages `actionlint.yaml`: `paths: { .github/workflows/ci.yml: { ignore: ['unexpected key "queue"'] } }`.
 - The 20 existing `prek.toml` configs convert 1:1 [V, 2026-09-27]: identical data, `prek validate-config` passes, `prek list` identical, `glob` excludes behave the same.
@@ -35,7 +36,7 @@
 
 - `prek validate-config` passes; `prek list` matches the pre-conversion output.
 - `prek run --all-files --hook-stage manual` passes locally and in CI, and `prek.toml` is gone.
-- `privileged-jobs` tests (only the first two lines were prototyped before):
+- `privileged-jobs` tests:
   - the `ci.yml` template (Pages `deploy` included) and the auto-merge template pass;
   - a PR job with `dependabot/fetch-metadata` next to the PAT fails; a deploy job guarded by `github.event_name != 'pull_request' || …` fails;
   - a scheduled job with `actions/checkout` next to `secrets.STATS_READ_TOKEN` fails; the same secret set through workflow-level `env:` fails; the Pages `deploy` job passes.

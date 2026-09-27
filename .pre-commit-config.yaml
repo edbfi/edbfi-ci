@@ -45,6 +45,27 @@ repos:
 
   - repo: local
     hooks:
+      - id: privileged-jobs
+        name: Check privileged workflow jobs
+        entry: python3 hooks/edbfi_hooks/privileged_jobs.py
+        language: python
+        language_version: "3.14"
+        additional_dependencies: [PyYAML]
+        files: ^\.github/workflows/[^/]+\.ya?ml$
+      - id: privileged-jobs-tests
+        name: privileged-jobs tests
+        entry: python3 -m unittest discover -s hooks -p test_*.py
+        language: python
+        language_version: "3.14"
+        additional_dependencies: [PyYAML]
+        pass_filenames: false
+        files: ^(hooks/|design/|templates/|pyproject\.toml|\.pre-commit-hooks\.yaml)
+      - id: check-peers-tests
+        name: check-peers tests
+        entry: bun test hooks/check-peers.test.ts
+        language: system
+        pass_filenames: false
+        files: ^(hooks/|package\.json|\.pre-commit-hooks\.yaml)
       - id: doc-guard
         name: doc-guard
         entry: python3 tools/doc-guard/doc_guard.py

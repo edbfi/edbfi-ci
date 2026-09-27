@@ -1,0 +1,7 @@
+{
+  "name": "edbfi-ci-hooks",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "packageManager": "bun@1.4.2"
+}
