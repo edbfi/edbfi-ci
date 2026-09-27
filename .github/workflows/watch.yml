@@ -1,0 +1,40 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+name: Upstream watcher
+on:
+  schedule: [{ cron: '23 6 * * 1' }]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Preview without creating issues
+        type: boolean
+        default: true
+      manual:
+        description: Confirm a manual trigger after reviewing its condition
+        type: string
+        default: ''
+permissions: {}
+concurrency:
+  group: upstream-watcher
+  cancel-in-progress: false
+jobs:
+  watch:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: { contents: read, issues: write }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with: { python-version-file: .python-version }
+      - run: uv sync --locked
+      - name: Check triggers
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run }}
+          MANUAL_TRIGGER: ${{ inputs.manual }}
+        run: |
+          args=(--repo "$GITHUB_REPOSITORY")
+          if [[ "$DRY_RUN" == true ]]; then args+=(--dry-run); fi
+          if [[ -n "$MANUAL_TRIGGER" ]]; then args+=(--manual "$MANUAL_TRIGGER"); fi
+          uv run --no-sync python tools/watch.py "${args[@]}"

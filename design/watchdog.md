@@ -1,6 +1,8 @@
-# Schedule watchdog (D14 option 1)
+# Scheduled maintenance
 
 ## Contract
+
+### Schedule watchdog (D14 option 1)
 
 1. `edbfi-ci` and github-stats MUST each run a watchdog, daily and on dispatch, watching each other.
 2. Per in-scope public repo, it MUST check that every scheduled workflow is `active`, and that its latest successful scheduled run is within budget.
@@ -9,16 +11,26 @@
 5. It MUST keep exactly one tracking issue in its own repo (`issues: write`), closed when everything is green.
 6. Its job is privileged ([security.md](security.md#contract)).
 
+### Upstream watcher
+
+7. The upstream watcher MUST run weekly and on dispatch, on main only, with `GITHUB_TOKEN` and `issues: write`. Runs MUST be serialized without cancellation.
+8. Every trigger in [watch.yml](../watch.yml) MUST be checked; failed lookups or malformed responses MUST fail the run before any issue is created. Dry runs MUST perform the same reads without writes.
+9. Each triggered id MUST get at most one issue, identified by its body marker across all pages of open and closed issues. Completed actions MUST remove their trigger; closing an issue MUST NOT create a replacement.
+10. Version triggers MUST compare stable three-part versions numerically. PR triggers MUST require a merged PR. Manual triggers MUST require explicit confirmation by id.
+
 ## Parameters
 
 - Budgets: `ci.yml` 8 days; EasyHDR audit 2 days; Miri 8 days; D8 schedulers per their cadence ([d8.md](d8.md#contract)).
 - Credential: PAT `edbfi-schedule-watchdog` (Actions RW, Metadata R on every in-scope public repo plus `edbfi-ci`). It doesn't exist yet; the owner creates it before S16.
+- Upstream conditions and actions: [watch.yml](../watch.yml); schedule, permissions and dispatch inputs: [workflow](../.github/workflows/watch.yml); implementation: [watch.py](../tools/watch.py).
+- Preview locally: `uv run python tools/watch.py --dry-run` (authenticated `gh` required). For a manual condition, add `--manual <id>` only after verifying it. Dispatch defaults to dry-run; unset that input to publish issues. Local publishing must not overlap a workflow run.
 
 ## Verification
 
 - Disabling a scheduled workflow by hand is reported in the tracking issue on the next run.
 - A dispatched run with everything green closes the issue.
 - Each watchdog fails when its partner's latest run is older than 2 days.
+- Watcher tests cover version boundaries, merge state, manual confirmation, pagination, repeat runs, dry-run writes and failed lookups. Run the local preview to verify current upstream responses.
 
 ## Open
 

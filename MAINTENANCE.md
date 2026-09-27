@@ -16,12 +16,4 @@ Guards: `prek run --all-files --hook-stage manual` (runs [`tools/doc_guard`](too
 
 ## Watch triggers
 
-S3 turns this table into `watch.yml` and deletes it. The watcher runs weekly with `GITHUB_TOKEN` (`issues: write`), keeps one issue per trigger id, fails the run on a failed lookup, and has a dry-run mode.
-
-| id | when | do |
-|---|---|---|
-| bun-v2 | dependabot-core#16071 merged | uncomment the Bun blocks ([dependabot.md](design/dependabot.md#contract)) and pilot `biome-migrate.yml` |
-| biome-const | `@biomejs/biome` > 2.5.14 | check the seven `{@const}` repos go green, then re-check docrewind's overrides (B4) |
-| actionlint-queue | actionlint > 1.7.12 | test `queue` and `ubuntu-26.04-arm` support, and drop the allowances ([prek.md](design/prek.md#contract)) |
-| prek-toml | dependabot-core#15271 merged | informational |
-| replex-green | manual: replex CI green | move replex to the normal auto-merge path ([auto-merge.md](design/auto-merge.md#contract)) |
+Conditions and actions live in [watch.yml](watch.yml). Operation and verification are in [scheduled maintenance](design/watchdog.md#parameters).
