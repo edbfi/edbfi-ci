@@ -25,8 +25,14 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
+      - name: Read Python version
+        id: python
+        run: |
+          version="$(cat .python-version)"
+          test -n "$version"
+          printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
       - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
-        with: { python-version-file: .python-version }
+        with: { python-version: "${{ steps.python.outputs.version }}" }
       - run: uv sync --locked
       - name: Check triggers
         env:

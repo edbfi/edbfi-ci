@@ -56,6 +56,55 @@ def run(
 
 
 class TemplateContractTest(unittest.TestCase):
+    def test_python_selection(self) -> None:
+        paths = [*TEMPLATES.glob("ci-*.yml"), *ROOT.glob(".github/workflows/*.yml")]
+        for path in paths:
+            for name, value in mapping(load(path)["jobs"]).items():
+                job = mapping(value)
+                actions = [mapping(step) for step in items(job["steps"])]
+                for index, action in enumerate(actions):
+                    if not str(action.get("uses", "")).startswith(
+                        "astral-sh/setup-uv@"
+                    ):
+                        continue
+                    with self.subTest(path=path.name, job=name):
+                        inputs = mapping(action["with"])
+                        self.assertNotIn("python-version-file", inputs)
+                        reader = actions[index - 1]
+                        self.assertEqual(
+                            inputs["python-version"],
+                            "${{ steps." + str(reader["id"]) + ".outputs.version }}",
+                        )
+                        defaults = mapping(
+                            mapping(job.get("defaults", {})).get("run", {})
+                        )
+                        directory = str(
+                            reader.get(
+                                "working-directory", defaults.get("working-directory", ".")
+                            )
+                        )
+                        directory = directory.replace("${{ matrix.dir }}", "backend")
+                        with tempfile.TemporaryDirectory() as tmp:
+                            root = Path(tmp)
+                            cwd = root / directory
+                            cwd.mkdir(parents=True, exist_ok=True)
+                            output = root / "output"
+                            version = cwd / ".python-version"
+                            for content in (None, "", "3.14\n"):
+                                if content is not None:
+                                    _ = version.write_text(content)
+                                result = run(
+                                    str(reader["run"]),
+                                    {"GITHUB_OUTPUT": str(output)},
+                                    cwd,
+                                )
+                                self.assertEqual(
+                                    result.returncode == 0,
+                                    content == "3.14\n",
+                                    result.stderr,
+                                )
+                            self.assertEqual(output.read_text(), "version=3.14\n")
+
     def test_ci_contracts(self) -> None:
         templates = sorted(TEMPLATES.glob("ci-*.yml"))
         self.assertGreaterEqual(len(templates), 10)
