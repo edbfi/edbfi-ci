@@ -20,6 +20,7 @@ The single source of truth for CI across the edbfi repos: the design every repo'
 | [MAINTENANCE.md](MAINTENANCE.md) | the cleanup gate that ends every step; watch triggers |
 | [design/](design/) | normative rules, one module per topic |
 | [tools/doc-guard](tools/doc-guard/doc_guard.py) | documentation guards, run by prek and CI |
+| [hooks/](hooks/) · [hook manifest](.pre-commit-hooks.yaml) | shared CI policy hooks and their tests |
 | [.pre-commit-config.yaml](.pre-commit-config.yaml) | this repo's hooks |
 | [.github/](.github/) | this repo's CI and Dependabot config |
 

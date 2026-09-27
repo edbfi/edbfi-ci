@@ -7,7 +7,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | step | goal | status | PR |
 |---|---|---|---|
 | S0 | bootstrap `edbfi-ci` | done | [#1](https://github.com/edbfi/edbfi-ci/pull/1) |
-| S1 | shared hooks `privileged-jobs` + `check-peers` with tests; `.pre-commit-hooks.yaml`; tag `v0.1.0` after merge | pending | — |
+| S1 | shared hooks and tests | done | [#2](https://github.com/edbfi/edbfi-ci/pull/2) |
 | S2 | templates: `ci-<stack>.yml` per stack in [repos.md](design/repos.md), `dependabot-auto-merge.yml`, `pr-policy.yml`, `dependabot.<stack>.yml`, `pre-commit.<stack>.yaml`, `actionlint.pages.yaml`, `biome-migrate.yml`; lint- and hook-clean in this repo's CI; move code out of docs | pending | — |
 | S3 | `watch.yml` and the weekly watcher ([MAINTENANCE.md](MAINTENANCE.md#watch-triggers)) | pending | — |
 | S4 | dogfood: `edbfi-ci` adopts the core (owner: D5 PAT and secret, settings, ruleset); gate and auto-merge verification | pending | — |

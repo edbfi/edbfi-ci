@@ -21,7 +21,7 @@
 8. A `vX.Y.Z` tag MUST be cut only when `hooks/` or `.pre-commit-hooks.yaml` change. Consumers pin the tag's frozen SHA; Dependabot updates it.
 9. `privileged-jobs` (`language: python`) MUST fail when a privileged job ([security.md](security.md#contract)) has a step or job-level `uses:`, `container:` or `services:`. PyYAML MUST be declared in the hook package's [pyproject.toml](../pyproject.toml) and covered by Dependabot.
 10. `check-peers` (Bun) MUST check, for each direct dependency, every non-optional peer, resolved from the dependent's own directory, and MUST fail if a peer is missing or unsatisfied (`Bun.semver.satisfies`). It MUST NOT have an allowlist. It runs once per `audit` matrix directory.
-11. `check-peers` MUST use the consumer's installed Bun and dependencies. Consumers MUST set `pass_filenames: false` and pass each audit directory through `args` (default: repo root).
+11. `check-peers` MUST use the consumer's installed Bun and dependencies. Consumers MUST pass each audit directory through hook arguments (default: repo root); filenames are disabled in the [manifest](../.pre-commit-hooks.yaml).
 12. A repo's required-peer mismatches on main MUST be fixed before `check-peers` is enabled there, or main starts red.
 
 ## Parameters
