@@ -10,7 +10,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | S1 | shared hooks, tests and typing gate | done | [#2](https://github.com/edbfi/edbfi-ci/pull/2) |
 | S2 | validated workflow, Dependabot and hook templates | done | [#3](https://github.com/edbfi/edbfi-ci/pull/3) |
 | S3 | weekly upstream watcher with deduplicated issues and dry-run | done | [#4](https://github.com/edbfi/edbfi-ci/pull/4) |
-| S4 | enforce the core; PAT installation and post-merge verification remain | in progress | [#5](https://github.com/edbfi/edbfi-ci/pull/5) |
+| S4 | enforce the core; post-merge verification remains | in progress | [#5](https://github.com/edbfi/edbfi-ci/pull/5) |
 | S5 | Phase 0 in target repos: B2 fixes, `refresh-hotio.yml` pinning, default-branch check, required-peer mismatches fixed | pending | — |
 | S6 | core pilot: portaler | pending | — |
 | S7 | core pilot: obzorarr | pending | — |
@@ -32,7 +32,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
-| edbfi-ci | — | S4 | live; audit in #5 | #5 green | active | #5; secret absent | — | PAT access and live auto-merge unverified |
+| edbfi-ci | — | S4 | live; audit in #5 | #5 green | active | #5; credential installed | — | live auto-merge unverified |
 | portaler | Bun web | S6 | — | — | — | — | — | B1 |
 | obzorarr | Bun web | S7 | — | — | — | — | — | B1, B4 |
 | wtfnzb-adapter | Python | S8 | — | — | — | — | — | — |
@@ -70,6 +70,6 @@ Target-repo drift is from the 2026-09-26 snapshots; each rollout step fixes its 
 - "Allow GitHub Actions to create and approve pull requests" is on in those repos plus homebrew-taps.
 - `web_commit_signoff_required` is off in replex, wtfnzb-adapter and dox.
 - guides, isfuglen, portaler and yt-redirect serve a stale `gh-pages` branch; eksamen serves legacy `main:/docs`.
-- The D5 PAT and its Dependabot secret cover 28 repos, including wings-vpn and replex but not `edbfi-ci`. Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` still exist.
+- The D5 PAT and its Dependabot secret cover 29 repos, including `edbfi-ci`, wings-vpn and replex. Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` still exist in target repos; `edbfi-ci` has only the Dependabot secret.
 
-- `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts/security updates and secret/push protection are enabled; grouped security updates are unverified. S4 is not complete until the PAT secret and post-merge checks pass.
+- `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts/security updates, grouped security updates and secret/push protection are enabled. S4 is not complete until the post-merge checks pass.
