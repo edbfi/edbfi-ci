@@ -10,7 +10,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | S1 | shared hooks, tests and typing gate | done | [#2](https://github.com/edbfi/edbfi-ci/pull/2) |
 | S2 | validated workflow, Dependabot and hook templates | done | [#3](https://github.com/edbfi/edbfi-ci/pull/3) |
 | S3 | weekly upstream watcher with deduplicated issues and dry-run | done | [#4](https://github.com/edbfi/edbfi-ci/pull/4) |
-| S4 | correct Python selection; verify a real Dependabot merge and push CI | in progress | [#5](https://github.com/edbfi/edbfi-ci/pull/5), [#6](https://github.com/edbfi/edbfi-ci/pull/6) |
+| S4 | verify a real Dependabot merge and push CI | in progress | [#5](https://github.com/edbfi/edbfi-ci/pull/5), [#6](https://github.com/edbfi/edbfi-ci/pull/6), [#7](https://github.com/edbfi/edbfi-ci/pull/7) |
 | S5 | Phase 0 in target repos: B2 fixes, `refresh-hotio.yml` pinning, default-branch check, required-peer mismatches fixed | pending | — |
 | S6 | core pilot: portaler | pending | — |
 | S7 | core pilot: obzorarr | pending | — |
@@ -32,7 +32,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
-| edbfi-ci | — | S4 | live; Python input fix in #6 | live | active | live; credential installed | — | awaiting a real dependency update for merge verification |
+| edbfi-ci | — | S4 | live; push CI and audit verified | live | active | live; credential installed | — | awaiting a real dependency update for merge verification |
 | portaler | Bun web | S6 | — | — | — | — | — | B1 |
 | obzorarr | Bun web | S7 | — | — | — | — | — | B1, B4 |
 | wtfnzb-adapter | Python | S8 | — | — | — | — | — | — |
@@ -72,6 +72,6 @@ Target-repo drift is from the 2026-09-26 snapshots; each rollout step fixes its 
 - guides, isfuglen, portaler and yt-redirect serve a stale `gh-pages` branch; eksamen serves legacy `main:/docs`.
 - The D5 PAT and its Dependabot secret cover 29 repos, including `edbfi-ci`, wings-vpn and replex. Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` still exist in target repos; `edbfi-ci` has only the Dependabot secret.
 
-- `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts/security updates, grouped security updates and secret/push protection are enabled. S4 is not complete until the post-merge checks pass.
+- `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts/security updates, grouped security updates and secret/push protection are enabled. Main push CI, audit and watcher dry-run pass with the configured Python version; Dependabot merge verification remains.
 
 - `edbfi-ci` manual Dependabot checks for Actions, pre-commit and uv succeeded with no updates available; S4 awaits a real update.

@@ -16,6 +16,7 @@
 - PAT `edbfi-dependabot-auto-merge`: no expiry; Contents, Pull requests and Workflows RW (`github-actions` PRs modify workflow files).
 - Current coverage and leftover Actions copies: [STATE.md](../STATE.md#github-state).
 - Workflow: [dependabot-auto-merge.yml](../templates/dependabot-auto-merge.yml).
+- GitHub rejects `--auto --match-head-commit` with an outdated SHA [V, 2026-09-30].
 
 ## Verification
 
@@ -26,7 +27,6 @@
 ## Open
 
 - automerge-A1: that PAT merges start `push` runs and Pages deploys, for deferred and immediate auto-merge, including workflow-modifying PRs. Closes with observed runs in S4 and the portaler pilot (S6).
-- automerge-A2: that GitHub rejects an `--auto --match-head-commit` enable for a stale head. Closes by enabling against an outdated SHA on a test PR (S4).
 
 ## Why
 
