@@ -11,7 +11,7 @@
 
 ## Parameters
 
-Tiers: 27 public in-scope repos plus private dox; `edbfi-ci` itself is outside the tiers.
+Tiers: 27 public in-scope repos plus private dox; `edbfi-ci` itself is outside the tiers. GitHub default branches match rule 1 [V, 2026-09-30].
 
 | Tier | Repos | Stack |
 |---|---|---|
