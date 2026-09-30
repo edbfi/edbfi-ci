@@ -15,7 +15,7 @@
 
 - A required check can be selected only after it has run within the last 7 days, so each repo's rollout PR runs `ci-ok` and `pr-policy` before the ruleset is applied.
 - Current drift is recorded in [STATE.md](../STATE.md#github-state).
-- Personal-account rulesets accept an empty bypass list and enforce both checks [V, 2026-09-27].
+- Personal-account rulesets accept an empty bypass list and enforce both checks [V, 2026-09-27]; the matching playground ruleset rejects direct pushes [V, 2026-09-30].
 - The pinned `j178/prek-action` and `oven-sh/setup-bun` use Node 24 and run with SHA pinning required [V, 2026-09-27].
 
 ## Verification

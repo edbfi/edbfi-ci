@@ -365,6 +365,78 @@ class PRPolicyTest(ScriptTest):
 
 
 class AutoMergeTest(ScriptTest):
+    def test_transient_merge_state_retry_is_bounded_and_head_safe(self) -> None:
+        live = mapping(
+            load(ROOT / ".github/workflows/dependabot-auto-merge.yml")["jobs"]
+        )
+        live_steps = items(mapping(live["enable"])["steps"])
+        code = script("dependabot-auto-merge.yml", "enable")
+        self.assertEqual(mapping(live_steps[0])["run"], code)
+        self.env.update(
+            {"HEAD_SHA": "old", "PR_URL": "https://github.com/owner/repo/pull/2"}
+        )
+        self.executable(
+            "sleep", '#!/bin/sh\nprintf "%s\\n" "$*" >> "$RUNNER_TEMP/sleeps"\n'
+        )
+        self.executable(
+            "gh",
+            """#!/bin/sh
+case "$2" in
+  merge)
+    count=0
+    if [ -f "$RUNNER_TEMP/count" ]; then count="$(cat "$RUNNER_TEMP/count")"; fi
+    count=$((count + 1))
+    echo "$count" > "$RUNNER_TEMP/count"
+    printf '%s\\n' "$*" >> "$RUNNER_TEMP/calls"
+    if [ "$count" -le "$MERGE_FAILURES" ]; then echo "$MERGE_ERROR" >&2; exit 1; fi
+    exit 0 ;;
+  view) echo "$CURRENT_SHA"; exit "$LOOKUP_EXIT" ;;
+esac
+""",
+        )
+        unstable = "GraphQL: Pull request Pull request is in unstable status (enablePullRequestAutoMerge)"
+        for failures, error, current, lookup_exit, expected, attempts in (
+            (0, unstable, "old", 1, 0, 1),
+            (2, unstable, "old", 0, 0, 3),
+            (5, unstable, "old", 0, 1, 5),
+            (2, unstable, "new", 0, 0, 1),
+            (2, unstable, "", 0, 1, 1),
+            (2, unstable, "old", 1, 1, 1),
+            (
+                2,
+                "GraphQL: Resource not accessible by personal access token",
+                "old",
+                0,
+                1,
+                1,
+            ),
+        ):
+            with self.subTest(
+                failures=failures, error=error, current=current, lookup=lookup_exit
+            ):
+                for filename in ("count", "calls", "sleeps"):
+                    (self.root / filename).unlink(missing_ok=True)
+                self.env.update(
+                    {
+                        "MERGE_FAILURES": str(failures),
+                        "MERGE_ERROR": error,
+                        "CURRENT_SHA": current,
+                        "LOOKUP_EXIT": str(lookup_exit),
+                    }
+                )
+                result = self.execute(code)
+                self.assertEqual(result.returncode, expected, result.stderr)
+                calls = (self.root / "calls").read_text().splitlines()
+                self.assertEqual(len(calls), attempts)
+                self.assertTrue(
+                    all("--match-head-commit old" in call for call in calls)
+                )
+                sleeps = self.root / "sleeps"
+                self.assertEqual(
+                    sleeps.read_text().splitlines() if sleeps.exists() else [],
+                    ["5"] * (attempts - 1),
+                )
+
     def test_failed_enable_is_ignored_only_if_the_head_moved(self) -> None:
         self.env.update(
             {

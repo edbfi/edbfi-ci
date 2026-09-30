@@ -10,6 +10,7 @@
 6. The enable step MUST NOT pass `--subject` or `--body`, so the squash commit takes the PR title ([pr-policy.md](pr-policy.md#contract)).
 7. replex has no auto-merge workflow and no PAT (its settings: [settings.md](settings.md#contract)). It is merged by hand after reading the advisory `ci-ok`, and moves to the normal path once its CI is green and enforced.
 8. dox has no auto-merge or rulesets; it is merged by hand.
+9. The Dependabot auto-merge workflow MUST retry transient GitHub merge-state instability within a bounded limit, keep the head guard on every attempt, and fail on other errors unless the head moved.
 
 ## Parameters
 
@@ -17,16 +18,18 @@
 - Current coverage and leftover Actions copies: [STATE.md](../STATE.md#github-state).
 - Workflow: [dependabot-auto-merge.yml](../templates/dependabot-auto-merge.yml).
 - GitHub rejects `--auto --match-head-commit` with an outdated SHA [V, 2026-09-30].
+- A repository-scoped fine-grained PAT merges both immediately and after required checks recover, including workflow updates, and starts push CI on the squash SHA [V, 2026-09-30, playground].
 
 ## Verification
 
 - actionlint, zizmor and `privileged-jobs` pass on the workflow.
-- A Dependabot PR merges on its own once both checks pass, and its merge starts a `push` run of `ci.yml` (automerge-A1).
+- In each rolled-out repo, a Dependabot PR merges on its own once both checks pass, and its merge starts a `push` run of `ci.yml`.
+- The [script tests](../tools/test_templates.py) verify transient recovery, exhausted retries, head changes and permanent failures.
 - A PR by any other author, or from a fork, skips `enable`.
 
 ## Open
 
-- automerge-A1: that PAT merges start `push` runs and Pages deploys, for deferred and immediate auto-merge, including workflow-modifying PRs. Closes with observed runs in S4 and the portaler pilot (S6).
+- automerge-A1: that PAT merges trigger the gated Pages deployment. Closes with an observed deployment in the portaler pilot (S6).
 
 ## Why
 
