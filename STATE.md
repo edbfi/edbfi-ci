@@ -74,4 +74,4 @@ Target-repo drift is from the 2026-09-26 snapshots; each rollout step fixes its 
 
 - `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts/security updates, grouped security updates and secret/push protection are enabled. Main push CI, audit and watcher dry-run pass with the configured Python version.
 
-- `edbfi-ci-playground` is archived as S4 evidence; its temporary PAT and Dependabot secret are removed. Each pilot verifies its own installed credential and deployment.
+- `edbfi-ci-playground` is active for reusable CI integration tests, with a dedicated repository-scoped PAT installed as a Dependabot secret. Retain the playground and credential for further testing; each pilot verifies its own installed credential and deployment.
