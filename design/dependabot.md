@@ -21,6 +21,7 @@
 - Copy the matching config to `.github/dependabot.yml`; adapt ecosystems and directories to [repos.md](repos.md#parameters).
 
 - All 12 `bun.lock` files are lockfile v2; Dependabot's bun updater supports only v1.
+- The template cooldown exclusion permits updates less than 3 days after release [V, 2026-09-30, playground].
 
 ## Verification
 
@@ -30,7 +31,6 @@
 
 ## Open
 
-- dependabot-A1: whether Dependabot accepts `cooldown: { exclude: ["*"] }` and offers a release under 3 days old. Closes when a rolled-out repo gets a PR for a release under 3 days old.
 - dependabot-A2: whether Dependabot's `bun` support keeps `npm:` aliases (`@typescript/native`) and exact pins (poyo-studio's `foundation.test.ts`). Closes with the Bun pilot PR after dependabot-core#16071 ships.
 
 ## Why
