@@ -28,7 +28,7 @@
 
 ### Pullfrog reviews
 
-21. Pullfrog MUST use a separate default-branch-only dispatch workflow from the [template](../templates/pullfrog.yml), with its Claude subscription stored at account scope in Pullfrog, never in GitHub Actions secrets. It MUST stay outside `ci-ok` and the required checks.
+21. Pullfrog MUST use a separate default-branch-only dispatch workflow from the [template](../templates/pullfrog.yml), with its Claude subscription stored at account scope in Pullfrog, never in GitHub Actions secrets. It MUST stay outside `ci-ok` and the required checks. New repositories MUST receive the workflow, settings and review instructions before activation.
 22. Reviews MUST cover all base branches, new commits, drafts and bot PRs, with critical, high, medium, low and nitpick findings included. Review instructions MUST respect repository rules and binding migration decisions. External contributors MUST require a collaborator's review request.
 23. Pullfrog MUST NOT push code, approve or auto-merge PRs, auto-address reviews, fix CI or enrich issues. Shell isolation MUST stay restricted. Adding reviews MUST preserve existing publishing workflow states and MUST NOT modify migration PRs or advance the core CI rollout.
 
