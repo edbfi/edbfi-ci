@@ -65,7 +65,8 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 ## GitHub state
 
 - Owner-authorized Pullfrog setup (2026-10-03): Actions enabled in all 41 active repositories (32 changed); archived repositories and individually disabled workflows unchanged. S5 and migration ship conditions unchanged.
-- Claude subscription connected; review settings applied to all 41 active repositories, including nitpicks, stacked bases, drafts and bots. [Setup #11](https://github.com/edbfi/edbfi-ci/pull/11) and [pilot #8](https://github.com/edbfi/edbfi-ci-playground/pull/8) remain open at the owner's request. Reviews are not live; default-branch workflows, the Claude-backed pilot and remaining workflow copies are pending.
+- Claude subscription connected; review settings applied to all 41 active repositories, including nitpicks, stacked bases, drafts and bots. [Setup #11](https://github.com/edbfi/edbfi-ci/pull/11) and [pilot #8](https://github.com/edbfi/edbfi-ci-playground/pull/8) merged with owner approval; both repositories enabled in Pullfrog.
+- [Closed pilot #9](https://github.com/edbfi/edbfi-ci-playground/pull/9) verified subscription-backed Sonnet 5.5, correctness and nitpick findings, then re-review after fixes. The other 39 workflow copies await merge and activation; their migration PRs remain untouched.
 
 Target-repo drift is from the 2026-09-26 snapshots; each rollout step fixes its own drift.
 
