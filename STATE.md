@@ -64,6 +64,8 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 ## GitHub state
 
+- Owner-authorized Pullfrog setup (2026-10-03): Actions is enabled in all 41 non-archived edbfi repositories, including the 32 that were disabled. The two archived repositories and individually disabled workflows are unchanged. Review integration is separate from the core rollout; S5 and migration ship conditions are unchanged.
+
 Target-repo drift is from the 2026-09-26 snapshots; each rollout step fixes its own drift.
 
 - Default `GITHUB_TOKEN` permission is write in docrewind, eksamen, guide-capture, guides, isfuglen, portaler, replex and yt-redirect.

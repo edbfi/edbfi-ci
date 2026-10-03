@@ -41,7 +41,7 @@ repos:
         alias: actionlint-templates
         name: Lint workflow templates
         entry: python3 tools/lint_templates.py actionlint
-        files: ^templates/(ci-.*|pr-policy|dependabot-auto-merge|biome-migrate)\.yml$
+        files: ^templates/(ci-.*|pr-policy|dependabot-auto-merge|biome-migrate|pullfrog)\.yml$
         types: [file]
 
   - repo: https://github.com/zizmorcore/zizmor-pre-commit
@@ -83,7 +83,7 @@ repos:
         language: python
         language_version: "3.14"
         additional_dependencies: [PyYAML]
-        files: ^(\.github/workflows/[^/]+|templates/(ci-.*|pr-policy|dependabot-auto-merge|biome-migrate))\.ya?ml$
+        files: ^(\.github/workflows/[^/]+|templates/(ci-.*|pr-policy|dependabot-auto-merge|biome-migrate|pullfrog))\.ya?ml$
       - id: validate-hook-templates
         name: Validate hook templates
         entry: prek validate-config
