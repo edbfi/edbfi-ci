@@ -65,7 +65,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 ## GitHub state
 
 - Owner-authorized Pullfrog setup (2026-10-03): Actions enabled in all 41 active repositories (32 changed); archived repositories and individually disabled workflows unchanged. S5 and migration ship conditions unchanged.
-- Claude subscription connected; Pullfrog live in all 41 active repositories with the central workflow and review presets ([setup #11](https://github.com/edbfi/edbfi-ci/pull/11), [rollout #12](https://github.com/edbfi/edbfi-ci/pull/12)). Existing migration PRs remain untouched.
+- Claude subscription connected; Pullfrog live in all 41 active repositories with the central workflow and review presets: here via [setup #11](https://github.com/edbfi/edbfi-ci/pull/11), the playground via [pilot #8](https://github.com/edbfi/edbfi-ci-playground/pull/8), and the other 39 via the workflow PRs listed in [rollout #12](https://github.com/edbfi/edbfi-ci/pull/12), all merged. Existing migration PRs remain untouched.
 
 Target-repo drift is from the 2026-09-26 snapshots; each rollout step fixes its own drift.
 
