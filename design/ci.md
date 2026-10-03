@@ -28,7 +28,7 @@
 
 ### Pullfrog reviews
 
-21. Pullfrog MUST use a separate default-branch-only dispatch workflow from the [template](../templates/pullfrog.yml), with its Claude subscription stored at account scope in Pullfrog, never in GitHub Actions secrets. It MUST stay outside `ci-ok` and the required checks.
+21. Pullfrog MUST use a separate default-branch-only dispatch workflow from the [template](../templates/pullfrog.yml), with its Claude subscription stored at account scope in Pullfrog, never in GitHub Actions secrets. It MUST stay outside `ci-ok` and the required checks. New repositories MUST receive the workflow, settings and review instructions before activation.
 22. Reviews MUST cover all base branches, new commits, drafts and bot PRs, with critical, high, medium, low and nitpick findings included. Review instructions MUST respect repository rules and binding migration decisions. External contributors MUST require a collaborator's review request.
 23. Pullfrog MUST NOT push code, approve or auto-merge PRs, auto-address reviews, fix CI or enrich issues. Shell isolation MUST stay restricted. Adding reviews MUST preserve existing publishing workflow states and MUST NOT modify migration PRs or advance the core CI rollout.
 
@@ -49,7 +49,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 - Pages linter allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml), copied to `.github/actionlint.yaml`.
 - Pullfrog: [setup](https://docs.pullfrog.com/getting-started), [account-scoped Claude auth](https://docs.pullfrog.com/claude-auth), [review configuration](https://docs.pullfrog.com/pr-reviews), and [CLI settings](https://docs.pullfrog.com/cli-configuration). A SHA pins its action bootstrap; its npm runtime still follows the upstream major ([versioning](https://docs.pullfrog.com/versioning)).
 - Maintain Pullfrog in its template; `python3 tools/sync_pullfrog.py <checkout>…` copies it locally, and `--check` detects drift. Commit copies through per-repository PRs. The command never pushes, merges or changes settings.
-- Console values: [settings](../templates/pullfrog-settings.json); the Review mode's instructions: [prompt](../templates/pullfrog-review.txt). Apply the prompt through `pullfrog config set prompts.review --file templates/pullfrog-review.txt --repo <owner/repo>`; settings use the console because bot inclusion and base-branch scope have no CLI keys. New repos need the workflow and both presets before activation; wait for GitHub to register the default-branch workflow.
+- Console values: [settings](../templates/pullfrog-settings.json); the Review mode's instructions: [prompt](../templates/pullfrog-review.txt). Apply the prompt through `pullfrog config set prompts.review --file templates/pullfrog-review.txt --repo <owner/repo>`; settings use the console because bot inclusion and base-branch scope have no CLI keys.
 
 ## Verification
 
