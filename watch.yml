@@ -23,3 +23,13 @@ triggers:
   - id: replex-green
     kind: manual
     action: Move replex to the normal auto-merge path after manually verifying its CI is green and enforced (design/auto-merge.md).
+  - id: bun-adapter-peers
+    kind: npm_release
+    package: svelte-adapter-bun
+    above: 1.0.1
+    action: Recheck TypeScript peer compatibility and the four affected repos before enabling check-peers (B5 in DECISIONS.md).
+  - id: openapi-typescript-peers
+    kind: npm_release
+    package: openapi-typescript
+    above: 7.13.0
+    action: Recheck TypeScript peer compatibility in zondarr before enabling check-peers (B5 in DECISIONS.md).

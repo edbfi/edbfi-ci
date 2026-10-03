@@ -27,6 +27,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | ID | Blocker | Enforced by |
 |---|---|---|
 | B1 | Dependabot's bun updater supports only `bun.lock` v1 (D3). | `bun-v2` watch trigger ([MAINTENANCE.md](MAINTENANCE.md#watch-triggers)) |
-| B2 | isfuglen `tests/e2e/layout.spec.ts:146` still selects `[role="region"]`; poyo-studio has 4 failing gallery browser tests (`GalleryViewer.svelte:995-996`). Both must be fixed before `ci-ok` becomes required. | S5; required-check rollout |
+| B2 | isfuglen preview-fit and poyo-studio gallery/browser whitespace fixes must land before `ci-ok` becomes required. | S5; required-check rollout |
 | B3 | dox is private on the Free plan: no rulesets, no auto-merge. | manual merges |
 | B4 | Not blocking: the seven `{@const}` repos (docrewind, obzorarr, otpravkarr, poyo-studio, setun, zondarr, web-presentations) stay red on Biome 2.5.14 until biomejs/biome#11837 ships; then re-check docrewind's formatter-off overrides (`biome.json:62-96`). | `biome-const` watch trigger |
+| B5 | Required peer ranges exclude TypeScript 6: `svelte-adapter-bun@1.0.1` requires `^5` in obzorarr, otpravkarr, poyo-studio and zondarr; `openapi-typescript@7.13.0` requires `^5.x` in zondarr. These are the latest releases. | S5; resolve compatibility before enabling `check-peers` |
