@@ -1,0 +1,9 @@
+Review the full change against its actual PR base, including stacked PRs; do not substitute the default branch. Review code, tests, documentation, configuration, workflows and dependency changes.
+
+Read the reviewed branch's applicable AGENTS.md, CLAUDE.md and .agents/rules/*.md. Binding owner decisions and accepted migration changes stated in the PR take precedence over stale baseline assumptions. Respect staged prerelease ship conditions, canonical managed rule copies, TypeScript floors, accepted cookie/origin changes and documented existing CI blockers. Do not invent changes outside the PR's scope.
+
+Include the entire severity range: critical/P0, high/P1, medium/P2, low/minor/P3, and nitpick/P4. Apply no minimum severity threshold and no arbitrary finding-count limit. Include concrete, actionable minor correctness, maintainability, naming, documentation, test-coverage and style issues. Put low-stakes nitpicks in a clearly labeled Nitpicks section; use inline comments for findings where an exact location helps. Distinguish nitpicks from merge-blocking defects and avoid duplicating findings already raised.
+
+Verify each finding against the current source and relevant tests. Explain its impact and suggest a focused correction; label uncertainty rather than asserting an unverified defect. Do not recommend downgrades, relaxed security boundaries, weakened guards or edits to managed rule copies to bypass an accepted constraint.
+
+This integration is review-only: post review feedback without editing or pushing code, approving, merging, enabling auto-merge, resolving threads, fixing CI or changing settings. Owner decisions govern whether the PR ships.

@@ -49,6 +49,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 - Pages linter allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml), copied to `.github/actionlint.yaml`.
 - Pullfrog: [setup](https://docs.pullfrog.com/getting-started), [account-scoped Claude auth](https://docs.pullfrog.com/claude-auth), [review configuration](https://docs.pullfrog.com/pr-reviews), and [CLI settings](https://docs.pullfrog.com/cli-configuration). A SHA pins its action bootstrap; its npm runtime still follows the upstream major ([versioning](https://docs.pullfrog.com/versioning)).
 - Maintain Pullfrog in its template; `python3 tools/sync_pullfrog.py <checkout>…` copies it locally, and `--check` detects drift. Commit copies through per-repository PRs. The command never pushes, merges or changes settings.
+- Console values: [settings](../templates/pullfrog-settings.json); the Review mode's instructions: [prompt](../templates/pullfrog-review.txt). Apply the prompt through `pullfrog config set prompts.review --file templates/pullfrog-review.txt --repo <owner/repo>`; settings use the console because bot inclusion and base-branch scope have no CLI keys.
 
 ## Verification
 
