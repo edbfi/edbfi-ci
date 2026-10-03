@@ -26,6 +26,12 @@
 19. eksamen has no build step: its smoke job uploads `docs/`.
 20. A repo's `gh-pages` branch MUST NOT be deleted before its first successful Actions deploy.
 
+### Pullfrog reviews
+
+21. Pullfrog MUST use a separate default-branch-only dispatch workflow from the [template](../templates/pullfrog.yml), with its Claude subscription stored at account scope in Pullfrog, never in GitHub Actions secrets. It MUST stay outside `ci-ok` and the required checks.
+22. Reviews MUST cover all base branches, new commits, drafts and bot PRs, with critical, high, medium, low and nitpick findings included. Review instructions MUST respect repository rules and binding migration decisions. External contributors MUST require a collaborator's review request.
+23. Pullfrog MUST NOT push code, approve or auto-merge PRs, auto-address reviews, fix CI or enrich issues. Shell isolation MUST stay restricted. Adding reviews MUST preserve existing publishing workflow states and MUST NOT modify migration PRs or advance the core CI rollout.
+
 ## Parameters
 
 Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [repos.md](repos.md#parameters). Templates use repo-local smoke/check entry points: the rollout must supply or adapt them, allocate a distinct schedule minute, and include every added PR job in the gate.
@@ -41,6 +47,9 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 
 - Pins, schedules, runners and commands live in those templates. Runner architectures were verified [V, 2026-09-27]; re-check at rollout (ci-A2).
 - Pages linter allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml), copied to `.github/actionlint.yaml`.
+- Pullfrog: [setup](https://docs.pullfrog.com/getting-started), [account-scoped Claude auth](https://docs.pullfrog.com/claude-auth), [review configuration](https://docs.pullfrog.com/pr-reviews), and [CLI settings](https://docs.pullfrog.com/cli-configuration). A SHA pins its action bootstrap; its npm runtime still follows the upstream major ([versioning](https://docs.pullfrog.com/versioning)).
+- Maintain Pullfrog in its template; `python3 tools/sync_pullfrog.py <checkout>…` copies it locally, and `--check` detects drift. Commit copies through per-repository PRs. The command never pushes, merges or changes settings.
+- Console values: [settings](../templates/pullfrog-settings.json); the Review mode's instructions: [prompt](../templates/pullfrog-review.txt). Apply the prompt through `pullfrog config set prompts.review --file templates/pullfrog-review.txt --repo <owner/repo>`; settings use the console because bot inclusion and base-branch scope have no CLI keys.
 
 ## Verification
 
@@ -49,6 +58,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 - Two quick pushes to main each finish their own run; a newer PR head never cancels another head's run.
 - Pages: a push to main deploys; a run that finishes behind a newer commit skips `deploy-pages`.
 - The repo's cron minute differs from every rolled-out repo's.
+- Pullfrog's workflow passes both linters and `privileged-jobs`; a run uses the Claude subscription and posts a review on its exact PR head. `pullfrog config list` confirms the review contract; the workflow has no PR trigger or secret reference.
 
 ## Open
 

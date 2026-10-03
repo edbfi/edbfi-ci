@@ -64,6 +64,9 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 ## GitHub state
 
+- Owner-authorized Pullfrog setup (2026-10-03): Actions enabled in all 41 active repositories (32 changed); archived repositories and individually disabled workflows unchanged. S5 and migration ship conditions unchanged.
+- Claude subscription connected; review settings applied to all 41 active repositories, including nitpicks, stacked bases, drafts and bots. [Setup #11](https://github.com/edbfi/edbfi-ci/pull/11) and [pilot #8](https://github.com/edbfi/edbfi-ci-playground/pull/8) remain open at the owner's request. Reviews are not live; default-branch workflows, the Claude-backed pilot and remaining workflow copies are pending.
+
 Target-repo drift is from the 2026-09-26 snapshots; each rollout step fixes its own drift.
 
 - Default `GITHUB_TOKEN` permission is write in docrewind, eksamen, guide-capture, guides, isfuglen, portaler, replex and yt-redirect.
