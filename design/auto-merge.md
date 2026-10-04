@@ -14,9 +14,9 @@
 
 ### Every other PR
 
-10. Outside replex and dox (rules 7 and 8), every PR MUST merge, squashed, with no person involved, once its required checks pass on its current head and every review finding on that head has a reply: fixed in a commit, or rejected with a reason. It MUST NOT merge earlier. Pullfrog stays advisory ([ci.md](ci.md#contract) rule 21); Dependabot PRs have no author to answer findings, so rule 1 alone gates them.
-11. An agent MUST merge its own PR when its review loop ends, through GitHub auto-merge (`gh pr merge --auto --squash`). A stacked PR MUST NOT merge before its parent.
-12. Until a repo's CI is rolled out, the gates the agent ran, recorded in the PR body, stand in for its required checks.
+10. Outside replex and dox (rules 7 and 8), every PR MUST merge, squashed, with no manual merge step, once its required checks pass on its current head and every review finding on that head has a reply: fixed in a commit, or rejected with a reason. It MUST NOT merge earlier. GitHub enforces only the checks; the author enforces the replies through rule 11. Pullfrog stays advisory ([ci.md](ci.md#contract) rule 21); Dependabot PRs have no author to answer findings, so rule 1 alone gates them.
+11. The author, an agent included, MUST enable auto-merge on its PR (`gh pr merge --auto --squash`) only once its review loop has ended on the current head. A stacked PR MUST get it only after its parent has merged and the PR targets main: auto-merge doesn't wait for a parent.
+12. Before a repo's rollout no required check exists, so auto-merge merges at once. The agent MUST first run the repo's gates and record them in the PR body; they stand in for the required checks.
 
 ## Parameters
 
@@ -32,7 +32,7 @@
 - In each rolled-out repo, a Dependabot PR merges on its own once both checks pass, and its merge starts a `push` run of `ci.yml`.
 - The [script tests](../tools/test_templates.py) verify transient recovery, exhausted retries, head changes and permanent failures.
 - A PR by any other author, or from a fork, skips `enable`.
-- An agent's PR merges once its checks pass and every finding has a reply; a stacked PR waits for its parent.
+- An agent enables auto-merge only after its review loop ends on the current head, and on a stacked PR only after the parent merged and the PR targets main.
 
 ## Open
 
