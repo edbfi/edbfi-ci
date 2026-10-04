@@ -36,6 +36,6 @@ Each `design/*.md` has exactly the sections Contract · Parameters · Verificati
 - **`gh`:** a shim refuses to run outside `~/Documents/GitHub/edbfi/…`, so run it from inside that tree.
 - **Archive:** `~/Documents/GitHub/edbfi/ci-refactor-notes` (local-only, no remote) is frozen background: the old plan, its revision reasoning and settings snapshots from 2026-09-26. Read it only when this repo doesn't answer a question; this repo wins. Never copy text from it or edit it.
 - **Rules:** read every `.agents/rules/*.md` in the repo you work in, if the directory exists; project rules override these instructions.
-- **Commits:** Conventional Commits with a DCO sign-off (`git commit -s`). Work on a branch, open a PR, and never merge it yourself.
+- **Commits:** Conventional Commits with a DCO sign-off (`git commit -s`). Work on a branch and open a PR; merging is automated ([auto-merge.md](design/auto-merge.md#contract) rules 10-12).
 - **Tool choice:** Prefer `gh`, `git` and other purpose-built CLIs for repository operations. For browser or frontend interaction, and website access using a signed-in session, use the `ego-browser` tool and skill instead of built-in browser tools.
 - **Tools:** verified versions are in [design/prek.md](design/prek.md#parameters); check for newer ones at the start of each step.

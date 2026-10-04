@@ -1,4 +1,4 @@
-# Dependabot auto-merge (D2, D5)
+# Auto-merge (D2, D5)
 
 ## Contract
 
@@ -11,6 +11,12 @@
 7. replex has no auto-merge workflow and no PAT (its settings: [settings.md](settings.md#contract)). It is merged by hand after reading the advisory `ci-ok`, and moves to the normal path once its CI is green and enforced.
 8. dox has no auto-merge or rulesets; it is merged by hand.
 9. The Dependabot auto-merge workflow MUST retry transient GitHub merge-state instability within a bounded limit, keep the head guard on every attempt, and fail on other errors unless the head moved.
+
+### Every other PR
+
+10. Outside replex and dox (rules 7 and 8), every PR MUST merge, squashed, with no person involved, once its required checks pass on its current head and every review finding on that head has a reply: fixed in a commit, or rejected with a reason. It MUST NOT merge earlier. Pullfrog stays advisory ([ci.md](ci.md#contract) rule 21); Dependabot PRs have no author to answer findings, so rule 1 alone gates them.
+11. An agent MUST merge its own PR when its review loop ends, through GitHub auto-merge (`gh pr merge --auto --squash`). A stacked PR MUST NOT merge before its parent.
+12. Until a repo's CI is rolled out, the gates the agent ran, recorded in the PR body, stand in for its required checks.
 
 ## Parameters
 
@@ -26,6 +32,7 @@
 - In each rolled-out repo, a Dependabot PR merges on its own once both checks pass, and its merge starts a `push` run of `ci.yml`.
 - The [script tests](../tools/test_templates.py) verify transient recovery, exhausted retries, head changes and permanent failures.
 - A PR by any other author, or from a fork, skips `enable`.
+- An agent's PR merges once its checks pass and every finding has a reply; a stacked PR waits for its parent.
 
 ## Open
 
@@ -34,5 +41,6 @@
 ## Why
 
 - `gh pr merge --auto` merges immediately when no required check blocks it, hence ruleset first.
+- Once checks pass and findings are answered, a person adds no safety ([README](../README.md#principles) principle 1); auto-merge is the upstream mechanism (principle 4).
 - PAT merges trigger `push` CI, which `GITHUB_TOKEN` merges would not; that justifies non-strict required checks.
 - Accepted residual risk (D2): a bumped action runs in its own PR and can make its own job pass. The inline `jq` gate and the privileged-job rule limit it.
