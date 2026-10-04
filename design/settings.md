@@ -5,7 +5,7 @@
 1. Actions MUST be enabled with SHA pinning required, the default `GITHUB_TOKEN` permission read, and "Allow GitHub Actions to create and approve pull requests" off.
 2. Merging MUST be squash only, with squash title and message as in [pr-policy.md](pr-policy.md#contract), `delete_branch_on_merge` on, `allow_auto_merge` on (off in replex), and `web_commit_signoff_required: true`.
 3. Security MUST have dependency graph, Dependabot alerts, security updates, grouped security updates, Secret Protection and push protection on (D7). Public repos MUST NOT run a gitleaks CI scan; private dox MUST.
-4. Each repo MUST have a ruleset "main" that targets the default branch and replaces classic protection:
+4. Each repo MUST have a ruleset "main" that targets the default branch, and no classic branch protection:
    1. a PR is required, with 0 approvals and no required conversation resolution;
    2. required checks `ci-ok` and `pr-policy` (replex: `pr-policy` only), sourced from GitHub Actions, **not strict**;
    3. force-pushes and deletion are blocked;
@@ -22,6 +22,7 @@
 
 - `gh api repos/{repo}` shows the merge settings above; `gh api repos/{repo}/actions/permissions` shows SHA pinning required; `…/actions/permissions/workflow` shows `read` and `can_approve_pull_request_reviews: false`.
 - `gh api repos/{repo}/rulesets` shows one active ruleset "main" with the checks above, `strict_required_status_checks_policy: false`, `required_review_thread_resolution: false`, and an empty bypass list (homebrew-taps: the deploy key only).
+- `gh api repos/{repo}/branches/{branch}/protection` returns 404 (no classic protection).
 - A direct push to main is rejected.
 
 ## Open

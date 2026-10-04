@@ -72,6 +72,7 @@ Target-repo drift is from the 2026-09-26 snapshots; each rollout step fixes its 
 - Default `GITHUB_TOKEN` permission is write in docrewind, eksamen, guide-capture, guides, isfuglen, portaler, replex and yt-redirect.
 - "Allow GitHub Actions to create and approve pull requests" is on in those repos plus homebrew-taps.
 - `web_commit_signoff_required` is off in replex, wtfnzb-adapter and dox.
+- No repo has classic branch protection [V, 2026-10-04]; only `edbfi-ci` and `edbfi-ci-playground` have a ruleset.
 - guides, isfuglen, portaler and yt-redirect serve a stale `gh-pages` branch; eksamen serves legacy `main:/docs`.
 - The D5 PAT and its Dependabot secret cover 29 repos, including `edbfi-ci`, wings-vpn and replex. Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` still exist in target repos; `edbfi-ci` has only the Dependabot secret.
 
