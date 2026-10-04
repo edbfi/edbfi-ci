@@ -15,8 +15,8 @@ Tiers: 27 public in-scope repos plus private dox; `edbfi-ci` itself is outside t
 
 | Tier | Repos | Stack |
 |---|---|---|
-| Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); obzorarr, otpravkarr, poyo-studio, setun (SvelteKit 2 + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose); web-presentations (Svelte 5 + Vite in `presentations/fra-eksempler-til-sprogmodeller/`) | Bun 1.4.2 (`packageManager` required by agent rules), Biome 2.5 |
-| Python | zondarr (Litestar `backend/` uv, SvelteKit `frontend/` bun, root bun for Biome/prek); wtfnzb-adapter (Litestar, uv); guide-capture (bash + stdlib Python + Node, needs macOS arm64); arrsenal-of-scripts (shell/zsh/Python) | uv |
+| Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); obzorarr, otpravkarr, poyo-studio, setun (SvelteKit 3 with `@sveltejs/adapter-bun` + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose); web-presentations (Svelte 5 + Vite in `presentations/fra-eksempler-til-sprogmodeller/`) | Bun 1.4.2 (`packageManager` required by agent rules), Biome 2.5 |
+| Python | zondarr (Litestar `backend/` uv, SvelteKit 3 `frontend/` bun with `@sveltejs/adapter-bun`, root bun for Biome/prek); wtfnzb-adapter (Litestar, uv); guide-capture (bash + stdlib Python + Node, needs macOS arm64); arrsenal-of-scripts (shell/zsh/Python) | uv |
 | Native | EasyHDR (Rust 1.98.1, Windows-only Slint GUI, `fuzz/` crate, cargo-deny); github-stats (Zig 0.16, default branch `master`); homebrew-taps (casks + Linux formulae + bash/python pipeline) | |
 | Shell | pelican-eggs, mover-status | |
 | Content | edbfi, comradarr, zimuarr (docs only); agent-rules; skills; eksamen (static site in `docs/`, Pages) | |
@@ -32,11 +32,11 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | yt-redirect | tests + build | Playwright chromium (24 tests, `e2e/`) | ubuntu | bun `/`, gha |
 | docrewind | guard scripts (~190 s), `test:logic`, `test:coverage`, build, zip, `zip:firefox`, `verify-manifest.sh`, `lint:firefox` | Playwright extension smoke; `verify-reproducible-build.sh` | ubuntu | bun `/`, gha |
 | obzorarr | drizzle drift (`drizzle-kit check`/`generate`, clean `git status`); build | `bun run smoke:production` with `DATABASE_PATH=$RUNNER_TEMP/smoke.db` | ubuntu | bun `/`, gha |
-| otpravkarr | Vitest (Node), build | new `scripts/smoke.ts`: empty DB, start `build/index.js`, `/api/health` ok/degraded, `/`→`/setup`; `test:e2e` | ubuntu | bun `/`, gha |
+| otpravkarr | Vitest (Node), build | new `scripts/smoke.ts`: empty DB, start `scripts/serve.ts`, `/api/health` ok/degraded, `/`→`/setup`; `test:e2e` | ubuntu | bun `/`, gha |
 | poyo-studio | prek runs tests+build; `test:browser:ci` | `test:production-smoke` (never `test:live`) | ubuntu + macOS media-tools | bun `/`, gha |
 | setun | `test:component`, Playwright (4 servers), `check:python`, `uv lock --check --project scripts`, drizzle drift, build | dummy env, `/`→`/setup` title+banner, SIGTERM exits 0 | ubuntu | bun `/`, uv `/scripts`, docker `/`, docker-compose `/` + `/scripts` (grouped) |
 | web-presentations | `bun run check && bun run build` in the presentation dir | `test:smoke` (chromium) | ubuntu | bun `/presentations/fra-eksempler-til-sprogmodeller`, gha |
-| zondarr | `uv sync --locked` (backend), `bun ci --ignore-scripts` at root + `frontend/`, frontend build, `uv build`, API-types drift (restore `check-api.ts`, 7038c47) | restore `smoke.py`: alembic upgrade, both servers, `/health/ready`, `/api/auth/methods` via proxy | ubuntu | uv `/backend`, bun `/`, bun `/frontend`, gha |
+| zondarr | `uv sync --locked` (backend), `bun ci --ignore-scripts` at root + `frontend/`, frontend build, `uv build`, API-types drift (restore `check-api.ts`, 7038c47) | restore `smoke.py`: alembic upgrade, both servers (frontend through `scripts/serve.ts`), `/health/ready`, `/api/auth/methods` via proxy | ubuntu | uv `/backend`, bun `/`, bun `/frontend`, gha |
 | wtfnzb-adapter | pytest hook, `uv build`, `prek validate-config` | Litestar `/health` + `caps` with dummy config | ubuntu | uv `/`, gha |
 | guide-capture | `check-sensitive-files --all`, `/bin/bash -n` | `bin/guide-capture validate specs/…android.json` | macos-latest (arm64) | gha |
 | arrsenal-of-scripts | `bash -n`, `shellcheck -S error`, `zsh -n`, unittest (63), basedpyright via `uvx` | `claude-diag.py --self-test` (age ≥1.3, zsh, GNU tar) | ubuntu | gha |
