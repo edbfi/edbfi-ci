@@ -23,13 +23,41 @@ triggers:
   - id: replex-green
     kind: manual
     action: Move replex to the normal auto-merge path after manually verifying its CI is green and enforced (design/auto-merge.md).
-  - id: bun-adapter-peers
-    kind: npm_release
-    package: svelte-adapter-bun
-    above: 1.0.1
-    action: Recheck TypeScript peer compatibility and the four affected repos before enabling check-peers (B5 in DECISIONS.md).
   - id: openapi-typescript-peers
     kind: npm_release
     package: openapi-typescript
     above: 7.13.0
-    action: Recheck TypeScript peer compatibility in zondarr before enabling check-peers (B5 in DECISIONS.md).
+    action: Recheck TypeScript peer compatibility in zondarr/frontend before enabling check-peers there (B6 in DECISIONS.md).
+  - id: superforms-3-stable
+    kind: npm_release
+    package: sveltekit-superforms
+    above: 2.999.999
+    action: Pin the staged SvelteKit 3 PRs in obzorarr and setun to the stable sveltekit-superforms 3 release, drop any prerelease pin allowance and rerun their gates (D18 in DECISIONS.md).
+  - id: kit-3-poyo-studio
+    kind: merged_pr
+    repo: edbfi/poyo-studio
+    number: 82
+    action: Drop poyo-studio from B5 in DECISIONS.md and STATE.md, deleting B5 once no repo remains, and update its design/repos.md rows for SvelteKit 3 (D18 in DECISIONS.md).
+  - id: kit-3-otpravkarr
+    kind: merged_pr
+    repo: edbfi/otpravkarr
+    number: 146
+    action: Drop otpravkarr from B5 in DECISIONS.md and STATE.md, deleting B5 once no repo remains, and update its design/repos.md rows for SvelteKit 3 (D18 in DECISIONS.md).
+  - id: kit-3-obzorarr
+    kind: merged_pr
+    repo: edbfi/obzorarr
+    number: 225
+    action: Drop obzorarr from B5 in DECISIONS.md and STATE.md, deleting B5 once no repo remains, and update its design/repos.md rows for SvelteKit 3 (D18 in DECISIONS.md).
+  - id: kit-3-zondarr
+    kind: merged_pr
+    repo: edbfi/zondarr
+    number: 264
+    action: Drop zondarr from B5 in DECISIONS.md and STATE.md (B6 stays), deleting B5 once no repo remains, and update its design/repos.md rows for SvelteKit 3 (D18 in DECISIONS.md).
+  - id: kit-3-setun
+    kind: merged_pr
+    repo: edbfi/setun
+    number: 99
+    action: Update setun's design/repos.md rows for SvelteKit 3 and the official Bun adapter (D18 in DECISIONS.md).
+  - id: kit-runtime-origin
+    kind: manual
+    action: Once SvelteKit ships a runtime origin setting (sveltejs/kit#17328), replace the app-owned origin fronts in obzorarr, otpravkarr, poyo-studio, setun and zondarr/frontend with it.
