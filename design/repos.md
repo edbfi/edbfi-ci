@@ -58,7 +58,7 @@ Stale CI references, fixed in each repo's rollout PR:
 - isfuglen `astro.config.mjs:11-12`; yt-redirect `e2e/converter.spec.ts:6-9`, `playwright.config.ts:9,19-21`, `CLAUDE.md:54`
 - obzorarr `CLAUDE.md:19`; EasyHDR `CLAUDE.md:27,44,118`; skills `CLAUDE.md:44`; guide-capture `CLAUDE.md:14`
 - homebrew-taps `Casks/*/*.rb:1`, `scripts/lib/common.sh:6`, `scripts/discover.sh:2-4`, `.gitignore:4`
-- zimuarr `CLAUDE.md:11,65-67`; arrsenal-of-scripts `CLAUDE.md:46`; web-presentations `README.md:17`
+- zimuarr `CLAUDE.md:11,66-68`; arrsenal-of-scripts `CLAUDE.md:46`; web-presentations `README.md:17`
 - github-stats `README.md:3-6`, `CLAUDE.md:25,41`
 
 ## Verification
