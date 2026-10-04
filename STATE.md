@@ -34,18 +34,18 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 |---|---|---|---|---|---|---|---|---|
 | edbfi-ci | — | S4 | live; push CI and audit verified | live | active | live; credential installed | — | protocol verified in playground; edbfi-ci bot merge unobserved |
 | portaler | Bun web | S6 | — | — | — | — | — | B1 |
-| obzorarr | Bun web | S7 | — | — | — | — | — | B1, B4, B5 |
+| obzorarr | Bun web | S7 | — | — | — | — | — | B1, B4 |
 | wtfnzb-adapter | Python | S8 | — | — | — | — | — | — |
 | edbfi | Content | S9 | — | — | — | — | — | — |
 | guides | Bun web | S10 | — | — | — | — | — | B1 |
 | isfuglen | Bun web | S10 | — | — | — | — | — | B1, B2 |
 | yt-redirect | Bun web | S10 | — | — | — | — | — | B1 |
 | docrewind | Bun web | S10 | — | — | — | — | — | B1, B4 |
-| otpravkarr | Bun web | S10 | — | — | — | — | — | B1, B4, B5 |
-| poyo-studio | Bun web | S10 | — | — | — | — | — | B1, B4, B5 |
+| otpravkarr | Bun web | S10 | — | — | — | — | — | B1, B4 |
+| poyo-studio | Bun web | S10 | — | — | — | — | — | B1, B4 |
 | setun | Bun web | S10 | — | — | — | — | — | B1, B4 |
 | web-presentations | Bun web | S10 | — | — | — | — | — | B1, B4 |
-| zondarr | Python | S11 | — | — | — | — | — | B1, B4, B5, B6 |
+| zondarr | Python | S11 | — | — | — | — | — | B1, B4, B6 |
 | guide-capture | Python | S11 | — | — | — | — | — | — |
 | arrsenal-of-scripts | Python | S11 | — | — | — | — | — | — |
 | EasyHDR | Native | S12 | — | — | — | — | — | — |

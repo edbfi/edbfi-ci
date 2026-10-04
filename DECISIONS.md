@@ -21,7 +21,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D15 | Superseded by D6; no dox token. | — |
 | D16 | homebrew-taps' only bypass actor is a deploy key. | homebrew-taps ruleset ([settings.md](design/settings.md#contract)) |
 | D17 | The shared hooks and the watchdog live in `edbfi-ci`. | `.pre-commit-hooks.yaml`; watchdog here |
-| D18 | Every SvelteKit app runs SvelteKit 3 with the official `@sveltejs/adapter-bun`, with no Kit 2 bridge; this is B5's path. obzorarr's and setun's PRs also wait for stable superforms 3. | staged Kit 3 PRs; `superforms-3-stable` and `kit-3-*` watch triggers |
+| D18 | Every SvelteKit app runs SvelteKit 3 with the official `@sveltejs/adapter-bun`, with no Kit 2 bridge. | stacks in [repos.md](design/repos.md#parameters); `kit-runtime-origin` watch trigger |
 
 ## Blockers
 
@@ -31,5 +31,4 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | B2 | The isfuglen preview-fit fix must land before `ci-ok` becomes required. | S5; required-check rollout |
 | B3 | dox is private on the Free plan: no rulesets, no auto-merge. | manual merges |
 | B4 | Not blocking: the seven `{@const}` repos (docrewind, obzorarr, otpravkarr, poyo-studio, setun, zondarr, web-presentations) stay red on Biome 2.5.14 until biomejs/biome#11837 ships; then re-check docrewind's formatter-off overrides (`biome.json:62-96`). | `biome-const` watch trigger |
-| B5 | `svelte-adapter-bun@1.0.1` requires `typescript ^5` in obzorarr, otpravkarr, poyo-studio and zondarr/frontend; D18 resolves it when the staged Kit 3 PRs merge. | `kit-3-*` watch triggers; `check-peers` stays off in each affected repo until it passes ([prek.md](design/prek.md#contract) rule 12) |
 | B6 | `openapi-typescript@7.13.0` requires `typescript ^5.x` in zondarr/frontend (openapi-typescript#2723); D18 doesn't cover it. | `openapi-typescript-peers` watch trigger; [prek.md](design/prek.md#contract) rule 12 |
