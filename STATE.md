@@ -11,7 +11,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | S2 | validated workflow, Dependabot and hook templates | done | [#3](https://github.com/edbfi/edbfi-ci/pull/3) |
 | S3 | weekly upstream watcher with deduplicated issues and dry-run | done | [#4](https://github.com/edbfi/edbfi-ci/pull/4) |
 | S4 | shared Dependabot merge path verified | done | [#5](https://github.com/edbfi/edbfi-ci/pull/5), [#6](https://github.com/edbfi/edbfi-ci/pull/6), [#7](https://github.com/edbfi/edbfi-ci/pull/7), [#8](https://github.com/edbfi/edbfi-ci/pull/8) |
-| S5 | Phase 0 in target repos: B2 fixes, `refresh-hotio.yml` pinning, default-branch check | in progress | [#10](https://github.com/edbfi/edbfi-ci/pull/10) |
+| S5 | Phase 0 in target repos: B2 fixes, `refresh-hotio.yml` pinning, default-branch check | in progress | [#10](https://github.com/edbfi/edbfi-ci/pull/10), [#14](https://github.com/edbfi/edbfi-ci/pull/14) |
 | S6 | core pilot: portaler | pending | — |
 | S7 | core pilot: obzorarr | pending | — |
 | S8 | core pilot: wtfnzb-adapter | pending | — |
@@ -34,18 +34,18 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 |---|---|---|---|---|---|---|---|---|
 | edbfi-ci | — | S4 | live; push CI and audit verified | live | active | live; credential installed | — | protocol verified in playground; edbfi-ci bot merge unobserved |
 | portaler | Bun web | S6 | — | — | — | — | — | B1 |
-| obzorarr | Bun web | S7 | — | — | — | — | — | B1, B4, B5 |
+| obzorarr | Bun web | S7 | — | — | — | — | — | B1, B4 |
 | wtfnzb-adapter | Python | S8 | — | — | — | — | — | — |
 | edbfi | Content | S9 | — | — | — | — | — | — |
 | guides | Bun web | S10 | — | — | — | — | — | B1 |
 | isfuglen | Bun web | S10 | — | — | — | — | — | B1, B2 |
 | yt-redirect | Bun web | S10 | — | — | — | — | — | B1 |
 | docrewind | Bun web | S10 | — | — | — | — | — | B1, B4 |
-| otpravkarr | Bun web | S10 | — | — | — | — | — | B1, B4, B5 |
-| poyo-studio | Bun web | S10 | — | — | — | — | — | B1, B4, B5 |
+| otpravkarr | Bun web | S10 | — | — | — | — | — | B1, B4 |
+| poyo-studio | Bun web | S10 | — | — | — | — | — | B1, B4 |
 | setun | Bun web | S10 | — | — | — | — | — | B1, B4 |
 | web-presentations | Bun web | S10 | — | — | — | — | — | B1, B4 |
-| zondarr | Python | S11 | — | — | — | — | — | B1, B4, B5 |
+| zondarr | Python | S11 | — | — | — | — | — | B1, B4, B6 |
 | guide-capture | Python | S11 | — | — | — | — | — | — |
 | arrsenal-of-scripts | Python | S11 | — | — | — | — | — | — |
 | EasyHDR | Native | S12 | — | — | — | — | — | — |

@@ -65,6 +65,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 - ci-A1: whether the dependency graph covers uv transitive packages. Closes when a project's SBOM export (`gh api repos/{repo}/dependency-graph/sbom`) lists its locked transitive packages at their locked versions; then drop that `audit` entry.
 - ci-A2: `macos-latest` staying arm64, and `ubuntu-latest`'s generation for the ARM64 label. Closes per change: re-check the runner-images README when homebrew-taps rolls out (S12, S19).
 - ci-A3: the exact `uv export` / `pip-audit` invocation. Closes with a green `audit` run in the wtfnzb-adapter pilot (S8).
+- ci-A4: Node for SvelteKit 3 repos. Kit 3 needs Node ≥22.17 (obzorarr, otpravkarr, poyo-studio, setun, zondarr/frontend) for the tools that run on Node there (Vitest, Playwright, the `sv` codemod), but the templates set up only Bun and use the runner image's Node, outside rule 8. Closes when the S7/S10/S11 rollout PRs set Node from a repo file; until then each rollout re-checks the runner image's Node against the floor.
 
 ## Why
 
