@@ -45,7 +45,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | poyo-studio | Bun web | S10 | — | — | — | — | — | B1, B4, B5 |
 | setun | Bun web | S10 | — | — | — | — | — | B1, B4 |
 | web-presentations | Bun web | S10 | — | — | — | — | — | B1, B4 |
-| zondarr | Python | S11 | — | — | — | — | — | B1, B4, B5 |
+| zondarr | Python | S11 | — | — | — | — | — | B1, B4, B5, B6 |
 | guide-capture | Python | S11 | — | — | — | — | — | — |
 | arrsenal-of-scripts | Python | S11 | — | — | — | — | — | — |
 | EasyHDR | Native | S12 | — | — | — | — | — | — |
