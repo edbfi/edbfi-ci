@@ -42,7 +42,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | yt-redirect | Bun web | S10 | — | — | — | — | — | B1 |
 | docrewind | Bun web | S10 | — | — | — | — | — | B1, B4 |
 | otpravkarr | Bun web | S10 | — | — | — | — | — | B1, B4, B5 |
-| poyo-studio | Bun web | S10 | — | — | — | — | — | B1, B2, B4, B5 |
+| poyo-studio | Bun web | S10 | — | — | — | — | — | B1, B4, B5 |
 | setun | Bun web | S10 | — | — | — | — | — | B1, B4 |
 | web-presentations | Bun web | S10 | — | — | — | — | — | B1, B4 |
 | zondarr | Python | S11 | — | — | — | — | — | B1, B4, B5 |

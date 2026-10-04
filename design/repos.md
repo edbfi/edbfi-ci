@@ -33,7 +33,7 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | docrewind | guard scripts (~190 s), `test:logic`, `test:coverage`, build, zip, `zip:firefox`, `verify-manifest.sh`, `lint:firefox` | Playwright extension smoke; `verify-reproducible-build.sh` | ubuntu | bun `/`, gha |
 | obzorarr | drizzle drift (`drizzle-kit check`/`generate`, clean `git status`); build | `bun run smoke:production` with `DATABASE_PATH=$RUNNER_TEMP/smoke.db` | ubuntu | bun `/`, gha |
 | otpravkarr | Vitest (Node), build | new `scripts/smoke.ts`: empty DB, start `build/index.js`, `/api/health` ok/degraded, `/`→`/setup`; `test:e2e` | ubuntu | bun `/`, gha |
-| poyo-studio | prek runs tests+build; `test:browser:ci` (B2: fix gallery tests first) | `test:production-smoke` (never `test:live`) | ubuntu + macOS media-tools | bun `/`, gha |
+| poyo-studio | prek runs tests+build; `test:browser:ci` | `test:production-smoke` (never `test:live`) | ubuntu + macOS media-tools | bun `/`, gha |
 | setun | `test:component`, Playwright (4 servers), `check:python`, `uv lock --check --project scripts`, drizzle drift, build | dummy env, `/`→`/setup` title+banner, SIGTERM exits 0 | ubuntu | bun `/`, uv `/scripts`, docker `/`, docker-compose `/` + `/scripts` (grouped) |
 | web-presentations | `bun run check && bun run build` in the presentation dir | `test:smoke` (chromium) | ubuntu | bun `/presentations/fra-eksempler-til-sprogmodeller`, gha |
 | zondarr | `uv sync --locked` (backend), `bun ci --ignore-scripts` at root + `frontend/`, frontend build, `uv build`, API-types drift (restore `check-api.ts`, 7038c47) | restore `smoke.py`: alembic upgrade, both servers, `/health/ready`, `/api/auth/methods` via proxy | ubuntu | uv `/backend`, bun `/`, bun `/frontend`, gha |
