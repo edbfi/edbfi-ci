@@ -62,7 +62,7 @@ class WatchTest(unittest.TestCase):
                 )
 
     def test_repository_config_and_versions(self) -> None:
-        self.assertEqual(len(watch.load(CONFIG)), 13)
+        self.assertEqual(len(watch.load(CONFIG)), 7)
         self.assertGreater(watch.version("v1.10.0"), watch.version("1.9.99"))
         self.assertEqual(watch.version("v2.5.14"), watch.version("2.5.14"))
         for value in ("latest", "1.2", "1.2.3-rc.1", "01.2.3", "1.2.3+meta"):
@@ -188,7 +188,7 @@ class WatchTest(unittest.TestCase):
             "repos/edbfi/edbfi-ci/issues?state=all&per_page=100", paginate=True
         )
         write.assert_not_called()
-        self.assertEqual(output.getvalue().count("Would create:"), 13)
+        self.assertEqual(output.getvalue().count("Would create:"), 7)
         self.assertIn("<!-- edbfi-watch:bun-v2 -->", output.getvalue())
 
     def test_existing_open_or_closed_issue_on_later_page_prevents_duplicates(
@@ -252,10 +252,10 @@ class WatchTest(unittest.TestCase):
         error = subprocess.CalledProcessError(1, ["gh", "api"])
         cases: list[tuple[list[str | Exception], object]] = [
             (["fired", "fired", error], [[]]),
-            (["fired"] * 13, error),
-            (["fired"] * 13, {"message": "bad response"}),
-            (["fired"] * 13, [[{}]]),
-            (["fired"] * 13, [[{"body": 42}]]),
+            (["fired"] * 7, error),
+            (["fired"] * 7, {"message": "bad response"}),
+            (["fired"] * 7, [[{}]]),
+            (["fired"] * 7, [[{"body": 42}]]),
         ]
         for results, pages in cases:
             with (
