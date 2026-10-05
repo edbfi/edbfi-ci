@@ -20,7 +20,7 @@ Tiers: 27 public in-scope repos plus private dox; `edbfi-ci` itself is outside t
 | Native | EasyHDR (Rust 1.98.1, Windows-only Slint GUI, `fuzz/` crate, cargo-deny); github-stats (Zig 0.16, default branch `master`); homebrew-taps (casks + Linux formulae + bash/python pipeline) | |
 | Shell | pelican-eggs, mover-status | |
 | Content | edbfi, comradarr, zimuarr (docs only); agent-rules; skills; eksamen (static site in `docs/`, Pages) | |
-| Special | repo-patches (stdlib Python tooling; manual `refresh-hotio.yml`); replex (Rust fork, CI red by accepted design); dox (private, Free plan) | |
+| Special | repo-patches (stdlib Python tooling; scheduled `watch-hotio.yml` and dispatched `sync-hotio.yml` generate the base-image and website mirrors of Hotio); replex (Rust fork, CI red by accepted design); dox (private, Free plan) | |
 
 Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#contract)):
 
