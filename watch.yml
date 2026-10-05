@@ -31,3 +31,13 @@ triggers:
   - id: kit-runtime-origin
     kind: manual
     action: Once SvelteKit ships a runtime origin setting (sveltejs/kit#17328), replace the app-owned origin fronts in obzorarr, otpravkarr, poyo-studio, setun and zondarr/frontend with it.
+  - id: kit-malformed-path-redirect
+    kind: merged_pr
+    repo: sveltejs/kit
+    number: 17194
+    action: This fixes sveltejs/kit#17193 (a redirect() thrown in handle escapes server.respond() for an undecodable path). Wait for the first stable @sveltejs/kit release that contains the merge, then take it in otpravkarr, setun, zondarr/frontend, obzorarr and poyo-studio with the monthly manual Bun update (design/dependabot.md rule 8). Add a regression test that fails on 3.0.0 to each affected app (the otpravkarr and setun setup gates, the zondarr/frontend /login and /setup redirects) showing that document and __data.json requests for /%, /%zz, /%C3 and /%E0%A4%A get the app's redirect, the server stays healthy and the process exits 0 after SIGTERM, with /%25zz and /%C3%A6 as valid controls.
+  - id: playwright-route-times
+    kind: npm_release
+    package: playwright
+    above: 1.63.999
+    action: Playwright 1.64 carries the Chromium fix for microsoft/playwright#41802 (a request sent while a one-shot route with times 1 expires is never continued). Once poyo-studio pins it (monthly manual Bun update, design/dependabot.md rule 8), remove the standing route.fallback() routes for JOB-17 (edbfi/poyo-studio#84) and E2E-01..15 (edbfi/poyo-studio#87) from tests/e2e/studio-flows.browser.ts and confirm the studio-flows tests pass in repeated runs without them.
