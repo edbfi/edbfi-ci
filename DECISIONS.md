@@ -22,6 +22,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D16 | homebrew-taps' only bypass actor is a deploy key. | homebrew-taps ruleset ([settings.md](design/settings.md#contract)) |
 | D17 | The shared hooks and the watchdog live in `edbfi-ci`. | `.pre-commit-hooks.yaml`; watchdog here |
 | D18 | Every SvelteKit app runs SvelteKit 3 with the official `@sveltejs/adapter-bun`, with no Kit 2 bridge. | stacks in [repos.md](design/repos.md#parameters); `kit-runtime-origin` watch trigger |
+| D19 | Each repo with a scheduled workflow re-enables its own workflows monthly with a PAT, alongside the D14 watchdog. | `immortality.yml` ([watchdog.md](design/watchdog.md#contract)) |
 
 ## Blockers
 
