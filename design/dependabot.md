@@ -20,7 +20,7 @@
 - Configs: [Bun](../templates/dependabot.bun-web.yml), [setun](../templates/dependabot.setun.yml), [Python](../templates/dependabot.python.yml), [Python + Bun](../templates/dependabot.python-bun.yml), [Rust](../templates/dependabot.rust.yml), [Zig](../templates/dependabot.zig.yml), [Homebrew](../templates/dependabot.homebrew.yml), [Shell](../templates/dependabot.shell.yml), [Content](../templates/dependabot.content.yml), [Special](../templates/dependabot.special.yml), [replex](../templates/dependabot.replex.yml), [dox](../templates/dependabot.dox.yml).
 - Copy the matching config to `.github/dependabot.yml`; adapt ecosystems and directories to [repos.md](repos.md#parameters).
 
-- Every `bun.lock` in the Bun directories of [repos.md](repos.md#parameters) is lockfile v2 [V, 2026-10-07]; Dependabot's bun updater supports only v1.
+- Every `bun.lock` in the Bun directories of [repos.md](repos.md#parameters) is lockfile v2 [V, 2026-10-07].
 - The template cooldown exclusion permits updates less than 3 days after release [V, 2026-09-30, playground].
 
 ## Verification

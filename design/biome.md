@@ -2,7 +2,7 @@
 
 ## Contract
 
-1. Layer 1: `biome.json` `$schema` MUST be `./node_modules/@biomejs/biome/configuration_schema.json`, so patch and minor bumps change only `package.json` and `bun.lock`. Target repos' agent docs, where they exist, MUST NOT name a Biome version.
+1. Layer 1: `biome.json` `$schema` MUST be `./node_modules/@biomejs/biome/configuration_schema.json`, so schema-version changes alone don't rewrite `biome.json`; migrations may still change its configuration. Target repos' agent docs, where they exist, MUST NOT name a Biome version.
 2. Layer 2: every Biome repo MUST have the manual-stage hook `biome-migrate: bunx --no-install biome migrate --write`, `language: system`, `pass_filenames: false`. zondarr runs it from its root (`./node_modules/.bin/biome`). A needed migration modifies files, which fails prek and turns `ci-ok` red.
 3. Layer 3: `biome-migrate.yml` MUST be built now in the ten Biome repos, idle until Dependabot's Bun updater returns (B1).
 4. It MUST trigger on `pull_request` `[opened, synchronize, reopened]`, filtered by the three auto-merge conditions ([auto-merge.md](auto-merge.md#contract), with the same zizmor suppression) and by a diff touching `@biomejs/biome`.
