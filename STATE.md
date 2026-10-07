@@ -67,6 +67,8 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 - Owner-authorized Pullfrog setup (2026-10-03): Actions enabled in all 41 active repositories (32 changed); archived repositories and individually disabled workflows unchanged. S5 and migration ship conditions unchanged.
 - Claude subscription connected; Pullfrog live in all 41 active repositories with the central workflow and review presets: here via [setup #11](https://github.com/edbfi/edbfi-ci/pull/11), the playground via [pilot #8](https://github.com/edbfi/edbfi-ci-playground/pull/8), and the other 39 via the workflow PRs listed in [rollout #12](https://github.com/edbfi/edbfi-ci/pull/12), all merged. Existing migration PRs remain untouched.
 
+- `immortality.yml` (D19) is in `edbfi-ci` and `edbfi-ci-playground`; repo-patches and the scheduled hotio-family repos get it in their own PRs. Its PAT and the `IMMORTALITY_TOKEN` secrets don't exist yet (owner), so its runs fail until then.
+
 - No repo has classic branch protection [V, 2026-10-04]; only `edbfi-ci` and `edbfi-ci-playground` have a ruleset.
 
 Target-repo drift is from the 2026-09-26 snapshots; each rollout step fixes its own drift.
