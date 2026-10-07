@@ -16,7 +16,7 @@
 
 ## Parameters
 
-Tiers: 26 public in-scope repos plus private dox; `edbfi-ci` itself is outside the tiers. GitHub default branches match rule 1 [V, 2026-09-30].
+Tiers: 26 public in-scope repos plus private dox; `edbfi-ci` itself is outside the tiers. GitHub default branches match rule 1 [V, 2026-10-07].
 
 | Tier | Repos | Stack |
 |---|---|---|
@@ -34,7 +34,7 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | Repo | Beyond prek | Smoke | Runner(s) | Dependabot |
 |---|---|---|---|---|
 | guides | build | restore `scripts/smoke.sh`: serve `dist/`; `/`, `/google-drev/`, `/meebook/`, one GitBook redirect, `/pagefind/pagefind.js`; assert `<title>` | ubuntu | bun `/`, gha |
-| isfuglen | `check-bundle.ts`; Playwright chromium/firefox/webkit (`--with-deps`, `CI=true`) | curl 8 routes + CSP meta; e2e. B2: fix `tests/e2e/layout.spec.ts:146` first | ubuntu | bun `/`, gha |
+| isfuglen | `check-bundle.ts`; Playwright chromium/firefox/webkit (`--with-deps`, `CI=true`) | curl 8 routes + CSP meta; e2e | ubuntu | bun `/`, gha |
 | portaler | add tests to prek; build | `PORT=4321 bun run scripts/serve-dist.ts`; `/ /other /grade/3 /fag/matematik` | ubuntu | bun `/`, gha |
 | yt-redirect | tests + build | Playwright chromium (24 tests, `e2e/`) | ubuntu | bun `/`, gha |
 | docrewind | guard scripts (~190 s), `test:logic`, `test:coverage`, build, zip, `zip:firefox`, `verify-manifest.sh`, `lint:firefox` | Playwright extension smoke; `verify-reproducible-build.sh` | ubuntu | bun `/`, gha |

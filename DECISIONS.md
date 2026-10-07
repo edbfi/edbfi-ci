@@ -29,6 +29,5 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | ID | Blocker | Enforced by |
 |---|---|---|
 | B1 | Dependabot's bun updater supports only `bun.lock` v1 (D3). | `bun-v2` watch trigger ([MAINTENANCE.md](MAINTENANCE.md#watch-triggers)) |
-| B2 | The isfuglen preview-fit fix must land before `ci-ok` becomes required. | S5; required-check rollout |
 | B3 | dox is private on the Free plan: no rulesets, no auto-merge. | manual merges |
 | B6 | `openapi-typescript@7.13.0` requires `typescript ^5.x` in zondarr/frontend (openapi-typescript#2723); D18 doesn't cover it. | `openapi-typescript-peers` watch trigger; [prek.md](design/prek.md#contract) rule 12 |
