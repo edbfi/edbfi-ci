@@ -16,7 +16,7 @@
 5. **No reports in the repo.** Session summaries, logs, test evidence, migration checklists and "what I did" go in the **PR body**, never in a file. `git log` and the PR history are the history.
 6. **Be precise, not complete.** Leave out anything that doesn't change what someone would do. A one-line reason is enough; drop reasons that restate the rule. Don't add a new doc file unless an existing module truly can't hold the content.
 7. **Automated guards back these rules** ([`tools/doc_guard`](tools/doc_guard/doc_guard.py)). Never weaken a guard or raise a cap to get past it. Trim the content instead.
-8. **Never write secret values.** Secret names are fine. Don't change GitHub settings, secrets or other repos, except where the current step says so. Anything that needs the owner goes under "Owner actions" in the PR body.
+8. **Never write secret values.** Secret names are fine. Don't change GitHub settings, secrets or other repos, publish anything (releases, images, deploys) or contact upstream projects, except where the current step says so. Anything that needs the owner goes under "Owner actions" in the PR body.
 
 ## Design modules
 
@@ -32,10 +32,11 @@ Each `design/*.md` has exactly the sections Contract · Parameters · Verificati
 
 - **Working copy:** `~/Documents/GitHub/edbfi/edbfi-ci` (`git@github.com-edbfi:edbfi/edbfi-ci.git`), public, default branch `main`.
 - **License:** AGPL-3.0-only. Keep `LICENSE`; use this SPDX identifier in package metadata and new source files.
-- **Target repos:** clone into `~/Documents/GitHub/edbfi/ci-refactor/<repo>` if missing, and `git fetch` before relying on a clone.
+- **Target repos:** clone into `~/Documents/GitHub/edbfi/<repo>` if missing, and `git fetch --prune` before relying on a clone. A clone may hold the owner's uncommitted edits: never stash, reset or commit them; work in a `git worktree` from `origin/<default>` instead.
+- **Push guard:** at session start, set `git config remote.origin.pushurl no-push-allowed` in every clone of agent-rules and of the hotio-family repos ([repos.md](design/repos.md#contract)). Never unset it; push deliberately with `git push git@github.com-edbfi:edbfi/<repo>.git <branch>`.
 - **`gh`:** a shim refuses to run outside `~/Documents/GitHub/edbfi/…`, so run it from inside that tree.
-- **Archive:** `~/Documents/GitHub/edbfi/ci-refactor-notes` (local-only, no remote) is frozen background: the old plan, its revision reasoning and settings snapshots from 2026-09-26. Read it only when this repo doesn't answer a question; this repo wins. Never copy text from it or edit it.
+- **Archive:** `~/Documents/edbfi-investigations/2026-10-02-sveltekit-3-migration` (local-only) holds the SvelteKit 3 migration: ledgers, logs, PR bodies and the archived migration plans. Read it only when this repo doesn't answer a question; this repo wins. Never copy text from it or edit it.
 - **Rules:** read every `.agents/rules/*.md` in the repo you work in, if the directory exists; project rules override these instructions.
-- **Commits:** Conventional Commits with a DCO sign-off (`git commit -s`). Work on a branch and open a PR; merging is automated, except in replex and dox ([auto-merge.md](design/auto-merge.md#contract) rules 10-12).
+- **Commits:** Conventional Commits with a DCO sign-off (`git commit -s`). Work on a branch and open a PR; follow [auto-merge.md](design/auto-merge.md#contract), including its manual and pre-rollout exceptions.
 - **Tool choice:** Prefer `gh`, `git` and other purpose-built CLIs for repository operations. For browser or frontend interaction, and website access using a signed-in session, use the `ego-browser` tool and skill instead of built-in browser tools.
 - **Tools:** verified versions are in [design/prek.md](design/prek.md#parameters); check for newer ones at the start of each step.

@@ -8,7 +8,7 @@
 4. Groups MUST be, first match winning: `biome` (`@biomejs/*`); `playwright` (`playwright`, `@playwright/*`); `vitest` (`vitest`, `@vitest/*`); `slint` (EasyHDR: `slint`, `slint-build`); `compose-images` (setun); then `patch-minor` (`patterns: ["*"]`, `update-types: [minor, patch]`). The special groups may contain majors; other majors get one PR each.
 5. There MUST NOT be any `ignore:` entry, pinned-back version or hold. A broken upstream release keeps its PR red until a later release fixes it.
 6. Ecosystems and directories MUST follow [repos.md](repos.md#parameters). Every repo gets `github-actions` and `pre-commit`, except dox, whose hook revs are updated by hand.
-7. Bun blocks (D3, B1) MUST be written but commented out, under a comment naming dependabot-core#16071 and #16026 that says to restore them once a pilot PR works, keeping `directory` equal to the `audit` matrix.
+7. Bun blocks (D3, B1) MUST be written but commented out, under a comment naming dependabot-core#16071 that says to restore them once a pilot PR works, keeping `directory` equal to the `audit` matrix.
 8. Until then, Bun MUST be updated by hand: on the first Monday of each month, and within 3 working days of a red `audit`, one PR per Bun repo titled `chore(deps): update bun dependencies`:
    1. patch and minor updates from `bun outdated`, applied with `bun add -E`;
    2. Biome in its own PR, after `biome migrate --write && biome check --write .`;
@@ -20,7 +20,7 @@
 - Configs: [Bun](../templates/dependabot.bun-web.yml), [setun](../templates/dependabot.setun.yml), [Python](../templates/dependabot.python.yml), [Python + Bun](../templates/dependabot.python-bun.yml), [Rust](../templates/dependabot.rust.yml), [Zig](../templates/dependabot.zig.yml), [Homebrew](../templates/dependabot.homebrew.yml), [Shell](../templates/dependabot.shell.yml), [Content](../templates/dependabot.content.yml), [Special](../templates/dependabot.special.yml), [replex](../templates/dependabot.replex.yml), [dox](../templates/dependabot.dox.yml).
 - Copy the matching config to `.github/dependabot.yml`; adapt ecosystems and directories to [repos.md](repos.md#parameters).
 
-- All 12 `bun.lock` files are lockfile v2; Dependabot's bun updater supports only v1.
+- Every `bun.lock` in the Bun directories of [repos.md](repos.md#parameters) is lockfile v2 [V, 2026-10-07]; Dependabot's bun updater supports only v1.
 - The template cooldown exclusion permits updates less than 3 days after release [V, 2026-09-30, playground].
 
 ## Verification
@@ -37,5 +37,5 @@
 
 - Omitting `cooldown` gives a 3-day default, and `default-days: 0` violates the schema (minimum 1); zizmor fails all three forms without the suppression.
 - `@vitest/*` packages pin `vitest` exactly, so they must move together.
-- Examples of holds refused: a TypeScript 7 PR sits red until `svelte-check` and the Kit peers accept it; the `{@const}` repos' Biome PRs stay red (B4).
+- Example of a hold refused: a TypeScript 7 PR sits red until `svelte-check` and the Kit peers accept it.
 - Dependabot's `pre-commit` ecosystem doesn't support private repos, hence dox's manual hook revs.

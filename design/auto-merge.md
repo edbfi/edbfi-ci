@@ -16,7 +16,11 @@
 
 10. Outside replex and dox (rules 7 and 8), every PR MUST merge, squashed, with no manual merge step, once its required checks pass on its current head and every review finding on that head has a reply: fixed in a commit, or rejected with a reason. It MUST NOT merge earlier. GitHub enforces the ruleset; the author enforces the replies through rule 11 and resolves each thread it answered. Pullfrog stays advisory ([ci.md](ci.md#contract) rule 21); Dependabot PRs have no author to answer findings, so rule 1 alone gates them.
 11. The author, an agent included, MUST enable auto-merge on its PR (`gh pr merge --auto --squash`) only once its review loop has ended on the current head. A stacked PR MUST get it only after its parent has merged and the PR targets main: auto-merge doesn't wait for a parent.
-12. Before a repo's rollout no required check exists, so auto-merge merges at once. The agent MUST first run the repo's gates and record them in the PR body; they stand in for the required checks.
+12. Before a repo's rollout, as an exception to rules 10-11: no required check exists, so auto-merge merges at once; where `allow_auto_merge` is still off, the author merges with `gh pr merge --squash --match-head-commit <head>` once rule 10 holds. The agent MUST first run the repo's gates and record them in the PR body; they stand in for the required checks.
+13. Review loop: after opening a PR and after every push, the author waits up to 30 minutes for Pullfrog's review of the current head (a progress comment is not a review). Without one, it requests one once with `@pullfrog review` and waits up to 30 more minutes, then ends the loop on the checks and records `no bot review received`. Pullfrog's Fix links MUST NOT be used.
+14. Every finding is checked against the source, then answered once per revision of its comment: APPROVED (fixed as suggested), REVISED (fixed differently, saying how) or REJECTED (with the reason or the owner decision it conflicts with); owner decisions win over bot suggestions. The author tracks answered items by ID and body revision, so edited comments are re-read and nothing is answered twice; a failed or partial read is never an empty result. A thread a person reopens is answered once; reopened again, it stays open for the owner.
+15. The author pushes only a head whose gates ran, rewrites pushed history only when the step requires it (`--force-with-lease` on the expected remote head), and on a parent change moves only the PR's own commits.
+16. A PR is closed unmerged only when an owner decision supersedes it, with a comment naming the decision and the replacement; never to get around review, failing checks or unfinished work.
 
 ## Parameters
 
@@ -33,6 +37,7 @@
 - The [script tests](../tools/test_templates.py) verify transient recovery, exhausted retries, head changes and permanent failures.
 - A PR by any other author, or from a fork, skips `enable`.
 - An agent enables auto-merge only after its review loop ends on the current head, and on a stacked PR only after the parent merged and the PR targets main.
+- Each PR body records its review outcome (findings with verdicts, or `no bot review received`) and the final head's checks.
 
 ## Open
 
