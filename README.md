@@ -68,7 +68,7 @@ flowchart LR
   bi -.->|"reusable build-on-call /<br/>update-on-call @workflows"| dk
   img -->|"release meta.json<br/>call-update, hourly"| dk["caddy · qbittorrent · qflood · sabnzbd<br/>otpravkarr- · obzorarr- · zondarr-docker"]
   apps["edbfi apps: latest plain X.Y.Z release<br/>obzorarr nightly: main commit"] -->|call-update| dk
-  dk -->|call-build per channel| out["ghcr.io/edbfi/&lt;repo&gt;:&lt;channel&gt;"]
+  dk -->|call-build per channel| out["ghcr.io/edbfi/{repo}:{channel}"]
 ```
 
 Before local Python checks, install the locked development environment using the setup command in [CI](.github/workflows/ci.yml). The [prek config](.pre-commit-config.yaml) runs basedpyright and the [typing config guard](tools/check_basedpyright_config.py).
