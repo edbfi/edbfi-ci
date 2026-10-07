@@ -3,19 +3,21 @@
 """Documentation guards for edbfi-ci (AGENTS.md rule 7).
 
 Checks every ``*.md`` file outside dot-directories under the repo root:
-line caps, relative links, fenced-block length, no work markers,
-and the fixed section list of ``design/*.md``.
+line caps, relative links, fenced-block length (Mermaid diagrams exempt),
+no work markers, the fixed section list of ``design/*.md``, and the
+freshness line that starts ``STATE.md``.
 """
 
 import argparse
 import re
 import sys
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import override
 
 LINE_CAPS: dict[str, int] = {
-    "README.md": 50,
+    "README.md": 80,
     "AGENTS.md": 80,
     "CLAUDE.md": 1,
     "MAINTENANCE.md": 40,
@@ -25,6 +27,7 @@ LINE_CAPS: dict[str, int] = {
 DESIGN_CAP = 150
 DESIGN_SECTIONS = ("Contract", "Parameters", "Verification", "Open", "Why")
 MAX_BLOCK_LINES = 12
+UNCAPPED_BLOCK_LANGUAGES = frozenset({"mermaid"})
 
 LONG_BLOCK_EXEMPTIONS: frozenset[tuple[str, str]] = frozenset()
 
@@ -33,6 +36,10 @@ INLINE_CODE = re.compile(r"(`+)(?:(?!\1).)+\1")
 LINK = re.compile(r"!?\[[^\]]*\]\(\s*<?([^)\s>]+)>?(?:\s+\"[^\"]*\")?\s*\)")
 FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
 HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*#*\s*$")
+FRESHNESS = re.compile(
+    r"^Last updated: (\d+) \((\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)\)$"
+)
+FRESHNESS_FORMAT = "Last updated: <unix seconds> (<YYYY-MM-DDTHH:MM:SSZ>)"
 
 
 @dataclass(frozen=True, order=True)
@@ -51,6 +58,7 @@ class Block:
     start: int
     first_line: str
     length: int
+    language: str = ""
 
 
 @dataclass(frozen=True)
@@ -65,6 +73,7 @@ def parse(lines: list[str]) -> Parsed:
     prose: list[tuple[int, str]] = []
     blocks: list[Block] = []
     fence = ""
+    language = ""
     start = 0
     body: list[str] = []
     for number, line in enumerate(lines, 1):
@@ -72,6 +81,8 @@ def parse(lines: list[str]) -> Parsed:
         if not fence:
             if match:
                 fence, start, body = match.group(1), number, []
+                info = line[match.end() :].split()
+                language = info[0].lower() if info else ""
             else:
                 prose.append((number, line))
         elif (
@@ -80,7 +91,8 @@ def parse(lines: list[str]) -> Parsed:
             and len(match.group(1)) >= len(fence)
         ):
             if line.strip() == match.group(1):
-                blocks.append(Block(start, body[0].strip() if body else "", len(body)))
+                first = body[0].strip() if body else ""
+                blocks.append(Block(start, first, len(body), language))
                 fence = ""
             else:
                 body.append(line)
@@ -129,7 +141,10 @@ def check_file(
         key = (rel, block.first_line)
         if key in exemptions:
             used.add(key)
-        elif block.length > MAX_BLOCK_LINES:
+        elif (
+            block.length > MAX_BLOCK_LINES
+            and block.language not in UNCAPPED_BLOCK_LANGUAGES
+        ):
             findings.append(
                 Finding(
                     rel,
@@ -155,7 +170,25 @@ def check_file(
 
     if rel.startswith("design/") and rel.count("/") == 1:
         findings.extend(check_sections(rel, parsed))
+    if rel == "STATE.md":
+        findings.extend(check_freshness(rel, lines))
     return findings
+
+
+def check_freshness(rel: str, lines: list[str]) -> list[Finding]:
+    """The first line is ``Last updated: <unix> (<ISO UTC>)``, both the same time."""
+    match = FRESHNESS.match(lines[0]) if lines else None
+    if not match:
+        return [Finding(rel, 1, f"first line must be '{FRESHNESS_FORMAT}'")]
+    try:
+        stamp = datetime.strptime(match.group(2), "%Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        return [Finding(rel, 1, f"invalid timestamp: {match.group(2)}")]
+    if int(stamp.replace(tzinfo=UTC).timestamp()) != int(match.group(1)):
+        return [
+            Finding(rel, 1, f"{match.group(1)} is not {match.group(2)} in unix seconds")
+        ]
+    return []
 
 
 def check_link(

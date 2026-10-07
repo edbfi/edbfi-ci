@@ -17,8 +17,8 @@ DESIGN_OK = (
 NO_EXEMPTIONS: frozenset[tuple[str, str]] = frozenset()
 
 
-def block(lines: int, first: str = "x") -> str:
-    return "\n".join([FENCE + "yaml", first, *(["x"] * (lines - 1)), FENCE]) + "\n"
+def block(lines: int, first: str = "x", info: str = "yaml") -> str:
+    return "\n".join([FENCE + info, first, *(["x"] * (lines - 1)), FENCE]) + "\n"
 
 
 class GuardTest(unittest.TestCase):
@@ -40,15 +40,17 @@ class GuardTest(unittest.TestCase):
 
     def test_line_cap(self) -> None:
         self.write("CLAUDE.md", "@AGENTS.md\n")
-        self.write("README.md", "x\n" * 50)
+        self.write("README.md", "x\n" * 80)
         self.write("design/a.md", DESIGN_OK + "x\n" * (150 - DESIGN_OK.count("\n")))
         self.assertEqual(self.messages(), [])
         self.write("CLAUDE.md", "@AGENTS.md\nmore\n")
+        self.write("README.md", "x\n" * 81)
         self.write("design/a.md", DESIGN_OK + "x\n" * 150)
         self.assertEqual(
             self.messages(),
             [
                 "CLAUDE.md:2: 2 lines exceed the cap of 1",
+                "README.md:81: 81 lines exceed the cap of 80",
                 "design/a.md:151: 161 lines exceed the cap of 150",
             ],
         )
@@ -80,6 +82,69 @@ class GuardTest(unittest.TestCase):
         self.assertEqual(
             self.messages(), ["notes.md:1: code block has 13 lines (max 12)"]
         )
+
+    def test_mermaid_blocks_are_uncapped(self) -> None:
+        self.write("notes.md", block(40, "flowchart LR", "mermaid"))
+        self.write("other.md", block(40, "graph TD", "Mermaid title"))
+        self.assertEqual(self.messages(), [])
+        self.write("other.md", block(13, "flowchart LR", "mermaidx"))
+        self.write("third.md", block(13, "mermaid"))
+        self.assertEqual(
+            self.messages(),
+            [
+                "other.md:1: code block has 13 lines (max 12)",
+                "third.md:1: code block has 13 lines (max 12)",
+            ],
+        )
+
+    def test_mermaid_fence_variants(self) -> None:
+        body = "\n".join(["flowchart LR", *(["x"] * 19)])
+        self.write("tilde.md", f"~~~mermaid\n{body}\n~~~\n")
+        self.write("indent.md", f"   ```Mermaid {{init}}\n{body}\n   ```\n")
+        self.write("long.md", f"````mermaid\n{body}\n```\n````\n")
+        self.assertEqual(self.messages(), [])
+        self.write("short.md", f"````mermaid\n{body}\n```\n")
+        self.assertEqual(self.messages(), ["short.md:1: unclosed fenced code block"])
+
+    def test_mermaid_blocks_keep_other_checks(self) -> None:
+        self.write("notes.md", block(20, "flowchart LR", "mermaid") + FENCE + "mermaid\n")
+        self.assertEqual(self.messages(), ["notes.md:23: unclosed fenced code block"])
+        self.write("notes.md", block(20, "%% TODO", "mermaid"))
+        self.assertEqual(self.messages(), ["notes.md:2: work marker TODO"])
+
+    def test_freshness_line(self) -> None:
+        self.write("STATE.md", "Last updated: 1791384000 (2026-10-07T14:40:00Z)\n# State\n")
+        self.assertEqual(self.messages(), [])
+        expected = "first line must be 'Last updated: <unix seconds> (<YYYY-MM-DDTHH:MM:SSZ>)'"
+        for text in (
+            "# State\n",
+            "",
+            "Last updated: 1791384000\n",
+            "Last updated: 1791384000 (2026-10-07 14:40:00Z)\n",
+            "last updated: 1791384000 (2026-10-07T14:40:00Z)\n",
+        ):
+            self.write("STATE.md", text)
+            self.assertEqual(self.messages(), [f"STATE.md:1: {expected}"], text)
+        self.write("STATE.md", "Last updated: 1791384001 (2026-10-07T14:40:00Z)\n")
+        self.assertEqual(
+            self.messages(),
+            ["STATE.md:1: 1791384001 is not 2026-10-07T14:40:00Z in unix seconds"],
+        )
+        self.write("STATE.md", "Last updated: 1791384000 (2026-02-30T14:40:00Z)\n")
+        self.assertEqual(
+            self.messages(), ["STATE.md:1: invalid timestamp: 2026-02-30T14:40:00Z"]
+        )
+        self.write("STATE.md", "Last updated: 1791384000 (2026-10-07T24:40:00Z)\n")
+        self.assertEqual(
+            self.messages(), ["STATE.md:1: invalid timestamp: 2026-10-07T24:40:00Z"]
+        )
+        self.write(
+            "STATE.md", "# State\nLast updated: 1791384000 (2026-10-07T14:40:00Z)\n"
+        )
+        self.assertEqual(self.messages(), [f"STATE.md:1: {expected}"])
+        self.write("design/STATE.md", "no freshness line here\n" + DESIGN_OK)
+        self.write("STATE.md", "Last updated: 1791384000 (2026-10-07T14:40:00Z)\n")
+        self.assertEqual(self.messages(), [])
 
     def test_code_block_exemption(self) -> None:
         exempt = frozenset({("notes.md", "name: CI")})

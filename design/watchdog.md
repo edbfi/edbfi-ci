@@ -25,9 +25,9 @@
 
 ## Parameters
 
-- Budgets: `ci.yml` 8 days; `immortality.yml` 32 days; EasyHDR audit 2 days; Miri 8 days; D8 schedulers per their cadence ([d8.md](d8.md#contract)).
-- Credential: PAT `edbfi-schedule-watchdog` (Actions RW, Metadata R on every in-scope public repo plus `edbfi-ci`). It doesn't exist yet; the owner creates it before S16.
-- Immortality credential: one PAT (Actions RW, Metadata R) covering every repo that carries `immortality.yml`, stored in each as `IMMORTALITY_TOKEN`.
+- Budgets: `ci.yml` 8 days; `immortality.yml` 32 days; EasyHDR audit 2 days; Miri 8 days; D8 schedulers per their cadence ([d8.md](d8.md#contract)); repo-patches `watch-hotio.yml` too (owner, 2026-10-07), its value set in S16.
+- Credential: PAT `edbfi-schedule-watchdog` (Actions RW, Metadata R on every in-scope public repo plus `edbfi-ci`); the owner creates it before S16.
+- Immortality credential: PAT `edbfi-workflow-immortality` (Actions RW, Metadata R, no expiry) covering every repo that carries `immortality.yml`, stored in each as the Actions secret `IMMORTALITY_TOKEN`. Coverage: [STATE.md](../STATE.md#github-state).
 - By owner decision (D19), `edbfi-ci-playground` and the scheduled hotio-family repos carry it too. The hotio family is outside this design ([repos.md](repos.md#contract) rule 3), so its copies guard on its default branch instead of main.
 - Upstream conditions and actions: [watch.yml](../watch.yml); schedule, permissions and dispatch inputs: [workflow](../.github/workflows/watch.yml); implementation: [watch.py](../tools/watch.py).
 - Preview locally: `uv run python tools/watch.py --dry-run` (authenticated `gh` required). For a manual condition, add `--manual <id>` only after verifying it. Dispatch defaults to dry-run; unset that input to publish issues. Local publishing must not overlap a workflow run.
@@ -42,7 +42,7 @@
 
 ## Open
 
-- watchdog-A1: what counts as activity for the 60-day rule (github-stats pushes, re-enabling, issues); `immortality.yml` relies on re-enabling. Closes when a repo's `disabled_inactivity` history, or GitHub documentation, settles it; until then both watchdogs run.
+- watchdog-A1: what counts as activity for the 60-day rule (github-stats pushes, re-enabling, issues); `immortality.yml` relies on re-enabling. Closes when a repo's `disabled_inactivity` history, or GitHub documentation, settles it; until then the design keeps both mechanisms (rules 1 and 11).
 
 ## Why
 

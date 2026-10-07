@@ -13,7 +13,7 @@
    5. this repo's shared hooks are added by frozen rev;
    6. gitleaks stays a local-only hook (`stages: [pre-commit]`): it runs `--staged`, so it does nothing under `--all-files`.
 5. Coverage-gap hooks MUST be added: lock freshness (`uv lock --check`); drizzle drift (obzorarr, setun); `biome-migrate` ([biome.md](biome.md#contract)); wtfnzb-adapter pytest; skills docendo tests and `node --check`; pelican-eggs `check-eggs.py` and `check-pair.py` (restored from `27fff0b^`); docrewind's Biome hook `files` widened to `.svelte`; isfuglen `build:assets` before `bun test`.
-6. Repos without a prek config (agent-rules, arrsenal-of-scripts, github-stats, homebrew-taps, pelican-eggs, mover-status, web-presentations, repo-patches, replex) MUST get the edbfi baseline plus local hooks.
+6. Repos without a prek config (agent-rules, arrsenal-of-scripts, github-stats, homebrew-taps, pelican-eggs, mover-status, repo-patches, replex) MUST get the edbfi baseline plus local hooks.
 7. Linter allowances MUST be exactly: Pages repos' `.github/actionlint.yaml` ignoring `queue`; the zizmor suppression `bot-conditions` in the Dependabot workflows; `dependabot-cooldown` on each `cooldown:` line.
 
 ### Shared hooks (`.pre-commit-hooks.yaml` in this repo)
@@ -27,13 +27,13 @@
 
 ## Parameters
 
-- Tools [V, 2026-09-30]: prek 0.5.4, actionlint 1.7.12, zizmor 1.30.1.
+- Tools [V, 2026-10-07]: prek 0.5.5, actionlint 1.7.12, zizmor 1.30.1.
 - A second CI run of the same config restores the prek cache and passes the Go actionlint hook [V, 2026-09-27]; gitleaks stays local-only.
 - Dependabot's `pre-commit` updater accepts `repo: builtin` and checks the remote hooks successfully [V, 2026-09-27].
 - Hook entries and filters: [manifest](../.pre-commit-hooks.yaml); implementations and tests: [hooks/](../hooks/). Both remote language modes pass against setun [V, 2026-09-27]; `script` avoids installing a second Bun environment.
 - Baseline: [Content](../templates/pre-commit.content.yaml). Stack additions: [Bun](../templates/pre-commit.bun-web.yaml), [Python](../templates/pre-commit.python.yaml), [Python + Bun](../templates/pre-commit.python-bun.yaml), [Rust](../templates/pre-commit.rust.yaml) (also replex), [Zig](../templates/pre-commit.zig.yaml), [Homebrew](../templates/pre-commit.homebrew.yaml), [Shell](../templates/pre-commit.shell.yaml), [Special](../templates/pre-commit.special.yaml), [dox](../templates/pre-commit.dox.yaml). Preserve existing project hooks and apply [repos.md](repos.md#parameters).
 - Pages allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml).
-- The 20 existing `prek.toml` configs convert 1:1 [V, 2026-09-27]: identical data, `prek validate-config` passes, `prek list` identical, `glob` excludes behave the same.
+- The existing `prek.toml` configs convert 1:1 [V, 2026-09-27]: identical data, `prek validate-config` passes, `prek list` identical, `glob` excludes behave the same.
 
 ## Verification
 

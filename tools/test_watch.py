@@ -62,7 +62,7 @@ class WatchTest(unittest.TestCase):
                 )
 
     def test_repository_config_and_versions(self) -> None:
-        self.assertEqual(len(watch.load(CONFIG)), 9)
+        self.assertEqual(len(watch.load(CONFIG)), 10)
         self.assertGreater(watch.version("v1.10.0"), watch.version("1.9.99"))
         self.assertEqual(watch.version("v2.5.14"), watch.version("2.5.14"))
         for value in ("latest", "1.2", "1.2.3-rc.1", "01.2.3", "1.2.3+meta"):
@@ -79,7 +79,7 @@ class WatchTest(unittest.TestCase):
             original.replace("kind: merged_pr", "kind: typo", 1),
             original.replace("number: 16071", "number: true"),
             original.replace("number: 16071", "number: -1"),
-            original.replace("above: 2.5.14", "above: latest"),
+            original.replace("above: 1.7.12", "above: latest"),
             original.replace("kind: manual", "kind: manual\n    surprise: true"),
             original.replace("repo: rhysd/actionlint", "repo: ../bad/path"),
         ):
@@ -188,7 +188,9 @@ class WatchTest(unittest.TestCase):
             "repos/edbfi/edbfi-ci/issues?state=all&per_page=100", paginate=True
         )
         write.assert_not_called()
-        self.assertEqual(output.getvalue().count("Would create:"), 9)
+        self.assertEqual(
+            output.getvalue().count("Would create:"), len(watch.load(CONFIG))
+        )
         self.assertIn("<!-- edbfi-watch:bun-v2 -->", output.getvalue())
 
     def test_existing_open_or_closed_issue_on_later_page_prevents_duplicates(
@@ -250,12 +252,13 @@ class WatchTest(unittest.TestCase):
 
     def test_failed_late_lookup_or_issue_listing_never_writes(self) -> None:
         error = subprocess.CalledProcessError(1, ["gh", "api"])
+        count = len(watch.load(CONFIG))
         cases: list[tuple[list[str | Exception], object]] = [
             (["fired", "fired", error], [[]]),
-            (["fired"] * 9, error),
-            (["fired"] * 9, {"message": "bad response"}),
-            (["fired"] * 9, [[{}]]),
-            (["fired"] * 9, [[{"body": 42}]]),
+            (["fired"] * count, error),
+            (["fired"] * count, {"message": "bad response"}),
+            (["fired"] * count, [[{}]]),
+            (["fired"] * count, [[{"body": 42}]]),
         ]
         for results, pages in cases:
             with (

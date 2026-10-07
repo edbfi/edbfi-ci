@@ -5,11 +5,6 @@ triggers:
     repo: dependabot/dependabot-core
     number: 16071
     action: Pilot Bun lockfile v2 updates, restore the commented Bun blocks after a successful pilot, and pilot biome-migrate.yml (design/dependabot.md and design/biome.md).
-  - id: biome-const
-    kind: npm_release
-    package: '@biomejs/biome'
-    above: 2.5.14
-    action: Check the seven {@const} repos go green, then re-check docrewind's formatter overrides (B4 in DECISIONS.md).
   - id: actionlint-queue
     kind: github_release
     repo: rhysd/actionlint
@@ -41,3 +36,13 @@ triggers:
     package: playwright
     above: 1.63.999
     action: Playwright 1.64 carries the Chromium fix for microsoft/playwright#41802 (a request sent while a one-shot route with times 1 expires is never continued). Once poyo-studio pins it (monthly manual Bun update, design/dependabot.md rule 8), remove the standing route.fallback() routes for JOB-17 (edbfi/poyo-studio#84) and E2E-01..15 (edbfi/poyo-studio#87) from tests/e2e/studio-flows.browser.ts and confirm the studio-flows tests pass in repeated runs without them.
+  - id: hotio-manifest-retry-cleanup
+    kind: merged_pr
+    repo: hotio/base
+    number: 30
+    action: Delete the edbfi/base-image branch fix/manifest-retry-cleanup (the head of hotio/base#30); the next sync-hotio.yml run mirrors the merged fix.
+  - id: obzorarr-kit3-release
+    kind: github_release
+    repo: edbfi/obzorarr
+    above: 0.1.11
+    action: Inspect the latest release's tag and source. Once a plain X.Y.Z release contains SvelteKit 3, use a workflows PR into obzorarr-docker's release branch (design/repos.md rule 8) to remove the obsolete scripts/serve.ts* copies and the bun start entry, checking the remaining differences against nightly. Keep the issue open until that release exists.
