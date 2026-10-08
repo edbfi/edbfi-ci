@@ -4,7 +4,7 @@
 
 1. `pr-policy.yml` MUST trigger on `pull_request` `[opened, edited, reopened, synchronize]` and provide the required check `pr-policy`.
 2. It MUST have `permissions: {}`, with only `pull-requests: read` on the job. It MUST NOT check out or run PR code.
-3. Concurrency MUST be `pr-policy-<PR>-<event head SHA>` with cancel-in-progress, separate from `ci.yml`, so title edits never cancel CI.
+3. It MUST NOT set `concurrency`: no `pr-policy` run cancels another, and title edits never cancel `ci.yml`.
 4. The first step MUST be one API read, `gh api repos/{repo}/pulls/{n}`, for `title`, `head.sha` and `commits`, and MUST fail unless all are non-empty. Later checks MUST use these values, never the event payload.
 5. The title MUST match the Conventional Commits header `type(scope)!: description`: scope and `!` optional, case-insensitive, no type allowlist, no length limit. The title MUST reach the script through `env:`, never inline.
 6. If any commit uses `!` or a `BREAKING CHANGE:`/`BREAKING-CHANGE:` footer, the title MUST contain `!`.
@@ -16,7 +16,8 @@
 
 - Workflow and inline validation: [pr-policy.yml](../templates/pr-policy.yml).
 - The commits endpoint returns at most 250 commits; a PR with more fails closed by rule 7.
-- Title failure then correction on one SHA blocks then restores mergeability [V, 2026-09-27]. Re-running an older run uses the current title, but if it cancels a newer edit run, re-run that newer run too.
+- Title failure then correction on one SHA blocks then restores mergeability [V, 2026-09-27]. Re-running an older run uses the current title.
+- GitHub takes the newest run as the required `pr-policy` result, even a cancelled one: a Dependabot rebase (`synchronize` and `edited` on one head) left the cancelled run newest and blocked a green PR [V, 2026-10-08, playground].
 
 - Auto-merge without `--subject` uses the title at merge time; a failed title check blocks an enabled merge [V, 2026-09-30, playground].
 - Dependabot signs off with `support@github.com`, distinct from its commit-author email; the same-repo bot exemption passes [V, 2026-09-30, playground].
@@ -28,6 +29,7 @@
 - An unsigned human commit fails; a Dependabot PR with only bot commits passes; a human commit pushed to it without sign-off fails.
 - Editing the title re-runs `pr-policy` without cancelling `ci.yml`.
 - Re-running an old run after a title fix uses the current title.
+- A Dependabot rebase starts two `pr-policy` runs on one head; both finish and the PR merges.
 
 ## Open
 
@@ -38,3 +40,4 @@
 - Re-runs replay old payloads, so the API read is the source of truth.
 - Inline `${{ }}` titles are a script-injection vector.
 - The squash commit takes the PR title, so the title is what lands on main.
+- Each run reads the PR at run time and takes seconds, so a duplicate run costs nothing, while a cancelled one can block the merge.

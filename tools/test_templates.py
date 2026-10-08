@@ -153,6 +153,17 @@ class TemplateContractTest(unittest.TestCase):
                     self.assertIn("needs.ci-ok.result == 'success'", str(deploy["if"]))
                     self.assertEqual(mapping(deploy["concurrency"])["queue"], "max")
 
+    def test_pr_policy_never_cancels(self) -> None:
+        for path in (
+            TEMPLATES / "pr-policy.yml",
+            ROOT / ".github/workflows/pr-policy.yml",
+        ):
+            with self.subTest(path=path.name):
+                workflow = load(path)
+                self.assertNotIn("concurrency", workflow)
+                for job in mapping(workflow["jobs"]).values():
+                    self.assertNotIn("concurrency", mapping(job))
+
     def test_ci_gate_results(self) -> None:
         for path in TEMPLATES.glob("ci-*.yml"):
             gate = script(path.name, "ci-ok")
