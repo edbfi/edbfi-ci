@@ -21,6 +21,9 @@ jobs:
         with: { persist-credentials: false }
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with: { bun-version-file: package.json }
+      # SvelteKit 3 repos only (design/ci.md rule 8); drop in docrewind.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: { node-version-file: .node-version }
       - run: bun ci
       - uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
         with: { extra-args: "--all-files --hook-stage manual" }
@@ -33,6 +36,9 @@ jobs:
         with: { persist-credentials: false }
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with: { bun-version-file: package.json }
+      # SvelteKit 3 repos only (design/ci.md rule 8); drop in docrewind.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with: { node-version-file: .node-version }
       - run: bun ci
       - run: bun run build
       - run: bun run smoke
