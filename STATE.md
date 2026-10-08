@@ -1,4 +1,4 @@
-Last updated: 1791497786 (2026-10-08T22:16:26Z)
+Last updated: 1791502849 (2026-10-08T23:40:49Z)
 
 # State
 
@@ -18,7 +18,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | S7 | core pilot: obzorarr | done | [obzorarr#237](https://github.com/edbfi/obzorarr/pull/237), [#28](https://github.com/edbfi/edbfi-ci/pull/28) |
 | S8 | core pilot: wtfnzb-adapter | done | [wtfnzb-adapter#7](https://github.com/edbfi/wtfnzb-adapter/pull/7), [wtfnzb-adapter#10](https://github.com/edbfi/wtfnzb-adapter/pull/10), [#29](https://github.com/edbfi/edbfi-ci/pull/29) |
 | S9 | core pilot: edbfi | done | [edbfi#35](https://github.com/edbfi/edbfi/pull/35), [#30](https://github.com/edbfi/edbfi-ci/pull/30), [#31](https://github.com/edbfi/edbfi-ci/pull/31) |
-| S10 | core rollout: Bun web | pending | — |
+| S10 | core rollout: Bun web | done | [guides#83](https://github.com/edbfi/guides/pull/83), [#85](https://github.com/edbfi/guides/pull/85); [isfuglen#70](https://github.com/edbfi/isfuglen/pull/70), [#72](https://github.com/edbfi/isfuglen/pull/72); [yt-redirect#88](https://github.com/edbfi/yt-redirect/pull/88), [#90](https://github.com/edbfi/yt-redirect/pull/90); [docrewind#178](https://github.com/edbfi/docrewind/pull/178), [#180](https://github.com/edbfi/docrewind/pull/180); [otpravkarr#156](https://github.com/edbfi/otpravkarr/pull/156), [#158](https://github.com/edbfi/otpravkarr/pull/158); [poyo-studio#95](https://github.com/edbfi/poyo-studio/pull/95), [#97](https://github.com/edbfi/poyo-studio/pull/97); [setun#112](https://github.com/edbfi/setun/pull/112), [#116](https://github.com/edbfi/setun/pull/116); [#32](https://github.com/edbfi/edbfi-ci/pull/32) |
 | S11 | core rollout: Python | pending | — |
 | S12 | core rollout: Native | pending | — |
 | S13 | core rollout: Shell + Content | pending | — |
@@ -32,7 +32,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 ## Repos
 
-Only portaler, obzorarr, wtfnzb-adapter and edbfi have the core rollout [V, 2026-10-08]; no other target repo has `ci.yml`, `pr-policy.yml`, `dependabot.yml`, a ruleset or auto-merge, only icarus-bevy has a `.pre-commit-config.yaml`, and 16 still have a `prek.toml`. `—` means not rolled out.
+The core rollout is in portaler, obzorarr, wtfnzb-adapter, edbfi and the Bun web tier (S10) [V, 2026-10-09]; no other target repo has `ci.yml`, `pr-policy.yml`, `dependabot.yml`, a ruleset or auto-merge, only icarus-bevy has a `.pre-commit-config.yaml`, and 9 still have a `prek.toml`. `—` means not rolled out.
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
@@ -41,13 +41,13 @@ Only portaler, obzorarr, wtfnzb-adapter and edbfi have the core rollout [V, 2026
 | obzorarr | Bun web | S7 | live; push CI verified | live | active | live; Dependabot merge observed ([#238](https://github.com/edbfi/obzorarr/pull/238)) | — | B1 |
 | wtfnzb-adapter | Python | S8 | live; push CI and audit verified | live | active | live; Dependabot merges observed ([#8](https://github.com/edbfi/wtfnzb-adapter/pull/8), [#9](https://github.com/edbfi/wtfnzb-adapter/pull/9)) | — | — |
 | edbfi | Content | S9 | live; push CI verified | live | active | live; Dependabot merge observed ([#36](https://github.com/edbfi/edbfi/pull/36)) | — | — |
-| guides | Bun web | S10 | — | — | — | — | `gh-pages` branch | B1 |
-| isfuglen | Bun web | S10 | — | — | — | — | `gh-pages` branch | B1 |
-| yt-redirect | Bun web | S10 | — | — | — | — | `gh-pages` branch | B1 |
-| docrewind | Bun web | S10 | — | — | — | — | — | B1 |
-| otpravkarr | Bun web | S10 | — | — | — | — | — | B1 |
-| poyo-studio | Bun web | S10 | — | — | — | — | — | B1 |
-| setun | Bun web | S10 | — | — | — | — | — | B1 |
+| guides | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#84](https://github.com/edbfi/guides/pull/84)) | Actions (`gh-pages` branch kept) | B1 |
+| isfuglen | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#71](https://github.com/edbfi/isfuglen/pull/71)) | Actions (`gh-pages` branch kept) | B1 |
+| yt-redirect | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#89](https://github.com/edbfi/yt-redirect/pull/89)) | Actions (`gh-pages` branch kept) | B1 |
+| docrewind | Bun web | S10 | live; push CI verified; `audit` red (braces, node-forge: no fixed release) | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | B1 |
+| otpravkarr | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | B1 |
+| poyo-studio | Bun web | S10 | live; push CI verified (macOS media-tools included) | live | active | live; Dependabot merge observed ([#96](https://github.com/edbfi/poyo-studio/pull/96)) | — | B1 |
+| setun | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merges observed ([#113](https://github.com/edbfi/setun/pull/113), [#114](https://github.com/edbfi/setun/pull/114), [#115](https://github.com/edbfi/setun/pull/115)) | — | B1 |
 | zondarr | Python | S11 | — | — | — | — | — | B1, B6 |
 | guide-capture | Python | S11 | — | — | — | — | — | — |
 | arrsenal-of-scripts | Python | S11 | — | — | — | — | — | — |
@@ -73,12 +73,12 @@ Only portaler, obzorarr, wtfnzb-adapter and edbfi have the core rollout [V, 2026
 All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repos' drift.
 
 - Actions is enabled in all 42 non-archived repositories. Pullfrog's workflow is on the default branch of all but icarus-bevy and printlab-project.
-- `immortality.yml` and its `IMMORTALITY_TOKEN` are in the 15 repos with a scheduled workflow: edbfi-ci, edbfi-ci-playground, portaler, obzorarr, wtfnzb-adapter, edbfi [V, 2026-10-08], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
-- Rulesets exist only in edbfi-ci, edbfi-ci-playground, portaler, obzorarr, wtfnzb-adapter and edbfi, all in the D21 shape [V, 2026-10-08]; no repo has classic branch protection.
-- Every target repo except portaler, obzorarr, wtfnzb-adapter and edbfi: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off (on in 3d-designs, icarus-bevy and printlab-project [V, 2026-10-08]). Merge commits are allowed in replex, which doesn't delete merged branches.
-- Default `GITHUB_TOKEN` permission is write, and "Allow GitHub Actions to create and approve pull requests" is on, in docrewind, eksamen, guide-capture, guides, isfuglen, replex and yt-redirect; the latter is also on in homebrew-taps.
+- `immortality.yml` and its `IMMORTALITY_TOKEN` are in the 22 repos with a scheduled workflow: edbfi-ci, edbfi-ci-playground, the rolled-out target repos [V, 2026-10-09], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
+- Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-09]; no repo has classic branch protection.
+- Every target repo not yet rolled out: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off (on in 3d-designs, icarus-bevy and printlab-project [V, 2026-10-08]). Merge commits are allowed in replex, which doesn't delete merged branches.
+- Default `GITHUB_TOKEN` permission is write, and "Allow GitHub Actions to create and approve pull requests" is on, in eksamen, guide-capture and replex; the latter is also on in homebrew-taps.
 - `web_commit_signoff_required` is off in replex and dox.
-- The `gh-pages` deploy workflows of guides, isfuglen and yt-redirect are gone; portaler deploys from `ci.yml` [V, 2026-10-08].
+- guides, isfuglen, portaler and yt-redirect deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
 - Stale workflow registrations (no file on the default branch): isfuglen `ping.yml`; docrewind `opencode.yml`, `ai-review.yml`, `pr-review-ci.yml`, `pr-review-collect.yml`; github-stats `token-permission-probe.yml`; mover-status `e2e-mover-test.yml`; comradarr `integration.yaml`; replex `ci.yml`; `ci` in otpravkarr-, obzorarr- and zondarr-docker and `build-nightly` in obzorarr-docker (on no branch).
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 32 repos: every public target, edbfi-ci, edbfi-ci-playground (its own repository-scoped PAT) and wings-vpn. Actions copies exist in every public target except 3d-designs, icarus-bevy and printlab-project, and in wings-vpn. PAT `edbfi-dependabot-auto-merge` covers 31 repos [owner, 2026-10-08], wings-vpn and replex among them ([auto-merge.md](design/auto-merge.md#contract) rules 5 and 7 exclude both) [V, 2026-10-08].
 - The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos; github-stats has `STATS_READ_TOKEN`. EasyHDR lacks `VT_API_KEY` for S18; homebrew-taps lacks the write deploy key its S12 ruleset and S19 updater need; neither edbfi-ci nor github-stats has the S16 watchdog secret yet.
@@ -88,6 +88,8 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 ## Open items
 
+- docrewind: `audit` is red for braces (GHSA-vfj7-8cjw-p6xm) and node-forge (GHSA-86w9-cpqp-85rv), which have no fixed release; owner decision: a documented `--ignore` ([dependabot.md](design/dependabot.md#contract) rule 8.3) or waiting (`braces-fix`, `node-forge-fix` in [watch.yml](watch.yml)).
+- setun: Docker and Compose Dependabot updates auto-merge on host-only checks, which never build or run an image (#113 took CLIProxyAPI v7 → v8 and Caddy 2.11); owner decision: widen setun's row in [repos.md](design/repos.md#parameters) with a container check, or accept the risk ([auto-merge.md](design/auto-merge.md#contract) rule 1).
 - obzorarr, otpravkarr, zondarr: without `ORIGIN` (no front) a SIGHUP kills the app without a drain, and a stop lingers past the drain deadline while the app awaits an upstream (11-19 s with `SHUTDOWN_TIMEOUT=2`); zondarr's `/api/[...path]` proxy call has no timeout.
 - setun: a chat stream whose first event hasn't arrived by the drain deadline gets the front's 503 instead of a clean end.
 - otpravkarr: the e2e runs leave `otpravkarr-e2e-*` directories in `$TMPDIR` (`playwright.config.ts` has no teardown).

@@ -62,7 +62,7 @@ class WatchTest(unittest.TestCase):
                 )
 
     def test_repository_config_and_versions(self) -> None:
-        self.assertEqual(len(watch.load(CONFIG)), 11)
+        self.assertEqual(len(watch.load(CONFIG)), 14)
         self.assertGreater(watch.version("v1.10.0"), watch.version("1.9.99"))
         self.assertEqual(watch.version("v2.5.14"), watch.version("2.5.14"))
         for value in ("latest", "1.2", "1.2.3-rc.1", "01.2.3", "1.2.3+meta"):
