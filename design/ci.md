@@ -45,6 +45,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 | Content | [Content](../templates/ci-content.yml), [static Pages](../templates/ci-content-pages.yml) |
 | Special | [repo-patches](../templates/ci-special.yml), [replex](../templates/ci-replex.yml), [dox](../templates/ci-dox.yml) |
 
+- The uv `audit` invocation fails on a locked advisory and passes once it is fixed [V, 2026-10-08, wtfnzb-adapter#7, #10].
 - Pins, schedules, runners and commands live in those templates. Runner architectures were verified [V, 2026-09-27]; re-check at rollout (ci-A2).
 - Pages linter allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml), copied to `.github/actionlint.yaml`.
 - Pullfrog: [setup](https://docs.pullfrog.com/getting-started), [account-scoped Claude auth](https://docs.pullfrog.com/claude-auth), [review configuration](https://docs.pullfrog.com/pr-reviews), and [CLI settings](https://docs.pullfrog.com/cli-configuration). A SHA pins its action bootstrap; its npm runtime still follows the upstream major ([versioning](https://docs.pullfrog.com/versioning)).
@@ -64,7 +65,6 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 
 - ci-A1: whether the dependency graph covers uv transitive packages. Closes when a project's SBOM export (`gh api repos/{repo}/dependency-graph/sbom`) lists its locked transitive packages at their locked versions; then drop that `audit` entry.
 - ci-A2: `macos-latest` staying arm64, and `ubuntu-latest`'s generation for the ARM64 label. Closes per change: re-check the runner-images README when homebrew-taps rolls out (S12, S19).
-- ci-A3: the exact `uv export` / `pip-audit` invocation. Closes with a green `audit` run in the wtfnzb-adapter pilot (S8).
 - ci-A4: Node for the remaining SvelteKit 3 repos (otpravkarr, poyo-studio, setun, zondarr/frontend): until each rollout adds `.node-version` and `setup-node` (rule 8), they run on the runner image's Node. obzorarr does so [V, 2026-10-08, obzorarr#237]. Closes with the last of those rollouts (S10, S11).
 
 ## Why

@@ -27,7 +27,7 @@
 
 ## Parameters
 
-- Tools [V, 2026-10-07]: prek 0.5.5, actionlint 1.7.12, zizmor 1.30.1.
+- Tools [V, 2026-10-08]: prek 0.5.5, actionlint 1.7.12, zizmor 1.30.1.
 - A second CI run of the same config restores the prek cache and passes the Go actionlint hook [V, 2026-09-27]; gitleaks stays local-only.
 - Dependabot's `pre-commit` updater accepts `repo: builtin` and checks the remote hooks successfully [V, 2026-09-27].
 - Hook entries and filters: [manifest](../.pre-commit-hooks.yaml); implementations and tests: [hooks/](../hooks/). Both remote language modes pass against setun [V, 2026-09-27]; `script` avoids installing a second Bun environment.

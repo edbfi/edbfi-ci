@@ -22,6 +22,7 @@
 
 - Every `bun.lock` in the Bun directories of [repos.md](repos.md#parameters) is lockfile v2 [V, 2026-10-07].
 - The template cooldown exclusion permits updates less than 3 days after release [V, 2026-09-30, playground].
+- A security PR opened before `dependabot.yml` lands can't be rebased afterwards, and closing it doesn't make Dependabot recreate it, so a rollout turns on security updates only after its rollout PR merges [V, 2026-10-08, wtfnzb-adapter#6].
 
 ## Verification
 
