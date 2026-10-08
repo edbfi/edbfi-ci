@@ -164,6 +164,27 @@ class TemplateContractTest(unittest.TestCase):
                 for job in mapping(workflow["jobs"]).values():
                     self.assertNotIn("concurrency", mapping(job))
 
+    def test_sveltekit_templates_set_node_before_install(self) -> None:
+        for name, node_file in (
+            ("ci-bun-web.yml", ".node-version"),
+            ("ci-python-bun.yml", "frontend/.node-version"),
+        ):
+            jobs = mapping(load(TEMPLATES / name)["jobs"])
+            for job in ("checks", "smoke"):
+                with self.subTest(template=name, job=job):
+                    steps = [mapping(step) for step in items(mapping(jobs[job])["steps"])]
+                    uses = [str(step.get("uses", "")) for step in steps]
+                    bun = next(i for i, u in enumerate(uses) if u.startswith("oven-sh/setup-bun@"))
+                    node = next(i for i, u in enumerate(uses) if u.startswith("actions/setup-node@"))
+                    install = next(
+                        i for i, step in enumerate(steps) if "bun ci" in str(step.get("run", ""))
+                    )
+                    self.assertLess(bun, node)
+                    self.assertLess(node, install)
+                    self.assertEqual(
+                        mapping(steps[node]["with"])["node-version-file"], node_file
+                    )
+
     def test_ci_gate_results(self) -> None:
         for path in TEMPLATES.glob("ci-*.yml"):
             gate = script(path.name, "ci-ok")

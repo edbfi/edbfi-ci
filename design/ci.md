@@ -9,7 +9,7 @@
 5. Jobs that never run on PRs (`audit`, `deploy`) MUST stay out of `ci-ok`.
 6. Every workflow MUST start with `permissions: {}`. Every job MUST have minimal grants and `timeout-minutes`; every checkout MUST set `persist-credentials: false`.
 7. Every action MUST be pinned to a full SHA with a `# vX.Y.Z` comment, which Dependabot updates together. `pull_request_target` MUST NOT be used anywhere.
-8. Toolchains MUST come from repo files: `setup-bun` with `bun-version-file: package.json`, `setup-uv` with `.python-version`, `rust-toolchain.toml`, `setup-zig` reading `build.zig.zon`, and in SvelteKit 3 repos `setup-node` with `node-version-file: .node-version` before the install (Kit 3 needs Node ≥22.17 for `svelte-kit sync`, `svelte-check`, `drizzle-kit`, Vitest and Playwright).
+8. Toolchains MUST come from repo files: `setup-bun` with `bun-version-file: package.json`, `setup-uv` with `.python-version`, `rust-toolchain.toml`, `setup-zig` reading `build.zig.zon`, and for a SvelteKit 3 app `setup-node` with `node-version-file` pointing at the `.node-version` in the app's directory, before the install (Kit 3 needs Node ≥22.17 for `svelte-kit sync`, `svelte-check`, `drizzle-kit`, Vitest and Playwright).
 9. Installs MUST be frozen: `bun ci`, or `bun ci --ignore-scripts` with required project preparation run explicitly, omitting lifecycle steps that only install Git hooks; `uv sync --locked`; `cargo … --locked`.
 10. Runners MUST use `-latest` labels (D12). Linux ARM64 has none, so it uses the `ubuntu-<gen>-arm` label of `ubuntu-latest`'s generation.
 11. CI MUST call repo-local commands (`scripts/smoke.*`, package scripts), so every check also runs locally.
