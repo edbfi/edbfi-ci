@@ -1,4 +1,4 @@
-Last updated: 1791503147 (2026-10-08T23:45:47Z)
+Last updated: 1791503406 (2026-10-08T23:50:06Z)
 
 # State
 
@@ -44,7 +44,7 @@ The core rollout is in portaler, obzorarr, wtfnzb-adapter, edbfi and the Bun web
 | guides | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#84](https://github.com/edbfi/guides/pull/84)) | Actions (`gh-pages` branch kept) | B1 |
 | isfuglen | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#71](https://github.com/edbfi/isfuglen/pull/71)) | Actions (`gh-pages` branch kept) | B1 |
 | yt-redirect | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#89](https://github.com/edbfi/yt-redirect/pull/89)) | Actions (`gh-pages` branch kept) | B1 |
-| docrewind | Bun web | S10 | live; push CI verified; `audit` red (braces, node-forge: no fixed release) | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | B1 |
+| docrewind | Bun web | S10 | live; push CI verified; `audit` red ([Open items](#open-items)) | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | B1 |
 | otpravkarr | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | B1 |
 | poyo-studio | Bun web | S10 | live; push CI verified (macOS media-tools included) | live | active | live; Dependabot merge observed ([#96](https://github.com/edbfi/poyo-studio/pull/96)) | — | B1 |
 | setun | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merges observed ([#113](https://github.com/edbfi/setun/pull/113), [#114](https://github.com/edbfi/setun/pull/114), [#115](https://github.com/edbfi/setun/pull/115)) | — | B1 |

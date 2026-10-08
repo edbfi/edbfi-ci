@@ -64,7 +64,6 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 
 Stale CI references, fixed in each repo's rollout PR:
 
-- isfuglen `astro.config.mjs:11-12`; yt-redirect `e2e/converter.spec.ts:6-9`, `playwright.config.ts:9,19-21`
 - homebrew-taps `Casks/*/*.rb:1`, `scripts/lib/common.sh:6`, `scripts/discover.sh:2-4`, `.gitignore:4`
 - github-stats `README.md:3-6`
 
