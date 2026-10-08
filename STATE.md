@@ -1,4 +1,4 @@
-Last updated: 1791409449 (2026-10-07T21:44:09Z)
+Last updated: 1791473293 (2026-10-08T15:28:13Z)
 
 # State
 
@@ -14,7 +14,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | S3 | weekly upstream watcher with deduplicated issues and dry-run | done | [#4](https://github.com/edbfi/edbfi-ci/pull/4) |
 | S4 | shared Dependabot merge path verified | done | [#5](https://github.com/edbfi/edbfi-ci/pull/5), [#6](https://github.com/edbfi/edbfi-ci/pull/6), [#7](https://github.com/edbfi/edbfi-ci/pull/7), [#8](https://github.com/edbfi/edbfi-ci/pull/8) |
 | S5 | Phase 0 in target repos: B2 fixes, Hotio workflow pinning, default-branch check | done | [#10](https://github.com/edbfi/edbfi-ci/pull/10), [#14](https://github.com/edbfi/edbfi-ci/pull/14), [#20](https://github.com/edbfi/edbfi-ci/pull/20), [#23](https://github.com/edbfi/edbfi-ci/pull/23) |
-| S6 | core pilot: portaler | in progress (owner: immortality PAT) | [portaler#119](https://github.com/edbfi/portaler/pull/119) |
+| S6 | core pilot: portaler | in progress (D21 ruleset decided; next: portaler ruleset) | [portaler#119](https://github.com/edbfi/portaler/pull/119), [#25](https://github.com/edbfi/edbfi-ci/pull/25) |
 | S7 | core pilot: obzorarr | pending | — |
 | S8 | core pilot: wtfnzb-adapter | pending | — |
 | S9 | core pilot: edbfi | pending | — |
@@ -71,7 +71,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 - Actions is enabled in all 42 non-archived repositories. Pullfrog's workflow is on the default branch of all but icarus-bevy and printlab-project.
 - `immortality.yml` and its `IMMORTALITY_TOKEN` are in the 11 repos with a scheduled workflow: edbfi-ci, edbfi-ci-playground, repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01.
-- Rulesets exist only in edbfi-ci and edbfi-ci-playground; no repo has classic branch protection.
+- Rulesets exist only in edbfi-ci and edbfi-ci-playground, both in the D21 shape [V, 2026-10-08]; no repo has classic branch protection.
 - Every target repo: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off. Secret scanning and push protection are on only in wtfnzb-adapter. Merge commits are allowed in wtfnzb-adapter and replex; replex doesn't delete merged branches.
 - Default `GITHUB_TOKEN` permission is write, and "Allow GitHub Actions to create and approve pull requests" is on, in docrewind, eksamen, guide-capture, guides, isfuglen, portaler, replex and yt-redirect; the latter is also on in homebrew-taps.
 - `web_commit_signoff_required` is off in replex, wtfnzb-adapter and dox.
