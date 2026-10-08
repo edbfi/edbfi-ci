@@ -29,6 +29,7 @@
 - Workflow: [dependabot-auto-merge.yml](../templates/dependabot-auto-merge.yml).
 - GitHub rejects `--auto --match-head-commit` with an outdated SHA [V, 2026-09-30].
 - A repository-scoped fine-grained PAT merges both immediately and after required checks recover, including workflow updates, and starts push CI on the squash SHA [V, 2026-09-30, playground].
+- A PAT merge of a Dependabot PR starts push CI and the gated Pages deployment [V, 2026-10-08, portaler#120].
 
 ## Verification
 
@@ -41,7 +42,7 @@
 
 ## Open
 
-- automerge-A1: that PAT merges trigger the gated Pages deployment. Closes with an observed deployment in the portaler pilot (S6).
+- None.
 
 ## Why
 
