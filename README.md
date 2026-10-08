@@ -44,6 +44,7 @@ flowchart LR
   checks --> gate{"required checks pass<br/>and auto-merge enabled"}
   enabled --> gate
   gate --> merge[squash merge to the default branch] --> push["push run of ci.yml<br/>(Pages: deploy after ci-ok and tip check)"]
+  owner["owner fix<br/>(direct push, admin bypass)"] --> push
 ```
 
 ## Scheduled automation
