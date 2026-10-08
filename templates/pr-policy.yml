@@ -5,9 +5,6 @@ on:
     types: [opened, edited, reopened, synchronize]
 permissions: {}
 defaults: { run: { shell: bash } }
-concurrency:
-  group: pr-policy-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
-  cancel-in-progress: true
 jobs:
   pr-policy:
     runs-on: ubuntu-latest
