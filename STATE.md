@@ -1,4 +1,4 @@
-Last updated: 1791471269 (2026-10-08T14:54:29Z)
+Last updated: 1791471428 (2026-10-08T14:57:08Z)
 
 # State
 
@@ -14,7 +14,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | S3 | weekly upstream watcher with deduplicated issues and dry-run | done | [#4](https://github.com/edbfi/edbfi-ci/pull/4) |
 | S4 | shared Dependabot merge path verified | done | [#5](https://github.com/edbfi/edbfi-ci/pull/5), [#6](https://github.com/edbfi/edbfi-ci/pull/6), [#7](https://github.com/edbfi/edbfi-ci/pull/7), [#8](https://github.com/edbfi/edbfi-ci/pull/8) |
 | S5 | Phase 0 in target repos: B2 fixes, Hotio workflow pinning, default-branch check | done | [#10](https://github.com/edbfi/edbfi-ci/pull/10), [#14](https://github.com/edbfi/edbfi-ci/pull/14), [#20](https://github.com/edbfi/edbfi-ci/pull/20), [#23](https://github.com/edbfi/edbfi-ci/pull/23) |
-| S6 | core pilot: portaler | in progress (D21 ruleset decided; next: portaler ruleset) | [portaler#119](https://github.com/edbfi/portaler/pull/119) |
+| S6 | core pilot: portaler | in progress (D21 ruleset decided; next: portaler ruleset) | [portaler#119](https://github.com/edbfi/portaler/pull/119), [#25](https://github.com/edbfi/edbfi-ci/pull/25) |
 | S7 | core pilot: obzorarr | pending | — |
 | S8 | core pilot: wtfnzb-adapter | pending | — |
 | S9 | core pilot: edbfi | pending | — |
