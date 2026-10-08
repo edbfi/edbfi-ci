@@ -13,7 +13,7 @@
    5. this repo's shared hooks are added by frozen rev;
    6. gitleaks stays a local-only hook (`stages: [pre-commit]`): it runs `--staged`, so it does nothing under `--all-files`.
 5. Coverage-gap hooks MUST be added: lock freshness (`uv lock --check`); drizzle drift (obzorarr, setun); `biome-migrate` ([biome.md](biome.md#contract)); wtfnzb-adapter pytest; skills docendo tests and `node --check`; pelican-eggs `check-eggs.py` and `check-pair.py` (restored from `27fff0b^`); docrewind's Biome hook `files` widened to `.svelte`; isfuglen `build:assets` before `bun test`.
-6. Repos without a prek config (agent-rules, arrsenal-of-scripts, github-stats, homebrew-taps, pelican-eggs, mover-status, repo-patches, replex) MUST get the edbfi baseline plus local hooks.
+6. Repos without a prek config (agent-rules, arrsenal-of-scripts, github-stats, homebrew-taps, pelican-eggs, mover-status, printlab-project, repo-patches, replex) MUST get the edbfi baseline plus local hooks.
 7. Linter allowances MUST be exactly: Pages repos' `.github/actionlint.yaml` ignoring `queue`; the zizmor suppression `bot-conditions` in the Dependabot workflows; `dependabot-cooldown` on each `cooldown:` line.
 
 ### Shared hooks (`.pre-commit-hooks.yaml` in this repo)
