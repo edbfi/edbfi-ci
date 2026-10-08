@@ -16,15 +16,15 @@
 
 ## Parameters
 
-Tiers: 26 public in-scope repos plus private dox; `edbfi-ci` itself is outside the tiers. GitHub default branches match rule 1 [V, 2026-10-07].
+Tiers: 29 public in-scope repos plus private dox; `edbfi-ci` itself is outside the tiers. GitHub default branches match rule 1 [V, 2026-10-07].
 
 | Tier | Repos | Stack |
 |---|---|---|
 | Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); obzorarr, otpravkarr, poyo-studio, setun (SvelteKit 3 with `@sveltejs/adapter-bun` + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose) | Bun 1.4.2 (`packageManager` required by agent rules), Biome 2.5 |
-| Python | zondarr (Litestar `backend/` uv, SvelteKit 3 `frontend/` bun with `@sveltejs/adapter-bun`, root bun for Biome/prek); wtfnzb-adapter (Litestar, uv); guide-capture (bash + stdlib Python + Node, needs macOS arm64); arrsenal-of-scripts (shell/zsh/Python) | uv |
+| Python | zondarr (Litestar `backend/` uv, SvelteKit 3 `frontend/` bun with `@sveltejs/adapter-bun`, root bun for Biome/prek); wtfnzb-adapter (Litestar, uv); guide-capture (bash + stdlib Python + Node, needs macOS arm64); arrsenal-of-scripts (shell/zsh/Python); printlab-project (docs + stdlib Python gateway tooling) | uv |
 | Native | EasyHDR (Rust 1.98.1, Windows-only Slint GUI, `fuzz/` crate, cargo-deny); github-stats (Zig 0.16, default branch `master`); homebrew-taps (casks + Linux formulae + bash/python pipeline) | |
 | Shell | pelican-eggs, mover-status | |
-| Content | edbfi, comradarr, zimuarr (docs only); agent-rules; skills; eksamen (static site in `docs/`, Pages) | |
+| Content | edbfi, comradarr, zimuarr (docs only); agent-rules; skills; eksamen (static site in `docs/`, Pages); 3d-designs (OpenSCAD designs with generated print files); icarus-bevy (Rust + Bevy server, no Cargo project yet) | |
 | Special | repo-patches (stdlib Python tooling; scheduled `watch-hotio.yml` and dispatched `sync-hotio.yml` generate the base-image and website mirrors of Hotio); replex (Rust fork; its advisory CI's failures are accepted); dox (private, Free plan) | |
 
 Hotio-family credentials (revoke neither PAT): repo-patches' `PERSONAL_TOKEN` is PAT `edbfi-hotio-mirror-sync` (Contents and Workflows RW on base-image and website); base-image's and the docker repos' `PERSONAL_TOKEN` is PAT `edbfi-hotio-container-sync`, used by their updaters; `DISCORD_WEBHOOK` feeds Hotio's `notify` job in base-image and the docker repos.
@@ -46,12 +46,15 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | wtfnzb-adapter | pytest hook, `uv build`, `prek validate-config` | Litestar `/health` + `caps` with dummy config | ubuntu | uv `/`, gha |
 | guide-capture | `check-sensitive-files --all`, `/bin/bash -n` | `bin/guide-capture validate specs/…android.json` | macos-latest (arm64) | gha |
 | arrsenal-of-scripts | `bash -n`, `shellcheck -S error`, `zsh -n`, unittest (63), basedpyright via `uvx` | `claude-diag.py --self-test` (age ≥1.3, zsh, GNU tar) | ubuntu | gha |
+| printlab-project | unittest hook (`systems/gateway/vpn-policy/tests`, 27; `pass_filenames: false`) | — | ubuntu | gha |
 | EasyHDR | Windows: integration tests `--test-threads=1`, doctests; Ubuntu: `cargo deny --locked check` | restore `smoke-windows.ps1` (release build, temp `%APPDATA%`, window + log line) | windows-latest + ubuntu | cargo `/`, cargo `/fuzz` (monthly), rust-toolchain, gha |
 | github-stats | `zig fmt --check`, `zig build test` | restore `smoke.py` (replay `tests/fixtures/stats.json`) | ubuntu | gha (Zig pin manual) |
 | homebrew-taps | `bash -n` + shellcheck, 2 unittest trees; macOS: `brew readall`, `brew style`, `brew audit --cask` | changed formulae on Linux x64 + ARM64 ([d8.md](d8.md#contract)) | ubuntu-latest + `ubuntu-<gen>-arm` + macos-latest | gha |
 | pelican-eggs | restored `check-eggs.py`, `check-pair.py` | unittest (5), `bash -n` + shellcheck on `ini-merge.sh` | ubuntu | gha |
 | mover-status | `bash -n`, shellcheck | `python3 tests/runtime.py` (timing-sensitive; Linux only) | ubuntu | gha |
 | edbfi, comradarr, zimuarr | — | — | ubuntu | gha |
+| 3d-designs | keeps its read-only builtin hooks: no whitespace fixers or `check-added-large-files`, so generated print files, SVG and JSON stay byte-exact | — (renders need OpenSCAD and Bambu Studio) | ubuntu | gha |
+| icarus-bevy | keeps its `exclude` and its cargo fmt/clippy/test hooks, which run once `.rs` or Cargo files exist | — | ubuntu | gha |
 | agent-rules | rule-shape check (frontmatter, title, filename, TOML) | — | ubuntu | gha (pins inside `rules/*.md` stay manual) |
 | skills | docendo tests, `node --check scripts/*.mjs` | `scripts/check-content.py` | ubuntu | gha |
 | eksamen | Pages deploy of `docs/` | restore `smoke.sh` (`1e37642^`): serve `docs/`, `/index.html`, `/optagelsesprover.html` | ubuntu | gha |

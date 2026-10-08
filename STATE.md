@@ -1,4 +1,4 @@
-Last updated: 1791490295 (2026-10-08T20:11:35Z)
+Last updated: 1791495103 (2026-10-08T21:31:43Z)
 
 # State
 
@@ -32,7 +32,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 ## Repos
 
-Only portaler, obzorarr and wtfnzb-adapter have the core rollout [V, 2026-10-08]; no other target repo has `ci.yml`, `pr-policy.yml`, `dependabot.yml`, `.pre-commit-config.yaml`, a ruleset or auto-merge, and 16 still have a `prek.toml`. `—` means not rolled out.
+Only portaler, obzorarr and wtfnzb-adapter have the core rollout [V, 2026-10-08]; no other target repo has `ci.yml`, `pr-policy.yml`, `dependabot.yml`, a ruleset or auto-merge, only icarus-bevy has a `.pre-commit-config.yaml`, and 17 still have a `prek.toml`. `—` means not rolled out.
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
@@ -51,6 +51,7 @@ Only portaler, obzorarr and wtfnzb-adapter have the core rollout [V, 2026-10-08]
 | zondarr | Python | S11 | — | — | — | — | — | B1, B6 |
 | guide-capture | Python | S11 | — | — | — | — | — | — |
 | arrsenal-of-scripts | Python | S11 | — | — | — | — | — | — |
+| printlab-project | Python | S11 | — | — | — | — | — | — |
 | EasyHDR | Native | S12 | — | — | — | — | — | — |
 | github-stats | Native | S12 | — | — | — | — | — | — |
 | homebrew-taps | Native | S12 | — | — | — | — | — | — |
@@ -61,6 +62,8 @@ Only portaler, obzorarr and wtfnzb-adapter have the core rollout [V, 2026-10-08]
 | agent-rules | Content | S13 | — | — | — | — | — | — |
 | skills | Content | S13 | — | — | — | — | — | — |
 | eksamen | Content | S13 | — | — | — | — | legacy `main:/docs` | — |
+| 3d-designs | Content | S13 | — | — | — | — | — | — |
+| icarus-bevy | Content | S13 | — | — | — | — | — | — |
 | repo-patches | Special | S14 | — | — | — | — | — | — |
 | replex | Special | S14 | — | — | — | — | — | — |
 | dox | Special | S14 | — | — | — | — | — | B3 |
@@ -70,14 +73,14 @@ Only portaler, obzorarr and wtfnzb-adapter have the core rollout [V, 2026-10-08]
 All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repos' drift.
 
 - Actions is enabled in all 42 non-archived repositories. Pullfrog's workflow is on the default branch of all but icarus-bevy and printlab-project.
-- `immortality.yml` and its `IMMORTALITY_TOKEN` are in the 14 repos with a scheduled workflow: edbfi-ci, edbfi-ci-playground, portaler, obzorarr, wtfnzb-adapter [V, 2026-10-08], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (36 repos in all), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
+- `immortality.yml` and its `IMMORTALITY_TOKEN` are in the 14 repos with a scheduled workflow: edbfi-ci, edbfi-ci-playground, portaler, obzorarr, wtfnzb-adapter [V, 2026-10-08], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
 - Rulesets exist only in edbfi-ci, edbfi-ci-playground, portaler, obzorarr and wtfnzb-adapter, all in the D21 shape [V, 2026-10-08]; no repo has classic branch protection.
-- Every target repo except portaler, obzorarr and wtfnzb-adapter: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off. Merge commits are allowed in replex, which doesn't delete merged branches.
+- Every target repo except portaler, obzorarr and wtfnzb-adapter: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off (on in 3d-designs, icarus-bevy and printlab-project [V, 2026-10-08]). Merge commits are allowed in replex, which doesn't delete merged branches.
 - Default `GITHUB_TOKEN` permission is write, and "Allow GitHub Actions to create and approve pull requests" is on, in docrewind, eksamen, guide-capture, guides, isfuglen, replex and yt-redirect; the latter is also on in homebrew-taps.
 - `web_commit_signoff_required` is off in replex and dox.
 - The `gh-pages` deploy workflows of guides, isfuglen and yt-redirect are gone; portaler deploys from `ci.yml` [V, 2026-10-08].
 - Stale workflow registrations (no file on the default branch): isfuglen `ping.yml`; docrewind `opencode.yml`, `ai-review.yml`, `pr-review-ci.yml`, `pr-review-collect.yml`; github-stats `token-permission-probe.yml`; mover-status `e2e-mover-test.yml`; comradarr `integration.yaml`; replex `ci.yml`; `ci` in otpravkarr-, obzorarr- and zondarr-docker and `build-nightly` in obzorarr-docker (on no branch).
-- The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 29 repos: every public target, edbfi-ci, edbfi-ci-playground (its own repository-scoped PAT) and wings-vpn. Actions copies exist in every public target and wings-vpn. PAT `edbfi-dependabot-auto-merge` covers 28 repos, wings-vpn and replex among them ([auto-merge.md](design/auto-merge.md#contract) rules 5 and 7 exclude both) [V, 2026-10-08].
+- The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 32 repos: every public target, edbfi-ci, edbfi-ci-playground (its own repository-scoped PAT) and wings-vpn. Actions copies exist in every public target except 3d-designs, icarus-bevy and printlab-project, and in wings-vpn. PAT `edbfi-dependabot-auto-merge` covers 31 repos [owner, 2026-10-08], wings-vpn and replex among them ([auto-merge.md](design/auto-merge.md#contract) rules 5 and 7 exclude both) [V, 2026-10-08].
 - The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos; github-stats has `STATS_READ_TOKEN`. EasyHDR lacks `VT_API_KEY` for S18; homebrew-taps lacks the write deploy key its S12 ruleset and S19 updater need; neither edbfi-ci nor github-stats has the S16 watchdog secret yet.
 - otpravkarr-docker's and zondarr-docker's `release` builds fail at `archive/null.tar.gz` until each app publishes its first plain `X.Y.Z` release; accepted by the owner (2026-10-07).
 - `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts and security updates, secret scanning and push protection are on. Main push CI, audit and the watcher pass.
@@ -85,9 +88,6 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 ## Open items
 
-- portaler: `audit` is red (3 high: http-cache-semantics, sharp, source-map-js); its `chore(deps): update bun dependencies` PR is due by 2026-10-13 ([dependabot.md](design/dependabot.md#contract) rule 8).
-- obzorarr: `audit` is red (1 high: source-map-js); its `chore(deps): update bun dependencies` PR is due by 2026-10-13 ([dependabot.md](design/dependabot.md#contract) rule 8).
-- Owner decision: should 3d-designs, icarus-bevy or printlab-project join the rollout tiers? Until then they stay outside scope ([repos.md](design/repos.md#contract) rule 3).
 - obzorarr, otpravkarr, zondarr: without `ORIGIN` (no front) a SIGHUP kills the app without a drain, and a stop lingers past the drain deadline while the app awaits an upstream (11-19 s with `SHUTDOWN_TIMEOUT=2`); zondarr's `/api/[...path]` proxy call has no timeout.
 - setun: a chat stream whose first event hasn't arrived by the drain deadline gets the front's 503 instead of a clean end.
 - otpravkarr: the e2e runs leave `otpravkarr-e2e-*` directories in `$TMPDIR` (`playwright.config.ts` has no teardown).
