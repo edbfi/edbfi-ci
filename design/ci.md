@@ -65,7 +65,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 
 - ci-A1: whether the dependency graph covers uv transitive packages. Closes when a project's SBOM export (`gh api repos/{repo}/dependency-graph/sbom`) lists its locked transitive packages at their locked versions; then drop that `audit` entry.
 - ci-A2: `macos-latest` staying arm64, and `ubuntu-latest`'s generation for the ARM64 label. Closes per change: re-check the runner-images README when homebrew-taps rolls out (S12, S19).
-- ci-A4: Node for the remaining SvelteKit 3 repos (otpravkarr, poyo-studio, setun, zondarr/frontend): until each rollout adds `.node-version` and `setup-node` (rule 8), they run on the runner image's Node. obzorarr does so [V, 2026-10-08, obzorarr#237]. Closes with the last of those rollouts (S10, S11).
+- ci-A4: Node for zondarr/frontend: until its rollout adds `.node-version` and `setup-node` (rule 8), it runs on the runner image's Node. obzorarr, otpravkarr, poyo-studio and setun do so [V, 2026-10-08]. Closes with S11.
 
 ## Why
 
