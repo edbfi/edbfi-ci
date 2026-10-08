@@ -6,7 +6,7 @@ on:
   pull_request:
   push: { branches: [main] }
   workflow_dispatch:
-  schedule: [{ cron: "17 2 * * 0" }]   # weekly audit + main revalidation/redeploy; minute unique per repo
+  schedule: [{ cron: "17 2 * * 0" }]   # weekly main revalidation; minute unique per repo
 permissions: {}
 concurrency:
   group: ${{ github.event_name == 'pull_request' && format('ci-pr-{0}-{1}', github.event.pull_request.number, github.event.pull_request.head.sha) || format('ci-{0}', github.sha) }}
