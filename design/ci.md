@@ -9,7 +9,7 @@
 5. Jobs that never run on PRs (`audit`, `deploy`) MUST stay out of `ci-ok`.
 6. Every workflow MUST start with `permissions: {}`. Every job MUST have minimal grants and `timeout-minutes`; every checkout MUST set `persist-credentials: false`.
 7. Every action MUST be pinned to a full SHA with a `# vX.Y.Z` comment, which Dependabot updates together. `pull_request_target` MUST NOT be used anywhere.
-8. Toolchains MUST come from repo files: `setup-bun` with `bun-version-file: package.json`, `setup-uv` with `.python-version`, `rust-toolchain.toml`, `setup-zig` reading `build.zig.zon`.
+8. Toolchains MUST come from repo files: `setup-bun` with `bun-version-file: package.json`, `setup-uv` with `.python-version`, `rust-toolchain.toml`, `setup-zig` reading `build.zig.zon`, and in SvelteKit 3 repos `setup-node` with `node-version-file: .node-version` before the install (Kit 3 needs Node ≥22.17 for `svelte-kit sync`, `svelte-check`, `drizzle-kit`, Vitest and Playwright).
 9. Installs MUST be frozen: `bun ci`, or `bun ci --ignore-scripts` with required project preparation run explicitly, omitting lifecycle steps that only install Git hooks; `uv sync --locked`; `cargo … --locked`.
 10. Runners MUST use `-latest` labels (D12). Linux ARM64 has none, so it uses the `ubuntu-<gen>-arm` label of `ubuntu-latest`'s generation.
 11. CI MUST call repo-local commands (`scripts/smoke.*`, package scripts), so every check also runs locally.
@@ -65,7 +65,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 - ci-A1: whether the dependency graph covers uv transitive packages. Closes when a project's SBOM export (`gh api repos/{repo}/dependency-graph/sbom`) lists its locked transitive packages at their locked versions; then drop that `audit` entry.
 - ci-A2: `macos-latest` staying arm64, and `ubuntu-latest`'s generation for the ARM64 label. Closes per change: re-check the runner-images README when homebrew-taps rolls out (S12, S19).
 - ci-A3: the exact `uv export` / `pip-audit` invocation. Closes with a green `audit` run in the wtfnzb-adapter pilot (S8).
-- ci-A4: Node for SvelteKit 3 repos. Kit 3 needs Node ≥22.17 (obzorarr, otpravkarr, poyo-studio, setun, zondarr/frontend) for the tools that run on Node there (Vitest, Playwright, the `sv` codemod), but the templates set up only Bun and use the runner image's Node, outside rule 8. Closes when the S7/S10/S11 rollout PRs set Node from a repo file; until then each rollout re-checks the runner image's Node against the floor.
+- ci-A4: Node for the remaining SvelteKit 3 repos (otpravkarr, poyo-studio, setun, zondarr/frontend): until each rollout adds `.node-version` and `setup-node` (rule 8), they run on the runner image's Node. obzorarr does so [V, 2026-10-08, obzorarr#237]. Closes with the last of those rollouts (S10, S11).
 
 ## Why
 
