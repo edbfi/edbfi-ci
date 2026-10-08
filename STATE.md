@@ -1,4 +1,4 @@
-Last updated: 1791495103 (2026-10-08T21:31:43Z)
+Last updated: 1791497786 (2026-10-08T22:16:26Z)
 
 # State
 
@@ -17,7 +17,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | S6 | core pilot: portaler | done | [portaler#119](https://github.com/edbfi/portaler/pull/119), [#25](https://github.com/edbfi/edbfi-ci/pull/25), [#26](https://github.com/edbfi/edbfi-ci/pull/26), [#27](https://github.com/edbfi/edbfi-ci/pull/27) |
 | S7 | core pilot: obzorarr | done | [obzorarr#237](https://github.com/edbfi/obzorarr/pull/237), [#28](https://github.com/edbfi/edbfi-ci/pull/28) |
 | S8 | core pilot: wtfnzb-adapter | done | [wtfnzb-adapter#7](https://github.com/edbfi/wtfnzb-adapter/pull/7), [wtfnzb-adapter#10](https://github.com/edbfi/wtfnzb-adapter/pull/10), [#29](https://github.com/edbfi/edbfi-ci/pull/29) |
-| S9 | core pilot: edbfi | pending | — |
+| S9 | core pilot: edbfi | done | [edbfi#35](https://github.com/edbfi/edbfi/pull/35), [#30](https://github.com/edbfi/edbfi-ci/pull/30), [#31](https://github.com/edbfi/edbfi-ci/pull/31) |
 | S10 | core rollout: Bun web | pending | — |
 | S11 | core rollout: Python | pending | — |
 | S12 | core rollout: Native | pending | — |
@@ -32,7 +32,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 ## Repos
 
-Only portaler, obzorarr and wtfnzb-adapter have the core rollout [V, 2026-10-08]; no other target repo has `ci.yml`, `pr-policy.yml`, `dependabot.yml`, a ruleset or auto-merge, only icarus-bevy has a `.pre-commit-config.yaml`, and 17 still have a `prek.toml`. `—` means not rolled out.
+Only portaler, obzorarr, wtfnzb-adapter and edbfi have the core rollout [V, 2026-10-08]; no other target repo has `ci.yml`, `pr-policy.yml`, `dependabot.yml`, a ruleset or auto-merge, only icarus-bevy has a `.pre-commit-config.yaml`, and 16 still have a `prek.toml`. `—` means not rolled out.
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
@@ -40,7 +40,7 @@ Only portaler, obzorarr and wtfnzb-adapter have the core rollout [V, 2026-10-08]
 | portaler | Bun web | S6 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#120](https://github.com/edbfi/portaler/pull/120)) | Actions (`gh-pages` branch kept) | B1 |
 | obzorarr | Bun web | S7 | live; push CI verified | live | active | live; Dependabot merge observed ([#238](https://github.com/edbfi/obzorarr/pull/238)) | — | B1 |
 | wtfnzb-adapter | Python | S8 | live; push CI and audit verified | live | active | live; Dependabot merges observed ([#8](https://github.com/edbfi/wtfnzb-adapter/pull/8), [#9](https://github.com/edbfi/wtfnzb-adapter/pull/9)) | — | — |
-| edbfi | Content | S9 | — | — | — | — | — | — |
+| edbfi | Content | S9 | live; push CI verified | live | active | live; Dependabot merge observed ([#36](https://github.com/edbfi/edbfi/pull/36)) | — | — |
 | guides | Bun web | S10 | — | — | — | — | `gh-pages` branch | B1 |
 | isfuglen | Bun web | S10 | — | — | — | — | `gh-pages` branch | B1 |
 | yt-redirect | Bun web | S10 | — | — | — | — | `gh-pages` branch | B1 |
@@ -73,9 +73,9 @@ Only portaler, obzorarr and wtfnzb-adapter have the core rollout [V, 2026-10-08]
 All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repos' drift.
 
 - Actions is enabled in all 42 non-archived repositories. Pullfrog's workflow is on the default branch of all but icarus-bevy and printlab-project.
-- `immortality.yml` and its `IMMORTALITY_TOKEN` are in the 14 repos with a scheduled workflow: edbfi-ci, edbfi-ci-playground, portaler, obzorarr, wtfnzb-adapter [V, 2026-10-08], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
-- Rulesets exist only in edbfi-ci, edbfi-ci-playground, portaler, obzorarr and wtfnzb-adapter, all in the D21 shape [V, 2026-10-08]; no repo has classic branch protection.
-- Every target repo except portaler, obzorarr and wtfnzb-adapter: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off (on in 3d-designs, icarus-bevy and printlab-project [V, 2026-10-08]). Merge commits are allowed in replex, which doesn't delete merged branches.
+- `immortality.yml` and its `IMMORTALITY_TOKEN` are in the 15 repos with a scheduled workflow: edbfi-ci, edbfi-ci-playground, portaler, obzorarr, wtfnzb-adapter, edbfi [V, 2026-10-08], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
+- Rulesets exist only in edbfi-ci, edbfi-ci-playground, portaler, obzorarr, wtfnzb-adapter and edbfi, all in the D21 shape [V, 2026-10-08]; no repo has classic branch protection.
+- Every target repo except portaler, obzorarr, wtfnzb-adapter and edbfi: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off (on in 3d-designs, icarus-bevy and printlab-project [V, 2026-10-08]). Merge commits are allowed in replex, which doesn't delete merged branches.
 - Default `GITHUB_TOKEN` permission is write, and "Allow GitHub Actions to create and approve pull requests" is on, in docrewind, eksamen, guide-capture, guides, isfuglen, replex and yt-redirect; the latter is also on in homebrew-taps.
 - `web_commit_signoff_required` is off in replex and dox.
 - The `gh-pages` deploy workflows of guides, isfuglen and yt-redirect are gone; portaler deploys from `ci.yml` [V, 2026-10-08].
