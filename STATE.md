@@ -1,4 +1,4 @@
-Last updated: 1791502849 (2026-10-08T23:40:49Z)
+Last updated: 1791503147 (2026-10-08T23:45:47Z)
 
 # State
 
@@ -32,7 +32,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 ## Repos
 
-The core rollout is in portaler, obzorarr, wtfnzb-adapter, edbfi and the Bun web tier (S10) [V, 2026-10-09]; no other target repo has `ci.yml`, `pr-policy.yml`, `dependabot.yml`, a ruleset or auto-merge, only icarus-bevy has a `.pre-commit-config.yaml`, and 9 still have a `prek.toml`. `—` means not rolled out.
+The core rollout is in portaler, obzorarr, wtfnzb-adapter, edbfi and the Bun web tier (S10) [V, 2026-10-08]; no other target repo has `ci.yml`, `pr-policy.yml`, `dependabot.yml`, a ruleset or auto-merge, only icarus-bevy has a `.pre-commit-config.yaml`, and 9 still have a `prek.toml`. `—` means not rolled out.
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
@@ -73,12 +73,12 @@ The core rollout is in portaler, obzorarr, wtfnzb-adapter, edbfi and the Bun web
 All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repos' drift.
 
 - Actions is enabled in all 42 non-archived repositories. Pullfrog's workflow is on the default branch of all but icarus-bevy and printlab-project.
-- `immortality.yml` and its `IMMORTALITY_TOKEN` are in the 22 repos with a scheduled workflow: edbfi-ci, edbfi-ci-playground, the rolled-out target repos [V, 2026-10-09], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
-- Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-09]; no repo has classic branch protection.
+- `immortality.yml` and its `IMMORTALITY_TOKEN` are in the 22 repos with a scheduled workflow: edbfi-ci, edbfi-ci-playground, the rolled-out target repos [V, 2026-10-08], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
+- Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-08]; no repo has classic branch protection.
 - Every target repo not yet rolled out: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off (on in 3d-designs, icarus-bevy and printlab-project [V, 2026-10-08]). Merge commits are allowed in replex, which doesn't delete merged branches.
 - Default `GITHUB_TOKEN` permission is write, and "Allow GitHub Actions to create and approve pull requests" is on, in eksamen, guide-capture and replex; the latter is also on in homebrew-taps.
 - `web_commit_signoff_required` is off in replex and dox.
-- guides, isfuglen, portaler and yt-redirect deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
+- guides, isfuglen, portaler and yt-redirect deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-08].
 - Stale workflow registrations (no file on the default branch): isfuglen `ping.yml`; docrewind `opencode.yml`, `ai-review.yml`, `pr-review-ci.yml`, `pr-review-collect.yml`; github-stats `token-permission-probe.yml`; mover-status `e2e-mover-test.yml`; comradarr `integration.yaml`; replex `ci.yml`; `ci` in otpravkarr-, obzorarr- and zondarr-docker and `build-nightly` in obzorarr-docker (on no branch).
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 32 repos: every public target, edbfi-ci, edbfi-ci-playground (its own repository-scoped PAT) and wings-vpn. Actions copies exist in every public target except 3d-designs, icarus-bevy and printlab-project, and in wings-vpn. PAT `edbfi-dependabot-auto-merge` covers 31 repos [owner, 2026-10-08], wings-vpn and replex among them ([auto-merge.md](design/auto-merge.md#contract) rules 5 and 7 exclude both) [V, 2026-10-08].
 - The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos; github-stats has `STATS_READ_TOKEN`. EasyHDR lacks `VT_API_KEY` for S18; homebrew-taps lacks the write deploy key its S12 ruleset and S19 updater need; neither edbfi-ci nor github-stats has the S16 watchdog secret yet.
