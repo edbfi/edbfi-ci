@@ -32,7 +32,7 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 
 ## Repos
 
-Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` means not rolled out. Only dox still has a `prek.toml`.
+Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` means not rolled out. Of the target repos, only dox still has a `prek.toml`.
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
@@ -74,7 +74,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 - Actions is enabled in all 42 non-archived repositories. Pullfrog's workflow is on the default branch of all of them [V, 2026-10-09].
 - `immortality.yml` and its `IMMORTALITY_TOKEN` are in every repo with a scheduled workflow: edbfi-ci, edbfi-ci-playground, the rolled-out target repos [V, 2026-10-09], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
-- Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-08]; no repo has classic branch protection.
+- Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-09]; no repo has classic branch protection.
 - Every target repo not yet rolled out: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off. Merge commits are allowed in replex, which doesn't delete merged branches.
 - Default `GITHUB_TOKEN` permission is write, and "Allow GitHub Actions to create and approve pull requests" is on, in guide-capture and replex; the latter is also on in homebrew-taps.
 - `web_commit_signoff_required` is off in replex and dox.
