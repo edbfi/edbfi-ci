@@ -1,4 +1,4 @@
-Last updated: 1791579373 (2026-10-09T20:56:13Z)
+Last updated: 1791587396 (2026-10-09T23:09:56Z)
 
 # State
 
@@ -28,7 +28,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S16 | watchdog (owner PAT and secrets in both watchdog repos first) | blocked: the watchdog secret ([GitHub state](#github-state)) | — |
 | S17 | D8: github-stats | pending | — |
 | S18 | D8: EasyHDR | blocked: `VT_API_KEY` ([GitHub state](#github-state)) | — |
-| S19 | D8: homebrew-taps (D16 checks, PR #3 reconciliation) | blocked: the D16 deploy key ([GitHub state](#github-state)) | — |
+| S19 | D8: homebrew-taps (D16 checks, PR #3 reconciliation) | done | [homebrew-taps#45](https://github.com/edbfi/homebrew-taps/pull/45), [#46](https://github.com/edbfi/homebrew-taps/pull/46); [#40](https://github.com/edbfi/edbfi-ci/pull/40) |
 | S20 | GitHub-side cleanup: stale workflow registrations, `gh-pages` branches, wings-vpn archive and secret/PAT cleanup, Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` | pending | — |
 
 ## Repos
@@ -55,7 +55,7 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | printlab-project | Python | S11 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
 | EasyHDR | Native | S12 | live; push CI verified (Windows tests, smoke, cargo-deny, `fuzz/` check) | live | active | live; Dependabot merges observed ([#177](https://github.com/edbfi/EasyHDR/pull/177), [#178](https://github.com/edbfi/EasyHDR/pull/178)) | — | — |
 | github-stats | Native | S12 | live on `master`; push CI verified | live | active | live; Dependabot merge observed ([#32](https://github.com/edbfi/github-stats/pull/32)) | — | — |
-| homebrew-taps | Native | S12 | live; push CI verified (formulae on x86_64 and ARM64, macOS casks) | live | active (admin bypass only until D16, settings-A1) | live; Dependabot merge observed ([#41](https://github.com/edbfi/homebrew-taps/pull/41)) | — | — |
+| homebrew-taps | Native | S12, S19 | live; push CI verified (formulae on x86_64 and ARM64, macOS casks); cask updater live, its first deploy-key push ([e20e421](https://github.com/edbfi/homebrew-taps/commit/e20e421)) started push CI | live | active (admin role and deploy key, D16) | live; Dependabot merge observed ([#41](https://github.com/edbfi/homebrew-taps/pull/41)) | — | — |
 | pelican-eggs | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#37](https://github.com/edbfi/pelican-eggs/pull/37)) | — | — |
 | mover-status | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#60](https://github.com/edbfi/mover-status/pull/60)) | — | — |
 | comradarr | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#159](https://github.com/edbfi/comradarr/pull/159)) | — | — |
@@ -82,7 +82,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
 - Stale workflow registrations (no file on the default branch): isfuglen `ping.yml`; docrewind `opencode.yml`, `ai-review.yml`, `pr-review-ci.yml`, `pr-review-collect.yml`; github-stats `token-permission-probe.yml`; mover-status `e2e-mover-test.yml`; comradarr `integration.yaml`; `ci` in otpravkarr-, obzorarr- and zondarr-docker and `build-nightly` in obzorarr-docker (on no branch).
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 32 repos: every public target, edbfi-ci, edbfi-ci-playground (its own repository-scoped PAT) and wings-vpn. Actions copies exist in every public target except 3d-designs, icarus-bevy and printlab-project, and in wings-vpn. PAT `edbfi-dependabot-auto-merge` covers 31 repos [owner, 2026-10-08], wings-vpn and replex among them ([auto-merge.md](design/auto-merge.md#contract) rules 5 and 7 exclude both) [V, 2026-10-08].
-- The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos; github-stats has `STATS_READ_TOKEN`. EasyHDR lacks `VT_API_KEY` for S18; homebrew-taps lacks the write deploy key for S19's updater and its ruleset bypass (settings-A1); neither edbfi-ci nor github-stats has the S16 watchdog secret yet.
+- The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos; github-stats has `STATS_READ_TOKEN`. EasyHDR lacks `VT_API_KEY` for S18; homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09]; neither edbfi-ci nor github-stats has the S16 watchdog secret yet.
 - otpravkarr-docker's and zondarr-docker's `release` builds fail at `archive/null.tar.gz` until each app publishes its first plain `X.Y.Z` release; accepted by the owner (2026-10-07).
 - `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts and security updates, secret scanning and push protection are on. Main push CI, audit and the watcher pass.
 - `edbfi-ci-playground` is active for reusable CI integration tests. Keep it and its credential for further testing; each pilot verifies its own installed credential and deployment.
@@ -99,4 +99,5 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - agent-rules `docs/toolchain-floors.md` still calls `sveltekit-superforms` 3 a prerelease; 3.0.0 is stable and pinned.
 - qflood: nightly's `version_flood__command` (no Hotio equivalent) takes the first successful Flood run from a list GitHub sometimes serves stale, so the channel can step back for an hour.
 - zondarr-docker: a VPN setup with `PUBLIC_API_URL` must expose port 8000 itself (`VPN_EXPOSE_PORTS_ON_LAN`); only the init comment says so.
+- homebrew-taps updater: a retry after a failed recipe push ([d8.md](design/d8.md#verification)) is covered only by `tests/test_updater.py`; forcing one would downgrade a public cask, so check it on the first real failure.
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
