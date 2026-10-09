@@ -1,4 +1,4 @@
-Last updated: 1791587697 (2026-10-09T23:14:57Z)
+Last updated: 1791588786 (2026-10-09T23:33:06Z)
 
 # State
 
@@ -99,5 +99,4 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - agent-rules `docs/toolchain-floors.md` still calls `sveltekit-superforms` 3 a prerelease; 3.0.0 is stable and pinned.
 - qflood: nightly's `version_flood__command` (no Hotio equivalent) takes the first successful Flood run from a list GitHub sometimes serves stale, so the channel can step back for an hour.
 - zondarr-docker: a VPN setup with `PUBLIC_API_URL` must expose port 8000 itself (`VPN_EXPOSE_PORTS_ON_LAN`); only the init comment says so.
-- homebrew-taps updater: a new run after a failed recipe push ([d8.md](design/d8.md#verification)) is covered only by `tests/test_updater.py`, since forcing one would push a downgrade of a public cask (`homebrew-updater-push-failure` in [watch.yml](watch.yml)).
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).

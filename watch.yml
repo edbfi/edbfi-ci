@@ -21,9 +21,6 @@ triggers:
   - id: qbittorrent-standard-dmg
     kind: manual
     action: Once the latest stable qBittorrent release has its standard `qbittorrent-X.Y.Z.dmg`, check that the homebrew-taps updater published it and pushed the cask (design/d8.md rule 9).
-  - id: homebrew-updater-push-failure
-    kind: manual
-    action: When an update-casks run publishes a release but its push job fails, start a new run and check that it publishes nothing and pushes the recipe (design/d8.md Verification); then delete the STATE.md open item.
   - id: icarus-bevy-cargo
     kind: manual
     action: Once icarus-bevy has a Cargo project, move it to the Native tier in a PR that adds rust-toolchain.toml, a committed Cargo.lock, a Linux build job, cargo Dependabot and a cargo audit entry (design/repos.md).
