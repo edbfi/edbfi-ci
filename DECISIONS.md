@@ -32,3 +32,5 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | B1 | Dependabot's bun updater supports only `bun.lock` v1 (D3). | `bun-v2` watch trigger ([MAINTENANCE.md](MAINTENANCE.md#watch-triggers)) |
 | B3 | dox is private on the Free plan: no rulesets, no auto-merge. | manual merges |
 | B6 | `openapi-typescript@7.13.0` requires `typescript ^5.x` in zondarr/frontend (openapi-typescript#2723); D18 doesn't cover it. | `openapi-typescript-peers` watch trigger; [prek.md](design/prek.md#contract) rule 12 |
+| B7 | dox: the D7 gitleaks history scan reports three `generic-api-key` findings, all from commit `b9eb3030c7` (`projects/feedback/prompts/issue-prompt-01.md`, `projects/obzorarr/prompts/issue-prompt-01.md`, `projects/feedback/prompts/screenshot-prompt.md`); the owner rotates and rewrites history, or allowlists reviewed false positives. | dox rollout (S14) |
+| B8 | repo-patches' own `test_workflows` requires one job per workflow; [`ci-special.yml`](templates/ci-special.yml) has `checks` and `ci-ok`. The owner changes the test or the template's shape. | repo-patches rollout (S14) |

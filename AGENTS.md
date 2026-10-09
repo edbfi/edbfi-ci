@@ -2,7 +2,7 @@
 
 `edbfi-ci` is the single source of truth for CI across the edbfi repos: design, state, shared code and runbook. The work happens here, one step at a time.
 
-**Start:** read this file, then [STATE.md](STATE.md), and take the first step whose status isn't `done`.
+**Start:** read this file, then [STATE.md](STATE.md), and take the first step whose status isn't `done` or `blocked`.
 
 ## Working model
 
