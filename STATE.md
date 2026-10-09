@@ -1,4 +1,4 @@
-Last updated: 1791512187 (2026-10-09T02:16:27Z)
+Last updated: 1791512231 (2026-10-09T02:17:11Z)
 
 # State
 
@@ -78,6 +78,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - Every target repo not yet rolled out: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off.
 - "Allow GitHub Actions to create and approve pull requests" is on in homebrew-taps.
 - `web_commit_signoff_required` is off in dox.
+- Grouped security updates ([settings.md](design/settings.md#contract) rule 3) have no API, so they wait for the owner in every rolled-out repo.
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
 - Stale workflow registrations (no file on the default branch): isfuglen `ping.yml`; docrewind `opencode.yml`, `ai-review.yml`, `pr-review-ci.yml`, `pr-review-collect.yml`; github-stats `token-permission-probe.yml`; mover-status `e2e-mover-test.yml`; comradarr `integration.yaml`; `ci` in otpravkarr-, obzorarr- and zondarr-docker and `build-nightly` in obzorarr-docker (on no branch).
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 32 repos: every public target, edbfi-ci, edbfi-ci-playground (its own repository-scoped PAT) and wings-vpn. Actions copies exist in every public target except 3d-designs, icarus-bevy and printlab-project, and in wings-vpn. PAT `edbfi-dependabot-auto-merge` covers 31 repos [owner, 2026-10-08], wings-vpn and replex among them ([auto-merge.md](design/auto-merge.md#contract) rules 5 and 7 exclude both) [V, 2026-10-08].
