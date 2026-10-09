@@ -1,8 +1,8 @@
-Last updated: 1791511765 (2026-10-09T02:09:25Z)
+Last updated: 1791512032 (2026-10-09T02:13:52Z)
 
 # State
 
-Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-policy.yml`, Dependabot, auto-merge, settings and ruleset. Blockers are in [DECISIONS.md](DECISIONS.md#blockers).
+Take the first step whose status isn't `done` or `blocked`; a blocked step names what it waits for. "Core" means prek, `ci.yml`, `pr-policy.yml`, Dependabot, auto-merge, settings and ruleset. Blockers are in [DECISIONS.md](DECISIONS.md#blockers).
 
 ## Steps
 
@@ -22,12 +22,12 @@ Take the first step whose status isn't `done`. "Core" means prek, `ci.yml`, `pr-
 | S11 | core rollout: Python | done | [zondarr#276](https://github.com/edbfi/zondarr/pull/276), [#282](https://github.com/edbfi/zondarr/pull/282); [guide-capture#38](https://github.com/edbfi/guide-capture/pull/38); [arrsenal-of-scripts#39](https://github.com/edbfi/arrsenal-of-scripts/pull/39); [printlab-project#2](https://github.com/edbfi/printlab-project/pull/2), [#3](https://github.com/edbfi/printlab-project/pull/3); [#34](https://github.com/edbfi/edbfi-ci/pull/34) |
 | S12 | core rollout: Native | pending | — |
 | S13 | core rollout: Shell + Content | done | [pelican-eggs#36](https://github.com/edbfi/pelican-eggs/pull/36), [mover-status#59](https://github.com/edbfi/mover-status/pull/59), [comradarr#158](https://github.com/edbfi/comradarr/pull/158), [zimuarr#32](https://github.com/edbfi/zimuarr/pull/32), [agent-rules#43](https://github.com/edbfi/agent-rules/pull/43), [skills#34](https://github.com/edbfi/skills/pull/34), [eksamen#39](https://github.com/edbfi/eksamen/pull/39), [3d-designs#4](https://github.com/edbfi/3d-designs/pull/4), [icarus-bevy#1](https://github.com/edbfi/icarus-bevy/pull/1), [icarus-bevy#2](https://github.com/edbfi/icarus-bevy/pull/2); [#33](https://github.com/edbfi/edbfi-ci/pull/33) |
-| S14 | core rollout: Special (replex advisory, dox manual, repo-patches) | replex done; dox and repo-patches blocked ([Open items](#open-items)) | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
-| S15 | `biome-migrate.yml` in the ten Biome repos (idle until B1) | pending | — |
-| S16 | watchdog (owner PAT and secrets in both watchdog repos first) | pending | — |
+| S14 | core rollout: Special (replex advisory, dox manual, repo-patches) | blocked: B7 (dox), B8 (repo-patches); replex done | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
+| S15 | `biome-migrate.yml` in the ten Biome repos (idle until B1) | blocked: held by the owner (2026-10-08) | — |
+| S16 | watchdog (owner PAT and secrets in both watchdog repos first) | blocked: the watchdog secret ([GitHub state](#github-state)) | — |
 | S17 | D8: github-stats | pending | — |
-| S18 | D8: EasyHDR | pending | — |
-| S19 | D8: homebrew-taps (D16 checks, PR #3 reconciliation) | pending | — |
+| S18 | D8: EasyHDR | blocked: `VT_API_KEY` ([GitHub state](#github-state)) | — |
+| S19 | D8: homebrew-taps (D16 checks, PR #3 reconciliation) | blocked: the D16 deploy key ([GitHub state](#github-state)) | — |
 | S20 | GitHub-side cleanup: stale workflow registrations, `gh-pages` branches, wings-vpn archive and secret/PAT cleanup, Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` | pending | — |
 
 ## Repos
@@ -64,9 +64,9 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | eksamen | Content | S13 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/eksamen/pull/40)) | Actions | — |
 | 3d-designs | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#5](https://github.com/edbfi/3d-designs/pull/5)) | — | — |
 | icarus-bevy | Content | S13 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
-| repo-patches | Special | S14 | — | — | — | — | — | — |
-| replex | Special | S14 | live, advisory: push `checks` red (rustfmt, clippy, cargo-test, as on main before), smoke green | live | active (`pr-policy` only) | none by design; hand merges after reading `ci-ok` | — | — |
-| dox | Special | S14 | — | — | — | — | — | B3 |
+| repo-patches | Special | S14 | — | — | — | — | — | B8 |
+| replex | Special | S14 | live, advisory ([repos.md](design/repos.md#contract) rule 4): push `checks` red (rustfmt, clippy, cargo-test), smoke green | live | active (`pr-policy` only) | none ([auto-merge.md](design/auto-merge.md#contract) rule 7) | — | — |
+| dox | Special | S14 | — | — | — | — | — | B3, B7 |
 
 ## GitHub state
 
@@ -88,9 +88,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 ## Open items
 
-- dox (S14): the D7 gitleaks history scan reports three `generic-api-key` findings, all from commit `b9eb3030c7`: `projects/feedback/prompts/issue-prompt-01.md`, `projects/obzorarr/prompts/issue-prompt-01.md` and `projects/feedback/prompts/screenshot-prompt.md`. The values were never displayed. Owner decision: rotate and rewrite history, or allowlist reviewed false positives. Then roll out.
-- repo-patches (S14): its own `test_workflows` requires one job per workflow, but [`ci-special.yml`](templates/ci-special.yml) has two (`checks` and `ci-ok`). Owner decision: change the test or the template's shape for repo-patches.
-- replex: Dependabot security PRs [#3](https://github.com/edbfi/replex/pull/3) to [#6](https://github.com/edbfi/replex/pull/6) (openssl, rustls-webpki, serde_with, xxhash-rust) wait for the owner's hand merge. The advisory CI checks only the build and smoke.
+- replex: Dependabot security PRs [#3](https://github.com/edbfi/replex/pull/3) to [#6](https://github.com/edbfi/replex/pull/6) (openssl, rustls-webpki, serde_with, xxhash-rust) wait for the owner's hand merge; the advisory CI's red tests can't vouch for them.
 - docrewind: `audit` is red for braces (GHSA-vfj7-8cjw-p6xm) and node-forge (GHSA-86w9-cpqp-85rv), which have no fixed release; owner decision: a documented `--ignore` ([dependabot.md](design/dependabot.md#contract) rule 8.3) or waiting (`braces-fix`, `node-forge-fix` in [watch.yml](watch.yml)).
 - setun: Docker and Compose Dependabot updates auto-merge on host-only checks, which never build or run an image (#113 took CLIProxyAPI v7 → v8 and Caddy 2.11); owner decision: widen setun's row in [repos.md](design/repos.md#parameters) with a container check, or accept the risk ([auto-merge.md](design/auto-merge.md#contract) rule 1).
 - obzorarr, otpravkarr, zondarr: without `ORIGIN` (no front) a SIGHUP kills the app without a drain, and a stop lingers past the drain deadline while the app awaits an upstream (11-19 s with `SHUTDOWN_TIMEOUT=2`); zondarr's `/api/[...path]` proxy call has no timeout.
