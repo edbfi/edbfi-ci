@@ -64,7 +64,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 ## Open
 
 - ci-A1: whether the dependency graph covers uv transitive packages. Closes when a project's SBOM export (`gh api repos/{repo}/dependency-graph/sbom`) lists its locked transitive packages at their locked versions; then drop that `audit` entry.
-- ci-A2: `macos-latest` staying arm64, and `ubuntu-latest`'s generation for the ARM64 label. Closes per change: re-check the runner-images README at S19 and at the 26.04 move. `ubuntu-latest` moves to 26.04 between 2026-10-19 and 2026-11-19, and the ARM64 label must follow [V, 2026-10-09].
+- ci-A2: `macos-latest` staying arm64, and `ubuntu-latest`'s generation for the ARM64 label. Closes per change: re-check the runner-images README at the 26.04 move. `ubuntu-latest` moves to 26.04 between 2026-10-19 and 2026-11-19, and the ARM64 label must follow [V, 2026-10-09].
 
 ## Why
 
