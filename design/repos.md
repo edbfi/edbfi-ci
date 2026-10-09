@@ -7,7 +7,7 @@
 3. The in-scope repos are the tiers below (D1). Out of scope: website, base-image, obzorarr-docker, otpravkarr-docker, zondarr-docker, caddy, qbittorrent, qflood, sabnzbd (the hotio family keeps its upstream CI), and wings-vpn (to be archived, D10).
 4. replex is in scope with advisory CI whose failures are accepted; repo-patches only for its tooling (D1).
 5. Each repo MUST own `ci.yml` (required check `ci-ok`), `pr-policy.yml` (required check `pr-policy`), `dependabot.yml` and `.pre-commit-config.yaml`; where they apply, `dependabot-auto-merge.yml`, `.github/actionlint.yaml` (Pages) and `scripts/smoke.*`; with its first scheduled workflow, `immortality.yml` ([watchdog.md](watchdog.md#contract)); and, in later steps, `biome-migrate.yml` ([biome.md](biome.md#parameters) repos), the D8 workflows ([d8.md](d8.md#contract) repos) and the watchdog ([watchdog.md](watchdog.md#contract) repos).
-6. Each repo MUST get the adaptations in its row below. Each rollout PR MUST also fix the repo's stale CI references (below) and keep `process.env.CI`, `scripts/serve-dist.ts` and poyo-studio's `*:ci` scripts.
+6. Each repo MUST get the adaptations in its row below. Each rollout PR MUST also keep `process.env.CI`, `scripts/serve-dist.ts` and poyo-studio's `*:ci` scripts.
 7. The hotio-family docker repos (caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker; D20) MUST carry Hotio's `call-build.yml` and `call-update.yml` on every channel branch, byte-identical to the matching hotio repo (schedules included) except that `uses:` points at `edbfi/base-image/.github/workflows/{build,update}-on-call.yml@workflows`. These repos and base-image MUST keep the default `GITHUB_TOKEN` permission `write`, which their reusable workflows need. Any other difference in these two caller workflows needs an owner decision.
 8. A PR into a hotio-family channel branch MUST use the branch name `workflows`, the one branch `call-build` doesn't build and publish. Merging it publishes that channel's image.
 9. base-image and website MUST stay generated mirrors of hotio/base and hotio/website (D20): repo-patches' `watch-hotio.yml` and `sync-hotio.yml` reset each mirrored branch to Hotio and apply edbfi's edits (base-image's `immortality.yml` included). Never change them by hand or PR.
@@ -62,15 +62,9 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | repo-patches | `python3 -m unittest discover -s tools -p 'test_*.py'` | — | ubuntu | gha |
 | replex | fmt, clippy, test, build (red is accepted) | `REPLEX_HOST=http://127.0.0.1:9`, `/ping` → `pong!` | ubuntu | cargo (security-only, `open-pull-requests-limit: 0`, monthly), docker `/docker`, gha |
 
-Stale CI references, fixed in each repo's rollout PR:
-
-- homebrew-taps `Casks/*/*.rb:1`, `scripts/lib/common.sh:6`, `scripts/discover.sh:2-4`, `.gitignore:4`
-- github-stats `README.md:3-6`
-
 ## Verification
 
 - Each rolled-out repo's `ci.yml` has the row's checks and smoke, on the row's runners, and its `dependabot.yml` has exactly the row's ecosystems and directories.
-- `rg -n` of each stale reference above finds no CI claim that contradicts the repo's workflows.
 - github-stats workflows filter on `master`, never `main`.
 - Before S20 retires a workflow registration: its file is absent from every branch, its runs are inspected, only that workflow's runs are deleted, and the registrations are re-queried.
 
@@ -80,5 +74,4 @@ Stale CI references, fixed in each repo's rollout PR:
 
 ## Why
 
-- Pinned line numbers age; re-find each stale reference by content before editing it.
 - One row per repo keeps rollout PRs mechanical.
