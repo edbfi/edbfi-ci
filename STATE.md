@@ -1,4 +1,4 @@
-Last updated: 1791512231 (2026-10-09T02:17:11Z)
+Last updated: 1791512407 (2026-10-09T02:20:07Z)
 
 # State
 
@@ -20,7 +20,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S9 | core pilot: edbfi | done | [edbfi#35](https://github.com/edbfi/edbfi/pull/35), [#30](https://github.com/edbfi/edbfi-ci/pull/30), [#31](https://github.com/edbfi/edbfi-ci/pull/31) |
 | S10 | core rollout: Bun web | done | [guides#83](https://github.com/edbfi/guides/pull/83), [#85](https://github.com/edbfi/guides/pull/85); [isfuglen#70](https://github.com/edbfi/isfuglen/pull/70), [#72](https://github.com/edbfi/isfuglen/pull/72); [yt-redirect#88](https://github.com/edbfi/yt-redirect/pull/88), [#90](https://github.com/edbfi/yt-redirect/pull/90); [docrewind#178](https://github.com/edbfi/docrewind/pull/178), [#180](https://github.com/edbfi/docrewind/pull/180); [otpravkarr#156](https://github.com/edbfi/otpravkarr/pull/156), [#158](https://github.com/edbfi/otpravkarr/pull/158); [poyo-studio#95](https://github.com/edbfi/poyo-studio/pull/95), [#97](https://github.com/edbfi/poyo-studio/pull/97); [setun#112](https://github.com/edbfi/setun/pull/112), [#116](https://github.com/edbfi/setun/pull/116); [#32](https://github.com/edbfi/edbfi-ci/pull/32) |
 | S11 | core rollout: Python | done | [zondarr#276](https://github.com/edbfi/zondarr/pull/276), [#282](https://github.com/edbfi/zondarr/pull/282); [guide-capture#38](https://github.com/edbfi/guide-capture/pull/38); [arrsenal-of-scripts#39](https://github.com/edbfi/arrsenal-of-scripts/pull/39); [printlab-project#2](https://github.com/edbfi/printlab-project/pull/2), [#3](https://github.com/edbfi/printlab-project/pull/3); [#34](https://github.com/edbfi/edbfi-ci/pull/34) |
-| S12 | core rollout: Native | pending | — |
+| S12 | core rollout: Native | blocked: B9 (homebrew-taps); EasyHDR and github-stats done | [EasyHDR#175](https://github.com/edbfi/EasyHDR/pull/175); [github-stats#31](https://github.com/edbfi/github-stats/pull/31); [homebrew-taps#40](https://github.com/edbfi/homebrew-taps/pull/40) (open); [#36](https://github.com/edbfi/edbfi-ci/pull/36) |
 | S13 | core rollout: Shell + Content | done | [pelican-eggs#36](https://github.com/edbfi/pelican-eggs/pull/36), [mover-status#59](https://github.com/edbfi/mover-status/pull/59), [comradarr#158](https://github.com/edbfi/comradarr/pull/158), [zimuarr#32](https://github.com/edbfi/zimuarr/pull/32), [agent-rules#43](https://github.com/edbfi/agent-rules/pull/43), [skills#34](https://github.com/edbfi/skills/pull/34), [eksamen#39](https://github.com/edbfi/eksamen/pull/39), [3d-designs#4](https://github.com/edbfi/3d-designs/pull/4), [icarus-bevy#1](https://github.com/edbfi/icarus-bevy/pull/1), [icarus-bevy#2](https://github.com/edbfi/icarus-bevy/pull/2); [#33](https://github.com/edbfi/edbfi-ci/pull/33) |
 | S14 | core rollout: Special (replex advisory, dox manual, repo-patches) | blocked: B7 (dox), B8 (repo-patches); replex done | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
 | S15 | `biome-migrate.yml` in the ten Biome repos (idle until B1) | blocked: held by the owner (2026-10-08) | — |
@@ -52,9 +52,9 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | guide-capture | Python | S11 | live; push CI verified (macOS included) | live | active | live; Dependabot merge observed ([#39](https://github.com/edbfi/guide-capture/pull/39)) | — | — |
 | arrsenal-of-scripts | Python | S11 | live; push CI verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/arrsenal-of-scripts/pull/40)) | — | — |
 | printlab-project | Python | S11 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
-| EasyHDR | Native | S12 | — | — | — | — | — | — |
-| github-stats | Native | S12 | — | — | — | — | — | — |
-| homebrew-taps | Native | S12 | — | — | — | — | — | — |
+| EasyHDR | Native | S12 | live; push CI verified (Windows tests, smoke, cargo-deny, `fuzz/` check) | live | active | live; Dependabot merges observed ([#177](https://github.com/edbfi/EasyHDR/pull/177), [#178](https://github.com/edbfi/EasyHDR/pull/178)) | — | — |
+| github-stats | Native | S12 | live on `master`; push CI verified | live | active | live; Dependabot merge observed ([#32](https://github.com/edbfi/github-stats/pull/32)) | — | — |
+| homebrew-taps | Native | S12 | — | — | — | — | — | B9 |
 | pelican-eggs | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#37](https://github.com/edbfi/pelican-eggs/pull/37)) | — | — |
 | mover-status | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#60](https://github.com/edbfi/mover-status/pull/60)) | — | — |
 | comradarr | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#159](https://github.com/edbfi/comradarr/pull/159)) | — | — |
