@@ -1,4 +1,4 @@
-Last updated: 1791512032 (2026-10-09T02:13:52Z)
+Last updated: 1791512187 (2026-10-09T02:16:27Z)
 
 # State
 
@@ -88,6 +88,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 ## Open items
 
+- dox: its rollout adds a weekly schedule ([`ci-dox.yml`](templates/ci-dox.yml)), but dox has no `IMMORTALITY_TOKEN`, and [watchdog.md](design/watchdog.md#contract) rule 11 has no exception for private repos. Owner decision before the rollout: the secret, or a rule-11 exception.
 - replex: Dependabot security PRs [#3](https://github.com/edbfi/replex/pull/3) to [#6](https://github.com/edbfi/replex/pull/6) (openssl, rustls-webpki, serde_with, xxhash-rust) wait for the owner's hand merge; the advisory CI's red tests can't vouch for them.
 - docrewind: `audit` is red for braces (GHSA-vfj7-8cjw-p6xm) and node-forge (GHSA-86w9-cpqp-85rv), which have no fixed release; owner decision: a documented `--ignore` ([dependabot.md](design/dependabot.md#contract) rule 8.3) or waiting (`braces-fix`, `node-forge-fix` in [watch.yml](watch.yml)).
 - setun: Docker and Compose Dependabot updates auto-merge on host-only checks, which never build or run an image (#113 took CLIProxyAPI v7 → v8 and Caddy 2.11); owner decision: widen setun's row in [repos.md](design/repos.md#parameters) with a container check, or accept the risk ([auto-merge.md](design/auto-merge.md#contract) rule 1).
