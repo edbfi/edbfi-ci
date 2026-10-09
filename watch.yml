@@ -20,7 +20,7 @@ triggers:
     action: Move replex to the normal auto-merge path after manually verifying its CI is green and enforced (design/auto-merge.md).
   - id: qbittorrent-standard-dmg
     kind: manual
-    action: Once the latest stable qBittorrent release has its standard DMG, verify and update the homebrew-taps cask by hand unless the S19 updater is live, then check that the updater picks up the next release (design/d8.md rule 9).
+    action: Once the latest stable qBittorrent release has its standard `qbittorrent-X.Y.Z.dmg`, verify and update the homebrew-taps cask by hand unless the S19 updater is live, then check that the updater picks up the next release (design/d8.md rule 9).
   - id: icarus-bevy-cargo
     kind: manual
     action: Once icarus-bevy has a Cargo project, move it to the Native tier in a PR that adds rust-toolchain.toml, a committed Cargo.lock, a Linux build job, cargo Dependabot and a cargo audit entry (design/repos.md).

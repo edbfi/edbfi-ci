@@ -1,4 +1,4 @@
-Last updated: 1791555599 (2026-10-09T14:19:59Z)
+Last updated: 1791555841 (2026-10-09T14:24:01Z)
 
 # State
 
@@ -100,5 +100,5 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - agent-rules `docs/toolchain-floors.md` still calls `sveltekit-superforms` 3 a prerelease; 3.0.0 is stable and pinned.
 - qflood: nightly's `version_flood__command` (no Hotio equivalent) takes the first successful Flood run from a list GitHub sometimes serves stale, so the channel can step back for an hour.
 - zondarr-docker: a VPN setup with `PUBLIC_API_URL` must expose port 8000 itself (`VPN_EXPOSE_PORTS_ON_LAN`); only the init comment says so.
-- homebrew-taps #30: superseded by ef47f6e (#5) by owner decision (2026-10-09), since it would downgrade paicord; verify main's hosted Paicord asset and checksum, then close it naming the replacement and S19.
+- homebrew-taps #30: superseded by ef47f6e (homebrew-taps#5) by owner decision (2026-10-09), since it would downgrade paicord; verify main's hosted Paicord asset and checksum, then close it naming the replacement and S19.
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
