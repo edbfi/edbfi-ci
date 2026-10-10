@@ -1,4 +1,4 @@
-Last updated: 1791666548 (2026-10-10T21:09:08Z)
+Last updated: 1791670921 (2026-10-10T22:22:01Z)
 
 # State
 
@@ -90,7 +90,6 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 ## Open items
 
 - replex: 22 Dependabot alerts stay open with no Dependabot PR (8 high: four in salvo, plus rustls, rustls-webpki, webpki, and rhai with no patched release) [V, 2026-10-10].
-- setun: Docker and Compose Dependabot updates auto-merge on host-only checks, which never build or run an image (#113 took CLIProxyAPI v7 → v8 and Caddy 2.11); owner decision: widen setun's row in [repos.md](design/repos.md#parameters) with a container check, or accept the risk ([auto-merge.md](design/auto-merge.md#contract) rule 1).
 - obzorarr, otpravkarr, zondarr: without `ORIGIN` (no front) a SIGHUP kills the app without a drain, and a stop lingers past the drain deadline while the app awaits an upstream (11-19 s with `SHUTDOWN_TIMEOUT=2`); zondarr's `/api/[...path]` proxy call has no timeout.
 - setun: a chat stream whose first event hasn't arrived by the drain deadline gets the front's 503 instead of a clean end.
 - qflood: nightly's `version_flood__command` (no Hotio equivalent) takes the first successful Flood run from a list GitHub sometimes serves stale, so the channel can step back for an hour.
