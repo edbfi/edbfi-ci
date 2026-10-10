@@ -75,7 +75,7 @@ class WatchTest(unittest.TestCase):
             "[]",
             "triggers: []",
             "triggers: [false]",
-            original.replace("id: prek-toml", "id: bun-v2"),
+            original.replace("id: actionlint-queue", "id: bun-v2"),
             original.replace("kind: merged_pr", "kind: typo", 1),
             original.replace("number: 16071", "number: true"),
             original.replace("number: 16071", "number: -1"),

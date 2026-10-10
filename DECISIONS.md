@@ -7,7 +7,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D1 | Scope as in [repos.md](design/repos.md#contract); replex has advisory CI with accepted failures; repo-patches is in for its tooling only. | per-repo table in [STATE.md](STATE.md) |
 | D2 | Every Dependabot PR auto-merges once CI passes, majors included, with no cooldown. | `dependabot-auto-merge.yml`; `cooldown` exclusion ([dependabot.md](design/dependabot.md#contract)) |
 | D3 | Bun Dependabot is paused until lockfile v2 is supported; manual updates plus audits until then. | commented-out Bun blocks; `audit` job; `bun-v2` watch trigger |
-| D4 | Automatic Biome migration with `BIOME_MIGRATE_TOKEN`, built now. | `biome-migrate` hook and `biome-migrate.yml` ([biome.md](design/biome.md#contract)) |
+| D4 | Automatic Biome migration with `BIOME_MIGRATE_TOKEN`. | `biome-migrate` hook and `biome-migrate.yml` ([biome.md](design/biome.md#contract)) |
 | D5 | A dedicated auto-merge PAT. | `DEPENDENCY_AUTOMERGE_TOKEN` Dependabot secret ([auto-merge.md](design/auto-merge.md#parameters)) |
 | D6 | prek hooks update automatically: `.pre-commit-config.yaml` plus Dependabot's `pre-commit` ecosystem. | `pre-commit` entry in every `dependabot.yml` ([prek.md](design/prek.md#contract)) |
 | D7 | Local gitleaks plus GitHub secret scanning and push protection; a gitleaks CI scan only in dox. | gitleaks hook; repo security settings ([settings.md](design/settings.md#contract)) |
