@@ -1,4 +1,4 @@
-Last updated: 1791664216 (2026-10-10T20:30:16Z)
+Last updated: 1791664356 (2026-10-10T20:32:36Z)
 
 # State
 
@@ -48,7 +48,7 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | guides | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#84](https://github.com/edbfi/guides/pull/84)) | Actions | B1 |
 | isfuglen | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#71](https://github.com/edbfi/isfuglen/pull/71)) | Actions | B1 |
 | yt-redirect | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#89](https://github.com/edbfi/yt-redirect/pull/89)) | Actions | B1 |
-| docrewind | Bun web | S10 | live; push CI and audit verified | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | B1 |
+| docrewind | Bun web | S10 | live; push CI and audit verified [V, 2026-10-10] | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | B1 |
 | otpravkarr | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | B1 |
 | poyo-studio | Bun web | S10 | live; push CI verified (macOS media-tools included) | live | active | live; Dependabot merge observed ([#96](https://github.com/edbfi/poyo-studio/pull/96)) | — | B1 |
 | setun | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merges observed ([#113](https://github.com/edbfi/setun/pull/113), [#114](https://github.com/edbfi/setun/pull/114), [#115](https://github.com/edbfi/setun/pull/115)) | — | B1 |
