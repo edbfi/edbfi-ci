@@ -33,31 +33,31 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 
 | Repo | Beyond prek | Smoke | Runner(s) | Dependabot |
 |---|---|---|---|---|
-| guides | build | restore `scripts/smoke.sh`: serve `dist/`; `/`, `/google-drev/`, `/meebook/`, one GitBook redirect, `/pagefind/pagefind.js`; assert `<title>` | ubuntu | bun `/`, gha |
+| guides | build | `scripts/smoke.sh`: serve `dist/`; `/`, `/google-drev/`, `/meebook/`, one GitBook redirect, `/pagefind/pagefind.js`; assert `<title>` | ubuntu | bun `/`, gha |
 | isfuglen | `check-bundle.ts`; Playwright chromium/firefox/webkit (`--with-deps`, `CI=true`) | curl 8 routes + CSP meta; e2e | ubuntu | bun `/`, gha |
-| portaler | add tests to prek; build | `PORT=4321 bun run scripts/serve-dist.ts`; `/ /other /grade/3 /fag/matematik` | ubuntu | bun `/`, gha |
+| portaler | tests in prek; build | `PORT=4321 bun run scripts/serve-dist.ts`; `/ /other /grade/3 /fag/matematik` | ubuntu | bun `/`, gha |
 | yt-redirect | tests + build | Playwright chromium (24 tests, `e2e/`) | ubuntu | bun `/`, gha |
 | docrewind | guard scripts (~190 s), `test:logic`, `test:coverage`, build, zip, `zip:firefox`, `verify-manifest.sh`, `lint:firefox` | Playwright extension smoke; `verify-reproducible-build.sh` | ubuntu | bun `/`, gha |
 | obzorarr | drizzle drift (`drizzle-kit check`/`generate`, clean `git status`); build | `bun run smoke:production` with `DATABASE_PATH=$RUNNER_TEMP/smoke.db` | ubuntu | bun `/`, gha |
-| otpravkarr | Vitest (Node), build | new `scripts/smoke.ts`: empty DB, start `scripts/serve.ts`, `/api/health` ok/degraded, `/`→`/setup`; `test:e2e` | ubuntu | bun `/`, gha |
+| otpravkarr | Vitest (Node), build | `scripts/smoke.ts`: empty DB, start `scripts/serve.ts`, `/api/health` ok/degraded, `/`→`/setup`; `test:e2e` | ubuntu | bun `/`, gha |
 | poyo-studio | prek runs tests+build; `test:browser:ci` | `test:production-smoke`; never `test:live`, its live-approval switches or bare `bun test` | ubuntu + macOS media-tools | bun `/`, gha |
 | setun | `test:component`, Playwright (4 servers), `check:python`, `uv lock --check --project scripts`, drizzle drift, build; stub model gateway only (no real CLIProxyAPI, provider login or MCP credential) | dummy env with a synthetic `ORIGIN` (without one setun exits at startup), `/`→`/setup` title+banner, SIGTERM exits 0 | ubuntu | bun `/`, uv `/scripts`, docker `/`, docker-compose `/` + `/scripts` (grouped) |
-| zondarr | `uv sync --locked` (backend), `bun ci --ignore-scripts` at root + `frontend/`, frontend build, `uv build`, API-types drift (restore `check-api.ts`, 7038c47) | restore `smoke.py`: alembic upgrade, both servers (frontend through `scripts/serve.ts`), `/health/ready`, `/api/auth/methods` via proxy | ubuntu | uv `/backend`, bun `/`, bun `/frontend`, gha |
+| zondarr | `uv sync --locked` (backend), `bun ci --ignore-scripts` at root + `frontend/`, frontend build, `uv build`, API-types drift (`.github/scripts/check-api.ts`) | `.github/scripts/smoke.py`: alembic upgrade, both servers (frontend through `scripts/serve.ts`), `/health/ready`, `/api/auth/methods` via proxy | ubuntu | uv `/backend`, bun `/`, bun `/frontend`, gha |
 | wtfnzb-adapter | pytest hook, `uv build`, `prek validate-config` | Litestar `/health` + `caps` with dummy config | ubuntu | uv `/`, gha |
 | guide-capture | `check-sensitive-files --all`, `/bin/bash -n` | `bin/guide-capture validate specs/…android.json` | macos-latest (arm64) | gha |
 | arrsenal-of-scripts | `bash -n`, `shellcheck -S error`, `zsh -n`, unittest (63), basedpyright via `uvx` | `claude-diag.py --self-test` (age ≥1.3, zsh, GNU tar) | ubuntu | gha |
 | printlab-project | unittest hook (`systems/gateway/vpn-policy/tests`, 27; `pass_filenames: false`) | — | ubuntu | gha |
-| EasyHDR | Windows: integration tests `--test-threads=1`, doctests; Ubuntu: `cargo deny --locked check` | restore `smoke-windows.ps1` (release build, temp `%APPDATA%`, window + log line) | windows-latest + ubuntu | cargo `/`, cargo `/fuzz` (monthly), rust-toolchain, gha |
-| github-stats | `zig fmt --check`, `zig build test` | restore `smoke.py` (replay `tests/fixtures/stats.json`) | ubuntu | gha (Zig pin manual) |
+| EasyHDR | Windows: integration tests `--test-threads=1`, doctests; Ubuntu: `cargo deny --locked check` | `scripts/smoke-windows.ps1` (release build, temp `%APPDATA%`, window + log line) | windows-latest + ubuntu | cargo `/`, cargo `/fuzz` (monthly), rust-toolchain, gha |
+| github-stats | `zig fmt --check`, `zig build test` | `scripts/smoke.py` (replay `tests/fixtures/stats.json`) | ubuntu | gha (Zig pin manual) |
 | homebrew-taps | `bash -n` + shellcheck, 2 unittest trees; macOS: `brew readall`, `brew style`, `brew audit --cask` | changed formulae on Linux x64 + ARM64 ([d8.md](d8.md#contract)) | ubuntu-latest + `ubuntu-<gen>-arm` + macos-latest | gha |
-| pelican-eggs | restored `check-eggs.py`, `check-pair.py` | unittest (5), `bash -n` + shellcheck on `ini-merge.sh` | ubuntu | gha |
+| pelican-eggs | `.github/scripts/check-eggs.py`, `check-pair.py` | unittest (5), `bash -n` + shellcheck on `ini-merge.sh` | ubuntu | gha |
 | mover-status | `bash -n`, shellcheck | `python3 tests/runtime.py` (timing-sensitive; Linux only) | ubuntu | gha |
 | edbfi, comradarr, zimuarr | — | — | ubuntu | gha |
 | 3d-designs | keeps its read-only builtin hooks: no whitespace fixers or `check-added-large-files`, so generated print files, SVG and JSON stay byte-exact | — (renders need OpenSCAD and Bambu Studio) | ubuntu | gha |
 | icarus-bevy | keeps its `exclude` and its cargo fmt/clippy/test hooks, which run once `.rs` or Cargo files exist | — | ubuntu | gha |
 | agent-rules | rule-shape check (frontmatter, title, filename, TOML) | — | ubuntu | gha (pins inside `rules/*.md` stay manual) |
 | skills | docendo tests, `node --check scripts/*.mjs` | `scripts/check-content.py` | ubuntu | gha |
-| eksamen | Pages deploy of `docs/` | restore `smoke.sh` (`1e37642^`): serve `docs/`, `/index.html`, `/optagelsesprover.html` | ubuntu | gha |
+| eksamen | Pages deploy of `docs/` | `scripts/smoke.sh`: serve `docs/`, `/index.html`, `/optagelsesprover.html` | ubuntu | gha |
 | dox (private) | + gitleaks CI scan | — | ubuntu | gha (no pre-commit); advisory CI, manual merges |
 | repo-patches | `python3 -m unittest discover -s tools -p 'test_*.py'` | — | ubuntu | gha |
 | replex | fmt, clippy, test, build (red is accepted) | `REPLEX_HOST=http://127.0.0.1:9`, `/ping` → `pong!` | ubuntu | cargo (security-only, `open-pull-requests-limit: 0`, monthly), docker `/docker`, gha |

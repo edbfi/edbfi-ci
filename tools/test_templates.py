@@ -404,6 +404,8 @@ class AutoMergeTest(ScriptTest):
         live_steps = items(mapping(live["enable"])["steps"])
         code = script("dependabot-auto-merge.yml", "enable")
         self.assertEqual(mapping(live_steps[0])["run"], code)
+        # biome-migrate.yml's enable job runs the same script (design/biome.md rule 8).
+        self.assertEqual(script("biome-migrate.yml", "enable"), code)
         self.env.update(
             {"HEAD_SHA": "old", "PR_URL": "https://github.com/owner/repo/pull/2"}
         )
