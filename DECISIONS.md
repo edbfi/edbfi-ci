@@ -18,7 +18,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D12 | `-latest` runner labels, keeping required architectures. | [ci.md](design/ci.md#contract) rule 10; actionlint |
 | D13 | poyo-studio macOS media-tools job; homebrew Linux x86_64/ARM64 formula builds. | jobs required in `ci-ok` ([d8.md](design/d8.md#contract)) |
 | D14 | Watchdog option 1: a PAT with Actions RW re-enables disabled schedules automatically. | watchdog workflows ([watchdog.md](design/watchdog.md#contract)) |
-| D16 | homebrew-taps' updater bypasses the ruleset with a deploy key, its only bypass actor besides the admin role. | homebrew-taps ruleset ([settings.md](design/settings.md#contract)) |
+| D16 | homebrew-taps' updater pushes straight to main with the repo's write deploy key, which passes the admin-role bypass. | updater ([d8.md](design/d8.md#contract) rules 8 and 12) |
 | D17 | The shared hooks and the watchdog live in `edbfi-ci`. | `.pre-commit-hooks.yaml`; watchdog here |
 | D18 | Every SvelteKit app runs SvelteKit 3 with the official `@sveltejs/adapter-bun`, with no Kit 2 bridge. | stacks in [repos.md](design/repos.md#parameters); `kit-runtime-origin` watch trigger |
 | D19 | Each repo with a scheduled workflow re-enables its own workflows monthly with a PAT, alongside the D14 watchdog. | `immortality.yml` ([watchdog.md](design/watchdog.md#contract)) |
