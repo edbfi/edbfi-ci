@@ -1,4 +1,4 @@
-Last updated: 1791595779 (2026-10-10T01:29:39Z)
+Last updated: 1791596056 (2026-10-10T01:34:16Z)
 
 # State
 
@@ -32,6 +32,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S20 | GitHub-side cleanup: stale workflow registrations, `gh-pages` branches, wings-vpn archive and secret/PAT cleanup, Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` | blocked: the owner removes wings-vpn and replex from PAT `edbfi-dependabot-auto-merge`; everything else done | [#44](https://github.com/edbfi/edbfi-ci/pull/44) |
 | S21 | agent-rules: record `sveltekit-superforms` 3.0.0 as stable in `docs/toolchain-floors.md` (docs only) | done | [agent-rules#45](https://github.com/edbfi/agent-rules/pull/45); [#45](https://github.com/edbfi/edbfi-ci/pull/45) |
 | S22 | otpravkarr: each e2e Playwright run owns and removes its temporary database directory | done | [otpravkarr#159](https://github.com/edbfi/otpravkarr/pull/159); [#46](https://github.com/edbfi/edbfi-ci/pull/46) |
+| S23 | zondarr: document the VPN port a direct `PUBLIC_API_URL` needs in the container (docs only) | done | [zondarr#283](https://github.com/edbfi/zondarr/pull/283); [#47](https://github.com/edbfi/edbfi-ci/pull/47) |
 
 ## Repos
 
@@ -97,6 +98,5 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - obzorarr, otpravkarr, zondarr: without `ORIGIN` (no front) a SIGHUP kills the app without a drain, and a stop lingers past the drain deadline while the app awaits an upstream (11-19 s with `SHUTDOWN_TIMEOUT=2`); zondarr's `/api/[...path]` proxy call has no timeout.
 - setun: a chat stream whose first event hasn't arrived by the drain deadline gets the front's 503 instead of a clean end.
 - qflood: nightly's `version_flood__command` (no Hotio equivalent) takes the first successful Flood run from a list GitHub sometimes serves stale, so the channel can step back for an hour.
-- zondarr-docker: a VPN setup with `PUBLIC_API_URL` must expose port 8000 itself (`VPN_EXPOSE_PORTS_ON_LAN`); only the init comment says so.
 - homebrew-taps: the `DeployKey` bypass actor was removed (2026-10-09); the next updater push must show `bypass` and start push CI (`homebrew-push-admin-only` in [watch.yml](watch.yml)), as the playground did.
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
