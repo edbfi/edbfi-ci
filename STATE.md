@@ -1,4 +1,4 @@
-Last updated: 1791656631 (2026-10-10T18:23:51Z)
+Last updated: 1791664356 (2026-10-10T20:32:36Z)
 
 # State
 
@@ -48,7 +48,7 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | guides | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#84](https://github.com/edbfi/guides/pull/84)) | Actions | B1 |
 | isfuglen | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#71](https://github.com/edbfi/isfuglen/pull/71)) | Actions | B1 |
 | yt-redirect | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#89](https://github.com/edbfi/yt-redirect/pull/89)) | Actions | B1 |
-| docrewind | Bun web | S10 | live; push CI verified; `audit` red ([Open items](#open-items)) | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | B1 |
+| docrewind | Bun web | S10 | live; push CI and audit verified [V, 2026-10-10] | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | B1 |
 | otpravkarr | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | B1 |
 | poyo-studio | Bun web | S10 | live; push CI verified (macOS media-tools included) | live | active | live; Dependabot merge observed ([#96](https://github.com/edbfi/poyo-studio/pull/96)) | — | B1 |
 | setun | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merges observed ([#113](https://github.com/edbfi/setun/pull/113), [#114](https://github.com/edbfi/setun/pull/114), [#115](https://github.com/edbfi/setun/pull/115)) | — | B1 |
@@ -89,7 +89,6 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 ## Open items
 
-- docrewind: `audit` is red for braces (GHSA-vfj7-8cjw-p6xm) and node-forge (GHSA-86w9-cpqp-85rv), which have no fixed release; owner decision: a documented `--ignore` ([dependabot.md](design/dependabot.md#contract) rule 8.3) or waiting (`braces-fix`, `node-forge-fix` in [watch.yml](watch.yml)).
 - replex: Dependabot security PR [#10](https://github.com/edbfi/replex/pull/10) (bytes) waits for the owner's hand merge, after its CI failures match main's, as replex#3, #4, #6, #8 and #9 did. 23 Dependabot alerts stay open with no Dependabot PR (8 high: four in salvo, plus rustls, rustls-webpki, webpki, and rhai with no patched release) [V, 2026-10-10].
 - setun: Docker and Compose Dependabot updates auto-merge on host-only checks, which never build or run an image (#113 took CLIProxyAPI v7 → v8 and Caddy 2.11); owner decision: widen setun's row in [repos.md](design/repos.md#parameters) with a container check, or accept the risk ([auto-merge.md](design/auto-merge.md#contract) rule 1).
 - obzorarr, otpravkarr, zondarr: without `ORIGIN` (no front) a SIGHUP kills the app without a drain, and a stop lingers past the drain deadline while the app awaits an upstream (11-19 s with `SHUTDOWN_TIMEOUT=2`); zondarr's `/api/[...path]` proxy call has no timeout.
