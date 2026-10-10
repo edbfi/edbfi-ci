@@ -214,9 +214,7 @@ class TemplateContractTest(unittest.TestCase):
                 updates = [mapping(item) for item in items(load(path)["updates"])]
                 ecosystems = {str(item["package-ecosystem"]) for item in updates}
                 self.assertIn("github-actions", ecosystems)
-                self.assertEqual(
-                    "pre-commit" in ecosystems, path.name != "dependabot.dox.yml"
-                )
+                self.assertIn("pre-commit", ecosystems)
                 self.assertNotIn("bun", ecosystems)
                 for update in updates:
                     self.assertNotIn("ignore", update)
