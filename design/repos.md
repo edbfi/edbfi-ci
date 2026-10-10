@@ -4,7 +4,7 @@
 
 1. In the tiers below, "main" means the repo's default branch: `main` everywhere except github-stats, whose default branch is `master`. Substitute `master` there in every branch filter, ref guard and API path.
 2. "PAT" means a fine-grained personal access token; every PAT here acts as the owner.
-3. The in-scope repos are the tiers below (D1). Out of scope: website, base-image, obzorarr-docker, otpravkarr-docker, zondarr-docker, caddy, qbittorrent, qflood, sabnzbd (the hotio family keeps its upstream CI), and wings-vpn (to be archived, D10).
+3. The in-scope repos are the tiers below (D1). Out of scope: website, base-image, obzorarr-docker, otpravkarr-docker, zondarr-docker, caddy, qbittorrent, qflood, sabnzbd (the hotio family keeps its upstream CI), and wings-vpn (archived, D10).
 4. replex is in scope with advisory CI whose failures are accepted; repo-patches only for its tooling (D1).
 5. Each repo MUST own `ci.yml` (required check `ci-ok`), `pr-policy.yml` (required check `pr-policy`), `dependabot.yml` and `.pre-commit-config.yaml`; where they apply, `dependabot-auto-merge.yml`, `.github/actionlint.yaml` (Pages) and `scripts/smoke.*`; with its first scheduled workflow, `immortality.yml` ([watchdog.md](watchdog.md#contract)); and, in later steps, `biome-migrate.yml` ([biome.md](biome.md#parameters) repos), the D8 workflows ([d8.md](d8.md#contract) repos) and the watchdog ([watchdog.md](watchdog.md#contract) repos).
 6. Each repo MUST get the adaptations in its row below. Each rollout PR MUST also keep `process.env.CI`, `scripts/serve-dist.ts` and poyo-studio's `*:ci` scripts.
@@ -66,7 +66,7 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 
 - Each rolled-out repo's `ci.yml` has the row's checks and smoke, on the row's runners, and its `dependabot.yml` has exactly the row's ecosystems and directories.
 - github-stats workflows filter on `master`, never `main`.
-- Before S20 retires a workflow registration: its file is absent from every branch, its runs are inspected, only that workflow's runs are deleted, and the registrations are re-queried.
+- Retiring a workflow registration: its file is absent from every branch, its runs' logs and artifacts are saved, only that workflow's runs are deleted, and the registrations are re-queried.
 
 ## Open
 
