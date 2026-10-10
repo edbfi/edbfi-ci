@@ -25,21 +25,6 @@ triggers:
   - id: icarus-bevy-cargo
     kind: manual
     action: Once icarus-bevy has a Cargo project, move it to the Native tier in a PR that adds rust-toolchain.toml, a committed Cargo.lock, a Linux build job, cargo Dependabot and a cargo audit entry (design/repos.md).
-  - id: braces-fix
-    kind: npm_release
-    package: braces
-    above: 3.0.3
-    action: Take the fixed braces (GHSA-vfj7-8cjw-p6xm) in docrewind with bun audit fix (design/dependabot.md rule 8) so its audit turns green.
-  - id: node-forge-fix
-    kind: npm_release
-    package: node-forge
-    above: 1.4.0
-    action: Take the fixed node-forge (GHSA-86w9-cpqp-85rv) in docrewind with bun audit fix or bun update web-ext (design/dependabot.md rule 8) so its audit turns green.
-  - id: fx-runner-shell-quote
-    kind: npm_release
-    package: fx-runner
-    above: 1.6.0
-    action: If fx-runner now allows shell-quote 1.11.0 or later, drop docrewind's shell-quote override (package.json overrides) in a dependency PR.
   - id: openapi-typescript-peers
     kind: npm_release
     package: openapi-typescript
