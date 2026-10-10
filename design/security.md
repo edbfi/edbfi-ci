@@ -14,7 +14,7 @@
    5. run every `git` command with `-c core.hooksPath=/dev/null`.
 6. Work needing third-party actions MUST be split: an unprivileged job builds, and a shell-only privileged job publishes.
 7. A dispatchable job holding a write credential MUST add `github.ref == 'refs/heads/main'` to its `if:`.
-8. A privileged job fetching its own repo MUST pass `git -c http.extraheader="AUTHORIZATION: basic <base64 of x-access-token:$GITHUB_TOKEN>" fetch …` per command and MUST NOT write it to `.git/config`.
+8. A privileged job fetching its own repo over HTTPS MUST pass `git -c http.extraheader="AUTHORIZATION: basic <base64 of x-access-token:$GITHUB_TOKEN>" fetch …` per command and MUST NOT write it to `.git/config`. (homebrew-taps' updater pushes over SSH instead: [d8.md](d8.md#contract) rule 12.)
 9. If collaborators are ever given write access, secrets MUST move into environments with branch or tag policies.
 
 ## Parameters
