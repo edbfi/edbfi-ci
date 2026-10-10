@@ -1,4 +1,4 @@
-Last updated: 1791596056 (2026-10-10T01:34:16Z)
+Last updated: 1791649658 (2026-10-10T16:27:38Z)
 
 # State
 
@@ -29,7 +29,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S17 | D8: github-stats | done | [github-stats#33](https://github.com/edbfi/github-stats/pull/33); [#43](https://github.com/edbfi/edbfi-ci/pull/43) |
 | S18 | D8: EasyHDR | blocked: `VT_API_KEY` ([GitHub state](#github-state)) | — |
 | S19 | D8: homebrew-taps (D16 checks, [homebrew-taps#3](https://github.com/edbfi/homebrew-taps/pull/3) reconciliation) | done | [homebrew-taps#45](https://github.com/edbfi/homebrew-taps/pull/45), [#46](https://github.com/edbfi/homebrew-taps/pull/46); [#40](https://github.com/edbfi/edbfi-ci/pull/40) |
-| S20 | GitHub-side cleanup: stale workflow registrations, `gh-pages` branches, wings-vpn archive and secret/PAT cleanup, Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` | blocked: the owner removes wings-vpn and replex from PAT `edbfi-dependabot-auto-merge`; everything else done | [#44](https://github.com/edbfi/edbfi-ci/pull/44) |
+| S20 | GitHub-side cleanup: stale workflow registrations, `gh-pages` branches, wings-vpn archive and secret/PAT cleanup, Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` | done | [#44](https://github.com/edbfi/edbfi-ci/pull/44), [#48](https://github.com/edbfi/edbfi-ci/pull/48) |
 | S21 | agent-rules: record `sveltekit-superforms` 3.0.0 as stable in `docs/toolchain-floors.md` (docs only) | done | [agent-rules#45](https://github.com/edbfi/agent-rules/pull/45); [#45](https://github.com/edbfi/edbfi-ci/pull/45) |
 | S22 | otpravkarr: each e2e Playwright run owns and removes its temporary database directory | done | [otpravkarr#159](https://github.com/edbfi/otpravkarr/pull/159); [#46](https://github.com/edbfi/edbfi-ci/pull/46) |
 | S23 | zondarr: document the VPN port a direct `PUBLIC_API_URL` needs in the container (docs only) | done | [zondarr#283](https://github.com/edbfi/zondarr/pull/283); [#47](https://github.com/edbfi/edbfi-ci/pull/47) |
@@ -83,7 +83,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - `web_commit_signoff_required` is off in dox.
 - Grouped security updates ([settings.md](design/settings.md#contract) rule 3) have no API, so they wait for the owner in every rolled-out repo.
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
-- The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target except replex, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` still covers replex and the archived wings-vpn until the owner removes them (S20), and repo-patches holds the secret and PAT access ahead of its own rollout (S14, B8).
+- The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target except replex, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10]; repo-patches holds the secret and PAT access ahead of its own rollout (S14, B8).
 - The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos; github-stats has `STATS_READ_TOKEN`. EasyHDR lacks `VT_API_KEY` for S18; homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09]; neither edbfi-ci nor github-stats has the S16 watchdog secret yet.
 - otpravkarr-docker's and zondarr-docker's `release` builds fail at `archive/null.tar.gz` until each app publishes its first plain `X.Y.Z` release; accepted by the owner (2026-10-07).
 - `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts and security updates, secret scanning and push protection are on. Main push CI, audit and the watcher pass.
