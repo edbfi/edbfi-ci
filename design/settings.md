@@ -33,4 +33,4 @@
 
 - Auto-merge needs only the required checks: without one it merges at once ([auto-merge.md](auto-merge.md#contract) rule 12). Safe automation ([README](../README.md#principles) principle 1) needs no other rule.
 - The admin bypass lets the owner push small fixes straight to main; auto-merge still waits for the checks, even when enabled as the owner.
-- Every PAT and write deploy key acts as the owner ([repos.md](repos.md#contract) rule 2), so it could push or merge past the checks too; the ruleset is a merge gate, not a containment boundary.
+- Every PAT ([repos.md](repos.md#contract) rule 2) and write deploy key ([Parameters](#parameters)) acts as the owner, so it could push or merge past the checks too; the ruleset is a merge gate, not a containment boundary.
