@@ -1,4 +1,4 @@
-Last updated: 1791590629 (2026-10-10T00:03:49Z)
+Last updated: 1791592533 (2026-10-10T00:35:33Z)
 
 # State
 
@@ -26,7 +26,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S14 | core rollout: Special (replex advisory, dox manual, repo-patches) | blocked: B7 (dox), B8 (repo-patches); replex done | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
 | S15 | `biome-migrate.yml` in the ten Biome repos (idle until B1) | blocked: held by the owner (2026-10-08) | — |
 | S16 | watchdog (owner PAT and secrets in both watchdog repos first) | blocked: the watchdog secret ([GitHub state](#github-state)) | — |
-| S17 | D8: github-stats | pending | — |
+| S17 | D8: github-stats | done | [github-stats#33](https://github.com/edbfi/github-stats/pull/33); [#43](https://github.com/edbfi/edbfi-ci/pull/43) |
 | S18 | D8: EasyHDR | blocked: `VT_API_KEY` ([GitHub state](#github-state)) | — |
 | S19 | D8: homebrew-taps (D16 checks, [homebrew-taps#3](https://github.com/edbfi/homebrew-taps/pull/3) reconciliation) | done | [homebrew-taps#45](https://github.com/edbfi/homebrew-taps/pull/45), [#46](https://github.com/edbfi/homebrew-taps/pull/46); [#40](https://github.com/edbfi/edbfi-ci/pull/40) |
 | S20 | GitHub-side cleanup: stale workflow registrations, `gh-pages` branches, wings-vpn archive and secret/PAT cleanup, Actions copies of `DEPENDENCY_AUTOMERGE_TOKEN` | pending | — |
@@ -54,7 +54,7 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | arrsenal-of-scripts | Python | S11 | live; push CI verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/arrsenal-of-scripts/pull/40)) | — | — |
 | printlab-project | Python | S11 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
 | EasyHDR | Native | S12 | live; push CI verified (Windows tests, smoke, cargo-deny, `fuzz/` check) | live | active | live; Dependabot merges observed ([#177](https://github.com/edbfi/EasyHDR/pull/177), [#178](https://github.com/edbfi/EasyHDR/pull/178)) | — | — |
-| github-stats | Native | S12 | live on `master`; push CI verified | live | active | live; Dependabot merge observed ([#32](https://github.com/edbfi/github-stats/pull/32)) | — | — |
+| github-stats | Native | S12, S17 | live on `master`; push CI verified; daily stats generator live | live | active | live; Dependabot merge observed ([#32](https://github.com/edbfi/github-stats/pull/32)) | — | — |
 | homebrew-taps | Native | S12, S19 | live; push CI verified (formulae on x86_64 and ARM64, macOS casks); cask updater live | live | active (admin role only; the deploy key passes it, D16) | live; Dependabot merge observed ([#41](https://github.com/edbfi/homebrew-taps/pull/41)) | — | — |
 | pelican-eggs | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#37](https://github.com/edbfi/pelican-eggs/pull/37)) | — | — |
 | mover-status | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#60](https://github.com/edbfi/mover-status/pull/60)) | — | — |
