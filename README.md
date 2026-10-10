@@ -4,7 +4,7 @@ The single source of truth for CI across the edbfi repos: the design every repo'
 
 ## Principles
 
-1. **No human in the loop** where automation can do it safely. Accepted exceptions: manual Bun updates until Dependabot supports `bun.lock` v2 (B1, D3); dox (private, Free plan: manual merges); replex (manual merges until its CI is green).
+1. **No human in the loop** where automation can do it safely. Accepted exceptions: manual Bun updates until Dependabot supports `bun.lock` v2 (B1, D3); replex (manual merges until its CI is green).
 2. **No holds:** no Dependabot `ignore:` entries, pinned-back versions or hand-lifted allowlists; a broken upstream release keeps its PR red until a later release fixes it.
 3. **Future-proof over here-and-now:** build what the known next state needs if it is safe while idle; upstream follow-ups are watch entries, with manual conditions and exceptions stated explicitly.
 4. **Upstream mechanisms over custom code:** use Dependabot, GitHub and prek; custom code covers only what nothing upstream does, in one copy, here.
@@ -29,7 +29,7 @@ Design modules: [ci](design/ci.md) · [prek](design/prek.md) · [dependabot](des
 
 ## How a change lands
 
-The normal path in a rolled-out repo; replex and dox use the exceptions in [auto-merge.md](design/auto-merge.md#contract).
+The normal path in a rolled-out repo; replex uses the exceptions in [auto-merge.md](design/auto-merge.md#contract).
 
 ```mermaid
 flowchart LR

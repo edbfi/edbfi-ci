@@ -43,7 +43,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 | Native | [Rust/Windows](../templates/ci-rust.yml), [Zig](../templates/ci-zig.yml), [Homebrew](../templates/ci-homebrew.yml) |
 | Shell | [Shell](../templates/ci-shell.yml) |
 | Content | [Content](../templates/ci-content.yml), [static Pages](../templates/ci-content-pages.yml) |
-| Special | [repo-patches](../templates/ci-special.yml), [replex](../templates/ci-replex.yml), [dox](../templates/ci-dox.yml) |
+| Special | [repo-patches](../templates/ci-special.yml), [replex](../templates/ci-replex.yml) |
 
 - The uv `audit` invocation fails on a locked advisory and passes once it is fixed [V, 2026-10-08, wtfnzb-adapter#7, #10].
 - Pins, schedules, runners and commands live in those templates. Runner architectures were verified [V, 2026-09-27]; re-check at rollout (ci-A2).

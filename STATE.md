@@ -1,4 +1,4 @@
-Last updated: 1791649658 (2026-10-10T16:27:38Z)
+Last updated: 1791651566 (2026-10-10T16:59:26Z)
 
 # State
 
@@ -23,7 +23,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S12 | core rollout: Native | done | [EasyHDR#175](https://github.com/edbfi/EasyHDR/pull/175); [github-stats#31](https://github.com/edbfi/github-stats/pull/31); [homebrew-taps#40](https://github.com/edbfi/homebrew-taps/pull/40), [#42](https://github.com/edbfi/homebrew-taps/pull/42); [#36](https://github.com/edbfi/edbfi-ci/pull/36), [#37](https://github.com/edbfi/edbfi-ci/pull/37), [#38](https://github.com/edbfi/edbfi-ci/pull/38) |
 | S12a | homebrew-taps: rebuild [homebrew-taps#28](https://github.com/edbfi/homebrew-taps/pull/28) (qBittorrent cask) on core CI | done | [homebrew-taps#43](https://github.com/edbfi/homebrew-taps/pull/43); [#39](https://github.com/edbfi/edbfi-ci/pull/39) |
 | S13 | core rollout: Shell + Content | done | [pelican-eggs#36](https://github.com/edbfi/pelican-eggs/pull/36), [mover-status#59](https://github.com/edbfi/mover-status/pull/59), [comradarr#158](https://github.com/edbfi/comradarr/pull/158), [zimuarr#32](https://github.com/edbfi/zimuarr/pull/32), [agent-rules#43](https://github.com/edbfi/agent-rules/pull/43), [skills#34](https://github.com/edbfi/skills/pull/34), [eksamen#39](https://github.com/edbfi/eksamen/pull/39), [3d-designs#4](https://github.com/edbfi/3d-designs/pull/4), [icarus-bevy#1](https://github.com/edbfi/icarus-bevy/pull/1), [icarus-bevy#2](https://github.com/edbfi/icarus-bevy/pull/2); [#33](https://github.com/edbfi/edbfi-ci/pull/33) |
-| S14 | core rollout: Special (replex advisory, dox manual, repo-patches) | blocked: B7 (dox), B8 (repo-patches); replex done | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
+| S14 | core rollout: Special (replex advisory, repo-patches) | blocked: B8 (repo-patches); replex done | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
 | S15 | `biome-migrate.yml` in the ten Biome repos (idle until B1) | blocked: held by the owner (2026-10-08) | — |
 | S16 | watchdog (owner PAT and secrets in both watchdog repos first) | blocked: the watchdog secret ([GitHub state](#github-state)) | — |
 | S17 | D8: github-stats | done | [github-stats#33](https://github.com/edbfi/github-stats/pull/33); [#43](https://github.com/edbfi/edbfi-ci/pull/43) |
@@ -36,7 +36,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 
 ## Repos
 
-Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` means not rolled out. Of the target repos, only dox still has a `prek.toml`.
+Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` means not rolled out.
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
@@ -70,7 +70,6 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | icarus-bevy | Content | S13 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
 | repo-patches | Special | S14 | — | — | — | — | — | B8 |
 | replex | Special | S14 | live, advisory ([repos.md](design/repos.md#contract) rule 4): push `checks` red (rustfmt, clippy, cargo-test), smoke green | live | active (`pr-policy` only) | none ([auto-merge.md](design/auto-merge.md#contract) rule 7) | — | — |
-| dox | Special | S14 | — | — | — | — | — | B3, B7 |
 
 ## GitHub state
 
@@ -80,7 +79,6 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - `immortality.yml` and its `IMMORTALITY_TOKEN` are in every repo with a scheduled workflow: edbfi-ci, edbfi-ci-playground, the rolled-out target repos [V, 2026-10-09], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
 - Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-09]; no repo has classic branch protection.
 - Every target repo not yet rolled out: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off.
-- `web_commit_signoff_required` is off in dox.
 - Grouped security updates ([settings.md](design/settings.md#contract) rule 3) have no API, so they wait for the owner in every rolled-out repo.
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target except replex, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10]; repo-patches holds the secret and PAT access ahead of its own rollout (S14, B8).
@@ -91,7 +89,6 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 ## Open items
 
-- dox: its rollout adds a weekly schedule ([`ci-dox.yml`](templates/ci-dox.yml)), but dox has no `IMMORTALITY_TOKEN`, and [watchdog.md](design/watchdog.md#contract) rule 11 has no exception for private repos. Owner decision before the rollout: the secret, or a rule-11 exception.
 - replex: Dependabot security PRs [#3](https://github.com/edbfi/replex/pull/3) to [#6](https://github.com/edbfi/replex/pull/6) (openssl, rustls-webpki, serde_with, xxhash-rust) wait for the owner's hand merge; the advisory CI's red tests can't vouch for them.
 - docrewind: `audit` is red for braces (GHSA-vfj7-8cjw-p6xm) and node-forge (GHSA-86w9-cpqp-85rv), which have no fixed release; owner decision: a documented `--ignore` ([dependabot.md](design/dependabot.md#contract) rule 8.3) or waiting (`braces-fix`, `node-forge-fix` in [watch.yml](watch.yml)).
 - setun: Docker and Compose Dependabot updates auto-merge on host-only checks, which never build or run an image (#113 took CLIProxyAPI v7 → v8 and Caddy 2.11); owner decision: widen setun's row in [repos.md](design/repos.md#parameters) with a container check, or accept the risk ([auto-merge.md](design/auto-merge.md#contract) rule 1).

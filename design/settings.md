@@ -4,7 +4,7 @@
 
 1. Actions MUST be enabled with SHA pinning required, the default `GITHUB_TOKEN` permission read, and "Allow GitHub Actions to create and approve pull requests" off.
 2. Merging MUST be squash only, with squash title and message as in [pr-policy.md](pr-policy.md#contract), `delete_branch_on_merge` on, `allow_auto_merge` on (off in replex), and `web_commit_signoff_required: true`.
-3. Security MUST have dependency graph, Dependabot alerts, security updates, grouped security updates, Secret Protection and push protection on (D7). Public repos MUST NOT run a gitleaks CI scan; private dox MUST.
+3. Security MUST have dependency graph, Dependabot alerts, security updates, grouped security updates, Secret Protection and push protection on (D7). Repos MUST NOT run a gitleaks CI scan.
 4. Each repo MUST have a ruleset "main" that targets the default branch, and no classic branch protection (D21):
    1. its only rule is required checks `ci-ok` and `pr-policy` (replex: `pr-policy` only), sourced from GitHub Actions, **not strict**; no PR, force-push or deletion rule;
    2. its only bypass actor is the repository admin role in mode `always`, so the owner, and homebrew-taps' deploy key (D16), can push straight to main.
@@ -31,6 +31,6 @@
 
 ## Why
 
-- Auto-merge needs only the required checks: without one it merges at once ([auto-merge.md](auto-merge.md#contract) rule 12). Safe automation ([README](../README.md#principles) principle 1) needs no other rule.
+- Auto-merge needs only the required checks: without one it merges at once ([auto-merge.md](auto-merge.md#contract) rule 11). Safe automation ([README](../README.md#principles) principle 1) needs no other rule.
 - The admin bypass lets the owner push small fixes straight to main; auto-merge still waits for the checks, even when enabled as the owner.
 - Every PAT ([repos.md](repos.md#contract) rule 2) and write deploy key ([Parameters](#parameters)) acts as the owner, so it could push or merge past the checks too; the ruleset is a merge gate, not a containment boundary.
