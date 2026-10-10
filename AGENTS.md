@@ -30,12 +30,13 @@ Each `design/*.md` has exactly the sections Contract · Parameters · Verificati
 
 ## Environment
 
-- **Working copy:** `~/Documents/GitHub/edbfi/edbfi-ci` (`git@github.com-edbfi:edbfi/edbfi-ci.git`), public, default branch `main`.
+- **Workspace:** the `edbfi` account folder in the machine's GitHub directory (e.g. `~/github/edbfi`); paths below are relative to it.
+- **Working copy:** `edbfi-ci` (`git@github.com-edbfi:edbfi/edbfi-ci.git`), public, default branch `main`.
 - **License:** AGPL-3.0-only. Keep `LICENSE`; use this SPDX identifier in package metadata and new source files.
-- **Target repos:** clone into `~/Documents/GitHub/edbfi/<repo>` if missing, and `git fetch --prune` before relying on a clone. A clone may hold the owner's uncommitted edits: never stash, reset or commit them; work in a `git worktree` from `origin/<default>` instead.
+- **Target repos:** clone into `<repo>` if missing, and `git fetch --prune` before relying on a clone. A clone may hold the owner's uncommitted edits: never stash, reset or commit them; work in a `git worktree` from `origin/<default>` instead.
 - **Push guard:** at session start, set `git config remote.origin.pushurl no-push-allowed` in every clone of agent-rules and of the hotio-family repos ([repos.md](design/repos.md#contract)). Never unset it; push deliberately with `git push git@github.com-edbfi:edbfi/<repo>.git <branch>`.
-- **`gh`:** a shim refuses to run outside `~/Documents/GitHub/edbfi/…`, so run it from inside that tree.
-- **Archive:** `~/Documents/edbfi-investigations/2026-10-02-sveltekit-3-migration` (local-only) holds the SvelteKit 3 migration: ledgers, logs, PR bodies and the archived migration plans. Read it only when this repo doesn't answer a question; this repo wins. Never copy text from it or edit it.
+- **`gh`:** a shim picks the GitHub account from the folder it runs in and refuses to run outside the workspace, so run it from inside.
+- **Archive:** `edbfi-investigations/2026-10-02-sveltekit-3-migration` (local-only, beside the machine's GitHub directory, not on every machine) holds the SvelteKit 3 migration: ledgers, logs, PR bodies and the archived migration plans. Read it only when this repo doesn't answer a question; this repo wins. Never copy text from it or edit it.
 - **Rules:** read every `.agents/rules/*.md` in the repo you work in, if the directory exists; project rules override these instructions.
 - **Commits:** Conventional Commits with a DCO sign-off (`git commit -s`). Work on a branch and open a PR; follow [auto-merge.md](design/auto-merge.md#contract), including its manual and pre-rollout exceptions.
 - **Tool choice:** Prefer `gh`, `git` and other purpose-built CLIs for repository operations. For browser or frontend interaction, and website access using a signed-in session, use the `ego-browser` tool and skill instead of built-in browser tools.
