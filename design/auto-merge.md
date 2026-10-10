@@ -3,12 +3,12 @@
 ## Contract
 
 1. Every Dependabot PR, majors included, MUST be eligible, and MUST merge once `ci-ok` and `pr-policy` pass on its current head. CI is the only gate, so gaps in smoke depth are merge risks.
-2. `dependabot-auto-merge.yml` MUST exist in every public repo except replex, and only after the repo's ruleset exists ([settings.md](settings.md#contract)).
+2. `dependabot-auto-merge.yml` MUST exist in every public in-scope repo ([repos.md](repos.md#contract) rule 3) except replex, and only after the repo's ruleset exists ([settings.md](settings.md#contract)).
 3. Authorisation MUST be the PR author `dependabot[bot]` plus a same-repository head. The `github.actor` term only filters later pushes; the author check MUST NOT be removed.
 4. The `if:` MUST stay a single-line plain scalar.
 5. The workflow MUST use the PAT `edbfi-dependabot-auto-merge` through the Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN`, never `GITHUB_TOKEN`. The PAT and the secret MUST cover exactly the repos running the workflow; the secret MUST NOT exist as an Actions secret.
 6. The enable step MUST NOT pass `--subject` or `--body`, so the squash commit takes the PR title ([pr-policy.md](pr-policy.md#contract)).
-7. replex has no auto-merge workflow and no PAT (its settings: [settings.md](settings.md#contract)). It is merged by hand after reading the advisory `ci-ok`, and moves to the normal path once its CI is green and enforced.
+7. replex has no auto-merge workflow and no auto-merge PAT (its settings: [settings.md](settings.md#contract)). It is merged by hand after reading the advisory `ci-ok`, and moves to the normal path once its CI is green and enforced.
 8. dox has no auto-merge or rulesets; it is merged by hand.
 9. The Dependabot auto-merge workflow MUST retry transient GitHub merge-state instability within a bounded limit, keep the head guard on every attempt, and fail on other errors unless the head moved.
 

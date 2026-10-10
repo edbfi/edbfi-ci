@@ -13,7 +13,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D7 | Local gitleaks plus GitHub secret scanning and push protection; a gitleaks CI scan only in dox. | gitleaks hook; repo security settings ([settings.md](design/settings.md#contract)) |
 | D8 | Restore the github-stats generator, homebrew direct updates, EasyHDR release/audit/Miri/profiling; defer docrewind releases. | D8 workflows ([d8.md](design/d8.md#contract)) |
 | D9 | Conventional Commits titles plus DCO. | required check `pr-policy` ([pr-policy.md](design/pr-policy.md#contract)) |
-| D10 | Archive wings-vpn; EasyHDR `/fuzz` updates monthly. | S20 cleanup; EasyHDR `dependabot.yml` |
+| D10 | Archive wings-vpn; EasyHDR `/fuzz` updates monthly. | wings-vpn archived ([STATE](STATE.md#github-state)); EasyHDR `dependabot.yml` |
 | D11 | eksamen publishes through the gated deploy. | `deploy` job ([ci.md](design/ci.md#contract)) |
 | D12 | `-latest` runner labels, keeping required architectures. | [ci.md](design/ci.md#contract) rule 10; actionlint |
 | D13 | poyo-studio macOS media-tools job; homebrew Linux x86_64/ARM64 formula builds. | jobs required in `ci-ok` ([d8.md](design/d8.md#contract)) |
