@@ -25,7 +25,7 @@
 ## Parameters
 
 - PAT `edbfi-dependabot-auto-merge`: no expiry; Contents, Pull requests and Workflows RW (`github-actions` PRs modify workflow files).
-- Current coverage and leftover Actions copies: [STATE.md](../STATE.md#github-state).
+- Current coverage and drift: [STATE.md](../STATE.md#github-state).
 - Workflow: [dependabot-auto-merge.yml](../templates/dependabot-auto-merge.yml).
 - GitHub rejects `--auto --match-head-commit` with an outdated SHA [V, 2026-09-30].
 - A repository-scoped fine-grained PAT merges both immediately and after required checks recover, including workflow updates, and starts push CI on the squash SHA [V, 2026-09-30, playground].
