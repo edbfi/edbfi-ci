@@ -1,4 +1,4 @@
-Last updated: 1791682295 (2026-10-11T01:31:35Z)
+Last updated: 1791716331 (2026-10-11T10:58:51Z)
 
 # State
 
@@ -24,7 +24,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S12a | homebrew-taps: rebuild [homebrew-taps#28](https://github.com/edbfi/homebrew-taps/pull/28) (qBittorrent cask) on core CI | done | [homebrew-taps#43](https://github.com/edbfi/homebrew-taps/pull/43); [#39](https://github.com/edbfi/edbfi-ci/pull/39) |
 | S13 | core rollout: Shell + Content | done | [pelican-eggs#36](https://github.com/edbfi/pelican-eggs/pull/36), [mover-status#59](https://github.com/edbfi/mover-status/pull/59), [comradarr#158](https://github.com/edbfi/comradarr/pull/158), [zimuarr#32](https://github.com/edbfi/zimuarr/pull/32), [agent-rules#43](https://github.com/edbfi/agent-rules/pull/43), [skills#34](https://github.com/edbfi/skills/pull/34), [eksamen#39](https://github.com/edbfi/eksamen/pull/39), [3d-designs#4](https://github.com/edbfi/3d-designs/pull/4), [icarus-bevy#1](https://github.com/edbfi/icarus-bevy/pull/1), [icarus-bevy#2](https://github.com/edbfi/icarus-bevy/pull/2); [#33](https://github.com/edbfi/edbfi-ci/pull/33) |
 | S14 | core rollout: Special (replex advisory, repo-patches) | blocked: B8 (repo-patches); replex done | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
-| S15 | `biome-migrate.yml` in the ten Biome repos (idle until B1) | blocked: held by the owner (2026-10-08) | — |
+| S15 | Dependabot `bun` blocks and `biome-migrate.yml` in the ten Biome repos | blocked: the `biome-migrate.yml` pilot in portaler waits for a Dependabot Biome PR; then the other nine | Bun: [portaler#122](https://github.com/edbfi/portaler/pull/122); [guides#86](https://github.com/edbfi/guides/pull/86); [isfuglen#73](https://github.com/edbfi/isfuglen/pull/73); [yt-redirect#91](https://github.com/edbfi/yt-redirect/pull/91); [docrewind#182](https://github.com/edbfi/docrewind/pull/182); [obzorarr#241](https://github.com/edbfi/obzorarr/pull/241); [otpravkarr#161](https://github.com/edbfi/otpravkarr/pull/161); [poyo-studio#98](https://github.com/edbfi/poyo-studio/pull/98); [setun#121](https://github.com/edbfi/setun/pull/121); [zondarr#286](https://github.com/edbfi/zondarr/pull/286); pilot: [portaler#126](https://github.com/edbfi/portaler/pull/126) |
 | S16 | watchdog (owner PAT and secrets in both watchdog repos first) | blocked: the watchdog secret ([GitHub state](#github-state)) | — |
 | S17 | D8: github-stats | done | [github-stats#33](https://github.com/edbfi/github-stats/pull/33); [#43](https://github.com/edbfi/edbfi-ci/pull/43) |
 | S18 | D8: EasyHDR | blocked: `VT_API_KEY` ([GitHub state](#github-state)) | — |
@@ -41,18 +41,18 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
 | edbfi-ci | — | S4 | live; push CI and audit verified | live | active | live; credential installed | — | protocol verified in playground; edbfi-ci bot merge unobserved |
-| portaler | Bun web | S6 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#120](https://github.com/edbfi/portaler/pull/120)) | Actions | B1 |
-| obzorarr | Bun web | S7 | live; push CI verified | live | active | live; Dependabot merge observed ([#238](https://github.com/edbfi/obzorarr/pull/238)) | — | B1 |
+| portaler | Bun web | S6 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#120](https://github.com/edbfi/portaler/pull/120)) | Actions | — |
+| obzorarr | Bun web | S7 | live; push CI verified | live | active | live; Dependabot merge observed ([#238](https://github.com/edbfi/obzorarr/pull/238)) | — | — |
 | wtfnzb-adapter | Python | S8 | live; push CI and audit verified | live | active | live; Dependabot merges observed ([#8](https://github.com/edbfi/wtfnzb-adapter/pull/8), [#9](https://github.com/edbfi/wtfnzb-adapter/pull/9)) | — | — |
 | edbfi | Content | S9 | live; push CI verified | live | active | live; Dependabot merge observed ([#36](https://github.com/edbfi/edbfi/pull/36)) | — | — |
-| guides | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#84](https://github.com/edbfi/guides/pull/84)) | Actions | B1 |
-| isfuglen | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#71](https://github.com/edbfi/isfuglen/pull/71)) | Actions | B1 |
-| yt-redirect | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#89](https://github.com/edbfi/yt-redirect/pull/89)) | Actions | B1 |
-| docrewind | Bun web | S10 | live; push CI and audit verified [V, 2026-10-10] | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | B1 |
-| otpravkarr | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | B1 |
-| poyo-studio | Bun web | S10 | live; push CI verified (macOS media-tools included) | live | active | live; Dependabot merge observed ([#96](https://github.com/edbfi/poyo-studio/pull/96)) | — | B1 |
-| setun | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merges observed ([#113](https://github.com/edbfi/setun/pull/113), [#114](https://github.com/edbfi/setun/pull/114), [#115](https://github.com/edbfi/setun/pull/115)) | — | B1 |
-| zondarr | Python | S11 | live; push CI and audit verified | live | active | live; Dependabot merges observed ([#277](https://github.com/edbfi/zondarr/pull/277), [#278](https://github.com/edbfi/zondarr/pull/278)) | — | B1, B6 |
+| guides | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#84](https://github.com/edbfi/guides/pull/84)) | Actions | — |
+| isfuglen | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#71](https://github.com/edbfi/isfuglen/pull/71)) | Actions | — |
+| yt-redirect | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#89](https://github.com/edbfi/yt-redirect/pull/89)) | Actions | — |
+| docrewind | Bun web | S10 | live; push CI and audit verified [V, 2026-10-10] | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | — |
+| otpravkarr | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | — |
+| poyo-studio | Bun web | S10 | live; push CI verified (macOS media-tools included) | live | active | live; Dependabot merge observed ([#96](https://github.com/edbfi/poyo-studio/pull/96)) | — | — |
+| setun | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merges observed ([#113](https://github.com/edbfi/setun/pull/113), [#114](https://github.com/edbfi/setun/pull/114), [#115](https://github.com/edbfi/setun/pull/115)) | — | — |
+| zondarr | Python | S11 | live; push CI and audit verified | live | active | live; Dependabot merges observed ([#277](https://github.com/edbfi/zondarr/pull/277), [#278](https://github.com/edbfi/zondarr/pull/278)) | — | B6 |
 | guide-capture | Python | S11 | live; push CI verified (macOS included) | live | active | live; Dependabot merge observed ([#39](https://github.com/edbfi/guide-capture/pull/39)) | — | — |
 | arrsenal-of-scripts | Python | S11 | live; push CI verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/arrsenal-of-scripts/pull/40)) | — | — |
 | printlab-project | Python | S11 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
@@ -90,7 +90,6 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 ## Open items
 
 - replex: 22 Dependabot alerts stay open with no Dependabot PR (8 high: four in salvo, plus rustls, rustls-webpki, webpki, and rhai with no patched release) [V, 2026-10-10].
-- zondarr: a refresh whose answer never reaches the browser (a client that disconnects mid-refresh) leaves it holding the consumed refresh token; its next refresh counts as a replay and revokes every session of that admin (`consume_refresh_token`); owner decision: make the backend's rotation recoverable (e.g. a short grace window for the just-rotated token), or accept the risk. The frontend adds no deadline to refreshes for this reason.
-- qflood: nightly's `version_flood__command` (no Hotio equivalent) takes the first successful Flood run from a list GitHub sometimes serves stale, so the channel can step back for an hour. The fix, [qflood#33](https://github.com/edbfi/qflood/pull/33) (largest of the listed runs and the current value), waits for the owner's merge, which publishes the nightly image.
+- zondarr: owner decision (2026-10-11): replace account-wide refresh-replay revocation with per-login sessions, lost-answer recovery and a 14-day absolute session cap, in one PR.
 - homebrew-taps: the `DeployKey` bypass actor was removed (2026-10-09); the next updater push must show `bypass` and start push CI (`homebrew-push-admin-only` in [watch.yml](watch.yml)), as the playground did.
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).

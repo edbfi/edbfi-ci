@@ -62,7 +62,7 @@ class WatchTest(unittest.TestCase):
                 )
 
     def test_repository_config_and_versions(self) -> None:
-        self.assertEqual(len(watch.load(CONFIG)), 13)
+        self.assertEqual(len(watch.load(CONFIG)), 12)
         self.assertGreater(watch.version("v1.10.0"), watch.version("1.9.99"))
         self.assertEqual(watch.version("v2.5.14"), watch.version("2.5.14"))
         for value in ("latest", "1.2", "1.2.3-rc.1", "01.2.3", "1.2.3+meta"):
@@ -75,10 +75,10 @@ class WatchTest(unittest.TestCase):
             "[]",
             "triggers: []",
             "triggers: [false]",
-            original.replace("id: actionlint-queue", "id: bun-v2"),
+            original.replace("id: ubuntu-latest-26", "id: actionlint-queue"),
             original.replace("kind: merged_pr", "kind: typo", 1),
-            original.replace("number: 16071", "number: true"),
-            original.replace("number: 16071", "number: -1"),
+            original.replace("number: 17194", "number: true"),
+            original.replace("number: 17194", "number: -1"),
             original.replace("above: 1.7.12", "above: latest"),
             original.replace("kind: manual", "kind: manual\n    surprise: true"),
             original.replace("repo: rhysd/actionlint", "repo: ../bad/path"),
@@ -171,7 +171,7 @@ class WatchTest(unittest.TestCase):
             self.assertIsNone(watch.check(trigger, "other"))
             self.assertIsNotNone(watch.check(trigger, "manual"))
             api.assert_not_called()
-        for manual in ("unknown", "bun-v2"):
+        for manual in ("unknown", "actionlint-queue"):
             with self.assertRaises(ValueError):
                 watch.run(CONFIG, "edbfi/edbfi-ci", dry_run=True, manual=manual)
 
@@ -191,7 +191,7 @@ class WatchTest(unittest.TestCase):
         self.assertEqual(
             output.getvalue().count("Would create:"), len(watch.load(CONFIG))
         )
-        self.assertIn("<!-- edbfi-watch:bun-v2 -->", output.getvalue())
+        self.assertIn("<!-- edbfi-watch:actionlint-queue -->", output.getvalue())
 
     def test_existing_open_or_closed_issue_on_later_page_prevents_duplicates(
         self,
@@ -199,11 +199,11 @@ class WatchTest(unittest.TestCase):
         for state in ("open", "closed"):
             pages = [
                 [{"body": "unrelated"}],
-                [{"body": "<!-- edbfi-watch:bun-v2 -->\n", "state": state}],
+                [{"body": "<!-- edbfi-watch:actionlint-queue -->\n", "state": state}],
             ]
 
             def check(trigger: watch.Trigger, _manual: str) -> str | None:
-                return "merged" if trigger.id == "bun-v2" else None
+                return "released" if trigger.id == "actionlint-queue" else None
 
             with (
                 patch.object(watch, "check", side_effect=check),
@@ -219,10 +219,10 @@ class WatchTest(unittest.TestCase):
         self,
     ) -> None:
         def check(trigger: watch.Trigger, _manual: str) -> str | None:
-            return "$(touch /tmp/never-run)" if trigger.id == "bun-v2" else None
+            return "$(touch /tmp/never-run)" if trigger.id == "actionlint-queue" else None
 
         pages: list[list[dict[str, object]]] = [
-            [{"body": "<!-- edbfi-watch:bun-v2 -->", "pull_request": {}}]
+            [{"body": "<!-- edbfi-watch:actionlint-queue -->", "pull_request": {}}]
         ]
         with (
             patch.object(watch, "check", side_effect=check),
@@ -240,11 +240,11 @@ class WatchTest(unittest.TestCase):
                 "--repo",
                 "edbfi/edbfi-ci",
                 "--title",
-                "chore: follow up on bun-v2",
+                "chore: follow up on actionlint-queue",
                 "--body-file",
                 "-",
             ],
-            input=f"<!-- edbfi-watch:bun-v2 -->\n\n$(touch /tmp/never-run)\n\n{trigger.action}\n\nRemove this entry from watch.yml in the PR that completes the action.\n",
+            input=f"<!-- edbfi-watch:actionlint-queue -->\n\n$(touch /tmp/never-run)\n\n{trigger.action}\n\nRemove this entry from watch.yml in the PR that completes the action.\n",
             text=True,
             check=True,
             timeout=120,
