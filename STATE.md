@@ -1,4 +1,4 @@
-Last updated: 1791752471 (2026-10-11T21:01:11Z)
+Last updated: 1791752873 (2026-10-11T21:07:53Z)
 
 # State
 
@@ -80,7 +80,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 - Actions is enabled in all 41 non-archived repositories (wings-vpn is archived, D10) [V, 2026-10-10]. Pullfrog's workflow is on the default branch of all of them [V, 2026-10-09].
 - `immortality.yml` and its `IMMORTALITY_TOKEN` are in every repo with a scheduled workflow: edbfi-ci, edbfi-ci-playground, the rolled-out target repos [V, 2026-10-09], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
-- Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-09]; no repo has classic branch protection.
+- Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-09; repo-patches, 2026-10-11]; no repo has classic branch protection.
 - Grouped security updates ([settings.md](design/settings.md#contract) rule 3) have no API, so they wait for the owner in every rolled-out repo.
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target except replex, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10].
@@ -96,8 +96,8 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - homebrew-taps: the `DeployKey` bypass actor was removed (2026-10-09); the next updater push must show `bypass` and start push CI (`homebrew-push-admin-only` in [watch.yml](watch.yml)), as the playground did.
 - obzorarr custom slides: `src/lib/server/slides/sanitize.ts:54` allows `class` on user HTML, so the utilities a slide can use are whatever source extraction and the UnoCSS safelist happen to generate. About half of the 86 safelist entries also appear in source; the rest appear in no source file. The owner decides which classes slides support. `@unocss/reset` is an unused dependency there.
 - SvelteKit dev servers (all five apps): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead.
-- comradarr and zimuarr opt in to `svelte5-sveltekit-app` in agent-rules' `manifest.toml` but hold older accepted copies (`65c464cc`, `6cee75bc`); re-copy agent-rules@1adb50b ([repos.md](design/repos.md#contract) rule 10).
+- comradarr and zimuarr opt in to `svelte5-sveltekit-app` in agent-rules' `manifest.toml` but hold older accepted copies (`65c464cc`, `6cee75bc`, [repos.md](design/repos.md#contract) rule 10); re-copy agent-rules@1adb50b.
 - replex is a fork: GitHub runs its Dependabot version updates only once they're enabled in its settings (owner), and its `pullfrog.yml` is still v0.1.95.
 - `tools/sync_pullfrog.py --check` compares bytes, so it reports each repo whose Dependabot hasn't yet taken the template's `pullfrog/pullfrog` pin: 12 copies differ on that line only (replex, wtfnzb-adapter, and 10 out-of-scope repos without Dependabot) [V, 2026-10-11]. Compare with the pin line normalized, or document it.
-- `templates/pre-commit.*.yaml`: Dependabot's `pre-commit` updater reads only `.pre-commit-config.yaml`, so the template hook `rev:` values don't move (the gap S27 closed for action pins); none has drifted yet.
+- `templates/pre-commit.*.yaml`: Dependabot's `pre-commit` updater reads only `.pre-commit-config.yaml`, so the template hook `rev:` values don't move; none has drifted yet.
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
