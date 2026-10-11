@@ -25,7 +25,7 @@ The single source of truth for CI across the edbfi repos: the design every repo'
 | [templates/](templates/) | workflow, Dependabot and hook starting points; rollout adaptations in [repos.md](design/repos.md) |
 | [.pre-commit-config.yaml](.pre-commit-config.yaml) · [.github/](.github/) | this repo's hooks, CI and Dependabot config |
 
-Design modules: [ci](design/ci.md) · [prek](design/prek.md) · [dependabot](design/dependabot.md) · [auto-merge](design/auto-merge.md) · [pr-policy](design/pr-policy.md) · [settings](design/settings.md) · [security](design/security.md) · [biome](design/biome.md) · [watchdog](design/watchdog.md) · [d8](design/d8.md) · [repos](design/repos.md).
+Design modules: [ci](design/ci.md) · [prek](design/prek.md) · [dependabot](design/dependabot.md) · [auto-merge](design/auto-merge.md) · [pr-policy](design/pr-policy.md) · [settings](design/settings.md) · [security](design/security.md) · [biome](design/biome.md) · [scheduled maintenance](design/watchdog.md) · [d8](design/d8.md) · [repos](design/repos.md).
 
 ## How a change lands
 
@@ -54,7 +54,6 @@ flowchart LR
   w["watch.yml workflow, weekly<br/>(reads root watch.yml)"] -->|condition met| iss["one issue per trigger<br/>in edbfi-ci"]
   sched["ci.yml, weekly"] --> aud["main revalidation;<br/>audit and Pages redeploy where applicable"]
   imm["immortality.yml, monthly<br/>(every repo with a schedule)"] --> reen["re-enables eligible workflows;<br/>manually disabled ones stay off"]
-  wd["watchdogs, daily: edbfi-ci ⇄ github-stats<br/>(planned, S16)"] --> trk["one tracking issue each;<br/>re-enables disabled_inactivity"]
 ```
 
 ## Hotio image family
