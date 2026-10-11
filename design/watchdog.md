@@ -27,7 +27,7 @@
 
 ## Open
 
-- watchdog-A1: what counts as activity for the 60-day rule (github-stats pushes, re-enabling, issues); `immortality.yml` relies on re-enabling. Closes when a repo's `disabled_inactivity` history, or GitHub documentation, settles it.
+- watchdog-A1: what counts as activity for the 60-day rule (github-stats pushes, re-enabling, issues); `immortality.yml` relies on re-enabling. Until then, inactivity could disable `immortality.yml` itself without any failed run or notification; with no watchdog (D14) that is an accepted risk, kept small because Dependabot merges push to every rolled-out repo. Closes when a repo's `disabled_inactivity` history, or GitHub documentation, settles it.
 
 ## Why
 
