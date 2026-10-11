@@ -27,6 +27,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D22 | dox is out of scope: private Markdown notes that need no CI (owner, 2026-10-10). | [repos.md](design/repos.md#contract) rule 3 |
 | D23 | repo-patches gets the two-job [`ci-special.yml`](templates/ci-special.yml); its `test_workflows` checks the privileged-job rule per job instead of requiring one job per workflow (owner, 2026-10-11). | repo-patches `tools/test_workflows.py` (S14) |
 | D24 | Kit 3's `transform_index_html_unsupported` warning for UnoCSS stays: Kit never calls the hook, and `app.html` holds no utilities, so nothing is lost (owner, 2026-10-11). | — |
+| D25 | repo-patches' `test_workflows` requires the main guard only on dispatchable secret jobs; a secret job in a `pull_request`-only workflow leads its `if:` with the Dependabot author and same-repository head check instead (owner, 2026-10-11). | repo-patches `tools/test_workflows.py` ([repo-patches#58](https://github.com/edbfi/repo-patches/pull/58)) |
 
 ## Blockers
 
