@@ -28,12 +28,12 @@
 
 - Layer 1: `rg -n '"\$schema"' biome.json*` shows the local path; `rg -in -g 'CLAUDE.md' -g 'AGENTS.md' 'biome [0-9]'` finds no match in the target repo.
 - Layer 2: bumping Biome across a migration makes `prek run --all-files --hook-stage manual` fail with a modified `biome.json`.
-- Layer 3: a Dependabot Biome PR gains one `apply biome migrate` commit, whose parent is the Dependabot head, and auto-merges.
+- Layer 3: a Dependabot Biome PR gains one `apply biome migrate` commit, whose parent is the Dependabot head, and auto-merges; its unmigrated head stays red until then, and the bot's own commit doesn't re-trigger the workflow [V, 2026-10-11, edbfi-ci-playground#15, Biome 1.9.4 → 2.5.15 with a local `$schema`].
 
 ## Open
 
-- biome-A1: `biome migrate --write` with a local `$schema`, and whether a promoted nursery rule fails `biome ci`. Closes on the first Biome minor bump after layer 1 lands.
-- biome-A2: how `[dependabot skip]` interacts with Dependabot's "stop rebasing" behaviour. Closes with the layer 3 pilot.
+- biome-A1: whether a promoted nursery rule fails `biome ci`. Closes on the first Biome minor bump in a Biome repo.
+- biome-A2: how `[dependabot skip]` interacts with Dependabot's "stop rebasing" behaviour; the pilot merged before any rebase. Closes when a migrated Biome PR needs a rebase.
 
 ## Why
 
