@@ -1,4 +1,4 @@
-Last updated: 1791716331 (2026-10-11T10:58:51Z)
+Last updated: 1791717859 (2026-10-11T11:24:19Z)
 
 # State
 
@@ -25,7 +25,6 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S13 | core rollout: Shell + Content | done | [pelican-eggs#36](https://github.com/edbfi/pelican-eggs/pull/36), [mover-status#59](https://github.com/edbfi/mover-status/pull/59), [comradarr#158](https://github.com/edbfi/comradarr/pull/158), [zimuarr#32](https://github.com/edbfi/zimuarr/pull/32), [agent-rules#43](https://github.com/edbfi/agent-rules/pull/43), [skills#34](https://github.com/edbfi/skills/pull/34), [eksamen#39](https://github.com/edbfi/eksamen/pull/39), [3d-designs#4](https://github.com/edbfi/3d-designs/pull/4), [icarus-bevy#1](https://github.com/edbfi/icarus-bevy/pull/1), [icarus-bevy#2](https://github.com/edbfi/icarus-bevy/pull/2); [#33](https://github.com/edbfi/edbfi-ci/pull/33) |
 | S14 | core rollout: Special (replex advisory, repo-patches) | blocked: B8 (repo-patches); replex done | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
 | S15 | Dependabot `bun` blocks and `biome-migrate.yml` in the ten Biome repos | blocked: the `biome-migrate.yml` pilot in portaler waits for a Dependabot Biome PR; then the other nine | Bun: [portaler#122](https://github.com/edbfi/portaler/pull/122); [guides#86](https://github.com/edbfi/guides/pull/86); [isfuglen#73](https://github.com/edbfi/isfuglen/pull/73); [yt-redirect#91](https://github.com/edbfi/yt-redirect/pull/91); [docrewind#182](https://github.com/edbfi/docrewind/pull/182); [obzorarr#241](https://github.com/edbfi/obzorarr/pull/241); [otpravkarr#161](https://github.com/edbfi/otpravkarr/pull/161); [poyo-studio#98](https://github.com/edbfi/poyo-studio/pull/98); [setun#121](https://github.com/edbfi/setun/pull/121); [zondarr#286](https://github.com/edbfi/zondarr/pull/286); pilot: [portaler#126](https://github.com/edbfi/portaler/pull/126) |
-| S16 | watchdog (owner PAT and secrets in both watchdog repos first) | blocked: the watchdog secret ([GitHub state](#github-state)) | — |
 | S17 | D8: github-stats | done | [github-stats#33](https://github.com/edbfi/github-stats/pull/33); [#43](https://github.com/edbfi/edbfi-ci/pull/43) |
 | S18 | D8: EasyHDR | blocked: `VT_API_KEY` ([GitHub state](#github-state)) | — |
 | S19 | D8: homebrew-taps (D16 checks, [homebrew-taps#3](https://github.com/edbfi/homebrew-taps/pull/3) reconciliation) | done | [homebrew-taps#45](https://github.com/edbfi/homebrew-taps/pull/45), [#46](https://github.com/edbfi/homebrew-taps/pull/46); [#40](https://github.com/edbfi/edbfi-ci/pull/40) |
@@ -82,7 +81,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - Grouped security updates ([settings.md](design/settings.md#contract) rule 3) have no API, so they wait for the owner in every rolled-out repo.
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target except replex, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10]; repo-patches holds the secret and PAT access ahead of its own rollout (S14, B8).
-- The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos; github-stats has `STATS_READ_TOKEN`. EasyHDR lacks `VT_API_KEY` for S18; homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09]; neither edbfi-ci nor github-stats has the S16 watchdog secret yet.
+- The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos; github-stats has `STATS_READ_TOKEN`. EasyHDR lacks `VT_API_KEY` for S18; homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09].
 - otpravkarr-docker's and zondarr-docker's `release` builds fail at `archive/null.tar.gz` until each app publishes its first plain `X.Y.Z` release; accepted by the owner (2026-10-07).
 - `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts and security updates, secret scanning and push protection are on. Main push CI, audit and the watcher pass.
 - `edbfi-ci-playground` is active for reusable CI integration tests. Keep it and its credential for further testing; each pilot verifies its own installed credential and deployment.
