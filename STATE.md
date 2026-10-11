@@ -1,4 +1,4 @@
-Last updated: 1791681880 (2026-10-11T01:24:40Z)
+Last updated: 1791682295 (2026-10-11T01:31:35Z)
 
 # State
 
@@ -91,6 +91,6 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 
 - replex: 22 Dependabot alerts stay open with no Dependabot PR (8 high: four in salvo, plus rustls, rustls-webpki, webpki, and rhai with no patched release) [V, 2026-10-10].
 - zondarr: a refresh whose answer never reaches the browser (a client that disconnects mid-refresh) leaves it holding the consumed refresh token; its next refresh counts as a replay and revokes every session of that admin (`consume_refresh_token`); owner decision: make the backend's rotation recoverable (e.g. a short grace window for the just-rotated token), or accept the risk. The frontend adds no deadline to refreshes for this reason.
-- qflood: nightly's `version_flood__command` (no Hotio equivalent) takes the first successful Flood run from a list GitHub sometimes serves stale, so the channel can step back for an hour.
+- qflood: nightly's `version_flood__command` (no Hotio equivalent) takes the first successful Flood run from a list GitHub sometimes serves stale, so the channel can step back for an hour. The fix, [qflood#33](https://github.com/edbfi/qflood/pull/33) (largest of the listed runs and the current value), waits for the owner's merge, which publishes the nightly image.
 - homebrew-taps: the `DeployKey` bypass actor was removed (2026-10-09); the next updater push must show `bypass` and start push CI (`homebrew-push-admin-only` in [watch.yml](watch.yml)), as the playground did.
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
