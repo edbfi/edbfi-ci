@@ -6,7 +6,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 |---|---|---|
 | D1 | Scope as in [repos.md](design/repos.md#contract); replex has advisory CI with accepted failures; repo-patches is in for its tooling only. | per-repo table in [STATE.md](STATE.md) |
 | D2 | Every Dependabot PR auto-merges once CI passes, majors included, with no cooldown. | `dependabot-auto-merge.yml`; `cooldown` exclusion ([dependabot.md](design/dependabot.md#contract)) |
-| D3 | Bun Dependabot is paused until lockfile v2 is supported; manual updates plus audits until then. | commented-out Bun blocks; `audit` job; `bun-v2` watch trigger |
+| D3 | Bun dependencies update through Dependabot's `bun` updater (`bun.lock` v2 since dependabot-core#16485), with the `audit` job alongside. | Bun blocks in the Dependabot templates; `audit` job |
 | D4 | Automatic Biome migration with `BIOME_MIGRATE_TOKEN`. | `biome-migrate` hook and `biome-migrate.yml` ([biome.md](design/biome.md#contract)) |
 | D5 | A dedicated auto-merge PAT. | `DEPENDENCY_AUTOMERGE_TOKEN` Dependabot secret ([auto-merge.md](design/auto-merge.md#parameters)) |
 | D6 | prek hooks update automatically: `.pre-commit-config.yaml` plus Dependabot's `pre-commit` ecosystem. | `pre-commit` entry in every `dependabot.yml` ([prek.md](design/prek.md#contract)) |
@@ -30,6 +30,5 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 
 | ID | Blocker | Enforced by |
 |---|---|---|
-| B1 | Dependabot's bun updater supports only `bun.lock` v1 (D3). | `bun-v2` watch trigger ([MAINTENANCE.md](MAINTENANCE.md#watch-triggers)) |
 | B6 | `openapi-typescript@7.13.0` requires `typescript ^5.x` in zondarr/frontend (openapi-typescript#2723); D18 doesn't cover it. | `openapi-typescript-peers` watch trigger; [prek.md](design/prek.md#contract) rule 12 |
 | B8 | repo-patches' own `test_workflows` requires one job per workflow; [`ci-special.yml`](templates/ci-special.yml) has `checks` and `ci-ok`. The owner changes the test or the template's shape. | repo-patches rollout (S14) |

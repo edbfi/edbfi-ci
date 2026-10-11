@@ -54,5 +54,5 @@
 
 - Dependabot's `pre-commit` ecosystem reads only `.pre-commit-config.yaml`/`.yml`; `prek.toml` support is stalled (dependabot-core#14624 unanswered, PRs #15239 and #15271 unreviewed since June 2026).
 - A frozen SHA with its `# frozen:` comment lets Dependabot rewrite both together.
-- Bun only warns about unmet peers and `bun ci` exits 0, so without `check-peers` a mismatched update would auto-merge once Dependabot's Bun updater returns.
+- Bun only warns about unmet peers and `bun ci` exits 0, so without `check-peers` a mismatched update would auto-merge through Dependabot's Bun updater.
 - Tagging only on hook changes keeps documentation commits from causing bump PRs elsewhere.

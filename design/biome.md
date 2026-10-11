@@ -4,7 +4,7 @@
 
 1. Layer 1: `biome.json` `$schema` MUST be `./node_modules/@biomejs/biome/configuration_schema.json`, so schema-version changes alone don't rewrite `biome.json`; migrations may still change its configuration. Target repos' agent docs, where they exist, MUST NOT name a Biome version.
 2. Layer 2: every Biome repo MUST have the manual-stage hook `biome-migrate: bunx --no-install biome migrate --write`, `language: system`, `pass_filenames: false`. zondarr runs it from its root (`./node_modules/.bin/biome`). A needed migration modifies files, which fails prek and turns `ci-ok` red.
-3. Layer 3: the ten Biome repos MUST carry `biome-migrate.yml`; it stays idle until Dependabot's Bun updater returns (B1).
+3. Layer 3: the ten Biome repos MUST carry `biome-migrate.yml`.
 4. It MUST trigger on `pull_request` `[opened, synchronize, reopened]`, filtered by the three auto-merge conditions ([auto-merge.md](auto-merge.md#contract), with the same zizmor suppression) and by a diff touching `@biomejs/biome`.
 5. Concurrency MUST be `biome-migrate-<PR>-<head.sha>` with cancel-in-progress.
 6. Job 1 (unprivileged) MUST check out `head.sha`, run `bun ci --ignore-scripts` and `biome migrate --write`, and upload `git diff` if there is one.
@@ -28,7 +28,7 @@
 
 - Layer 1: `rg -n '"\$schema"' biome.json*` shows the local path; `rg -in -g 'CLAUDE.md' -g 'AGENTS.md' 'biome [0-9]'` finds no match in the target repo.
 - Layer 2: bumping Biome across a migration makes `prek run --all-files --hook-stage manual` fail with a modified `biome.json`.
-- Layer 3 (after B1 clears): a Dependabot Biome PR gains one `apply biome migrate` commit, whose parent is the Dependabot head, and auto-merges.
+- Layer 3: a Dependabot Biome PR gains one `apply biome migrate` commit, whose parent is the Dependabot head, and auto-merges.
 
 ## Open
 

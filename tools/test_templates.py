@@ -3,7 +3,6 @@
 
 import json
 import os
-import re
 import shutil
 import subprocess
 import tempfile
@@ -215,7 +214,6 @@ class TemplateContractTest(unittest.TestCase):
                 ecosystems = {str(item["package-ecosystem"]) for item in updates}
                 self.assertIn("github-actions", ecosystems)
                 self.assertIn("pre-commit", ecosystems)
-                self.assertNotIn("bun", ecosystems)
                 for update in updates:
                     self.assertNotIn("ignore", update)
                     self.assertEqual(update["cooldown"], {"exclude": ["*"]})
@@ -223,16 +221,9 @@ class TemplateContractTest(unittest.TestCase):
                         update["commit-message"],
                         {"prefix": "chore", "include": "scope"},
                     )
-                # Parse the idle Bun blocks too: they must be complete update entries.
-                restored = re.sub(r"(?m)^  # (?= |-)", "  ", path.read_text())
-                parsed = mapping(
-                    cast(Value, yaml.load(restored, Loader=yaml.BaseLoader))
-                )
-                for update in items(parsed["updates"]):
-                    entry = mapping(update)
-                    if entry.get("package-ecosystem") == "bun":
+                    if update["package-ecosystem"] == "bun":
                         self.assertEqual(
-                            list(mapping(entry["groups"])),
+                            list(mapping(update["groups"])),
                             ["biome", "playwright", "vitest", "patch-minor"],
                         )
         for path in TEMPLATES.glob("pre-commit.*.yaml"):
