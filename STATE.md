@@ -1,4 +1,4 @@
-Last updated: 1791732766 (2026-10-11T15:32:46Z)
+Last updated: 1791744581 (2026-10-11T18:49:41Z)
 
 # State
 
@@ -35,7 +35,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S24 | poyo-studio: drop the `route.fallback()` workarounds for microsoft/playwright#41802 | done | [poyo-studio#104](https://github.com/edbfi/poyo-studio/pull/104); [#61](https://github.com/edbfi/edbfi-ci/pull/61) |
 | S25 | UnoCSS in setun, obzorarr, otpravkarr, poyo-studio and zondarr/frontend: add `extractorSvelte` where missing (`class:` utilities get no CSS), Wind4's `font` theme key instead of `fontFamily`, UnoCSS before `sveltekit()`, `unocss/vite` imports; each verified by a built-CSS diff. Then move the agent rule from Wind3/`unocss-preset-shadcn/v3` to the Wind4 path the apps use and copy it into the five repos | todo | — |
 | S26 | zondarr on PostgreSQL: the initial Alembic migration fails (`totp_enabled` boolean default given as an integer) and `TimestampMixin` writes timezone-aware datetimes that asyncpg rejects; fix both with a PostgreSQL CI run | todo | — |
-| S27 | `templates/` action pins drift: edbfi-ci's Dependabot doesn't scan them (`biome-migrate.yml` is on `upload-artifact` v7.0.1, the repos on v7.0.2); keep them current | todo | — |
+| S27 | `templates/` action pins: Dependabot's `github-actions` entry covers `/templates` (design/dependabot.md rule 7) | blocked: the Dependabot bumps this triggers (`upload-artifact` 7.0.2, `setup-uv` 10.3.0, `prek-action` 3.0.1) merging; dependabot-A1 | [#62](https://github.com/edbfi/edbfi-ci/pull/62) |
 
 ## Repos
 

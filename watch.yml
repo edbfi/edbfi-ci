@@ -25,6 +25,9 @@ triggers:
     package: openapi-typescript
     above: 7.13.0
     action: Recheck TypeScript peer compatibility in zondarr/frontend before enabling check-peers there (B6 in DECISIONS.md).
+  - id: dependabot-schedule
+    kind: manual
+    action: After Dependabot's run on Monday 2026-10-13, check that its scheduled `github-actions` runs opened the pending bumps (`upload-artifact` 7.0.2, `setup-uv` 10.3.0) in repos that still lack them; then close dependabot-A1 in design/dependabot.md, or inspect each repo's Dependabot tab if none appeared.
   - id: kit-runtime-origin
     kind: manual
     action: Once SvelteKit ships a runtime origin setting (sveltejs/kit#17328), replace the app-owned origin fronts in obzorarr, otpravkarr, poyo-studio, setun and zondarr/frontend with it.
