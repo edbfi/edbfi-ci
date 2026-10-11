@@ -1,4 +1,4 @@
-Last updated: 1791755490 (2026-10-11T21:51:30Z)
+Last updated: 1791755654 (2026-10-11T21:54:14Z)
 
 # State
 
@@ -39,7 +39,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 
 ## Repos
 
-Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` means not rolled out.
+Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` means none.
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
@@ -76,10 +76,10 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 
 ## GitHub state
 
-All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repos' drift.
+All [V, 2026-10-07] unless dated otherwise.
 
 - Actions is enabled in all 41 non-archived repositories (wings-vpn is archived, D10) [V, 2026-10-10]. Pullfrog's workflow is on the default branch of all of them [V, 2026-10-09].
-- `immortality.yml` and its `IMMORTALITY_TOKEN` are in every repo with a scheduled workflow: edbfi-ci, edbfi-ci-playground, the rolled-out target repos [V, 2026-10-09], repo-patches, base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT also covers every other public rollout repo in advance (39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08]), and `IMMORTALITY_TOKEN` is set in each of them; a rollout's first dispatch proves its secret.
+- `immortality.yml` and its `IMMORTALITY_TOKEN` are in every repo with a scheduled workflow: edbfi-ci, edbfi-ci-playground, the target repos (repo-patches [V, 2026-10-07], the rest [V, 2026-10-09]), base-image (`workflows`), caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker. One dispatched run passed in each; the first scheduled run is on 2026-11-01. By owner decision (2026-10-08), the PAT covers 39 repos in all, 3d-designs, icarus-bevy and printlab-project included [owner, 2026-10-08], and `IMMORTALITY_TOKEN` is set in each of them.
 - Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-09; repo-patches, 2026-10-11]; no repo has classic branch protection.
 - Grouped security updates ([settings.md](design/settings.md#contract) rule 3) have no API, so they wait for the owner in every rolled-out repo.
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
@@ -95,7 +95,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - poyo-studio: `E2E-01..15` timed out twice in a row locally at `tests/e2e/studio-flows.browser.ts:2274` (no "Generated video result" within 15 s after `stopApp`/`startApp`/`releaseHeldTasks`), then passed 9 runs, 4 of them under CPU load; CI has never failed there. Find the cause; don't raise the timeout.
 - homebrew-taps: the `DeployKey` bypass actor was removed (2026-10-09); the next updater push must show `bypass` and start push CI (`homebrew-push-admin-only` in [watch.yml](watch.yml)), as the playground did.
 - obzorarr custom slides: `src/lib/server/slides/sanitize.ts:54` allows `class` on user HTML, so the utilities a slide can use are whatever source extraction and the UnoCSS safelist happen to generate. About half of the 86 safelist entries also appear in source; the rest appear in no source file. The owner decides which classes slides support. `@unocss/reset` is an unused dependency there [V, 2026-10-11].
-- SvelteKit dev servers (all five apps): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead.
+- SvelteKit dev servers (all five apps): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead [V, 2026-10-11, S25].
 - comradarr and zimuarr opt in to `svelte5-sveltekit-app` in agent-rules' `manifest.toml` but hold older accepted copies (`65c464cc`, `6cee75bc`, [repos.md](design/repos.md#contract) rule 10) [V, 2026-10-11]; re-copy from agent-rules `main`.
 - replex is a fork: GitHub runs its Dependabot version updates only once they're enabled in its settings [owner, 2026-10-11]. Closes when the owner enables them.
 - `tools/sync_pullfrog.py --check` compares bytes, so it flags every `pullfrog.yml` whose `pullfrog/pullfrog` pin differs from the template's: 12 copies, on that line only [V, 2026-10-11]. wtfnzb-adapter and replex should catch up through Dependabot (replex once its version updates are enabled); the other 10, the out-of-scope repos of [repos.md](design/repos.md#contract) rule 3 except the archived wings-vpn, have no Dependabot and never will. Closes when the check normalizes the pin line, or [ci.md](design/ci.md#contract) documents the exception.
