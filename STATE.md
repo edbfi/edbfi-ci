@@ -1,4 +1,4 @@
-Last updated: 1791755143 (2026-10-11T21:45:43Z)
+Last updated: 1791755321 (2026-10-11T21:48:41Z)
 
 # State
 
@@ -71,7 +71,7 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | eksamen | Content | S13 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/eksamen/pull/40)) | Actions | — |
 | 3d-designs | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#5](https://github.com/edbfi/3d-designs/pull/5)) | — | — |
 | icarus-bevy | Content | S13 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
-| repo-patches | Special | S14 | live; push CI verified [V, 2026-10-11] | live | active | live; Dependabot merge observed ([#57](https://github.com/edbfi/repo-patches/pull/57)) | — | — |
+| repo-patches | Special | S14 | live; push CI verified | live | active | live; Dependabot merge observed ([#57](https://github.com/edbfi/repo-patches/pull/57)) | — | whole row [V, 2026-10-11] |
 | replex | Special | S14 | live, advisory ([repos.md](design/repos.md#contract) rule 4): push `checks` red (rustfmt, clippy, cargo-test), smoke green | live | active (`pr-policy` only) | none ([auto-merge.md](design/auto-merge.md#contract) rule 7) | — | — |
 
 ## GitHub state
@@ -94,10 +94,10 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - replex: 22 Dependabot alerts stay open with no Dependabot PR (8 high: four in salvo, plus rustls, rustls-webpki, webpki, and rhai with no patched release) [V, 2026-10-10].
 - poyo-studio: `E2E-01..15` timed out twice in a row locally at `tests/e2e/studio-flows.browser.ts:2274` (no "Generated video result" within 15 s after `stopApp`/`startApp`/`releaseHeldTasks`), then passed 9 runs, 4 of them under CPU load; CI has never failed there. Find the cause; don't raise the timeout.
 - homebrew-taps: the `DeployKey` bypass actor was removed (2026-10-09); the next updater push must show `bypass` and start push CI (`homebrew-push-admin-only` in [watch.yml](watch.yml)), as the playground did.
-- obzorarr custom slides: `src/lib/server/slides/sanitize.ts:54` allows `class` on user HTML, so the utilities a slide can use are whatever source extraction and the UnoCSS safelist happen to generate. About half of the 86 safelist entries also appear in source; the rest appear in no source file. The owner decides which classes slides support. `@unocss/reset` is an unused dependency there.
+- obzorarr custom slides: `src/lib/server/slides/sanitize.ts:54` allows `class` on user HTML, so the utilities a slide can use are whatever source extraction and the UnoCSS safelist happen to generate. About half of the 86 safelist entries also appear in source; the rest appear in no source file. The owner decides which classes slides support. `@unocss/reset` is an unused dependency there [V, 2026-10-11].
 - SvelteKit dev servers (all five apps): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead.
-- comradarr and zimuarr opt in to `svelte5-sveltekit-app` in agent-rules' `manifest.toml` but hold older accepted copies (`65c464cc`, `6cee75bc`, [repos.md](design/repos.md#contract) rule 10); re-copy agent-rules@1adb50b.
+- comradarr and zimuarr opt in to `svelte5-sveltekit-app` in agent-rules' `manifest.toml` but hold older accepted copies (`65c464cc`, `6cee75bc`, [repos.md](design/repos.md#contract) rule 10) [V, 2026-10-11]; re-copy from agent-rules `main`.
 - replex is a fork: GitHub runs its Dependabot version updates only once they're enabled in its settings (owner).
-- `tools/sync_pullfrog.py --check` compares bytes, so it reports each repo whose Dependabot hasn't yet taken the template's `pullfrog/pullfrog` pin: 12 copies differ on that line only (replex, wtfnzb-adapter, and 10 out-of-scope repos without Dependabot) [V, 2026-10-11]. Compare with the pin line normalized, or document it.
+- `tools/sync_pullfrog.py --check` compares bytes, so it flags every `pullfrog.yml` whose `pullfrog/pullfrog` pin differs from the template's: 12 copies, on that line only [V, 2026-10-11]. wtfnzb-adapter and replex should catch up through Dependabot (replex once its version updates are enabled); the 10 out-of-scope repos have no Dependabot and never will. Closes when the check normalizes the pin line, or [ci.md](design/ci.md#contract) documents the exception.
 - `templates/pre-commit.*.yaml`: Dependabot's `pre-commit` updater reads only `.pre-commit-config.yaml`, so the template hook `rev:` values don't move. They still match edbfi-ci's own Dependabot-updated `.pre-commit-config.yaml` [V, 2026-10-11].
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
