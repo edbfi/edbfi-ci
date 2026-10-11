@@ -1,4 +1,4 @@
-Last updated: 1791727335 (2026-10-11T14:02:15Z)
+Last updated: 1791732766 (2026-10-11T15:32:46Z)
 
 # State
 
@@ -23,7 +23,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S12 | core rollout: Native | done | [EasyHDR#175](https://github.com/edbfi/EasyHDR/pull/175); [github-stats#31](https://github.com/edbfi/github-stats/pull/31); [homebrew-taps#40](https://github.com/edbfi/homebrew-taps/pull/40), [#42](https://github.com/edbfi/homebrew-taps/pull/42); [#36](https://github.com/edbfi/edbfi-ci/pull/36), [#37](https://github.com/edbfi/edbfi-ci/pull/37), [#38](https://github.com/edbfi/edbfi-ci/pull/38) |
 | S12a | homebrew-taps: rebuild [homebrew-taps#28](https://github.com/edbfi/homebrew-taps/pull/28) (qBittorrent cask) on core CI | done | [homebrew-taps#43](https://github.com/edbfi/homebrew-taps/pull/43); [#39](https://github.com/edbfi/edbfi-ci/pull/39) |
 | S13 | core rollout: Shell + Content | done | [pelican-eggs#36](https://github.com/edbfi/pelican-eggs/pull/36), [mover-status#59](https://github.com/edbfi/mover-status/pull/59), [comradarr#158](https://github.com/edbfi/comradarr/pull/158), [zimuarr#32](https://github.com/edbfi/zimuarr/pull/32), [agent-rules#43](https://github.com/edbfi/agent-rules/pull/43), [skills#34](https://github.com/edbfi/skills/pull/34), [eksamen#39](https://github.com/edbfi/eksamen/pull/39), [3d-designs#4](https://github.com/edbfi/3d-designs/pull/4), [icarus-bevy#1](https://github.com/edbfi/icarus-bevy/pull/1), [icarus-bevy#2](https://github.com/edbfi/icarus-bevy/pull/2); [#33](https://github.com/edbfi/edbfi-ci/pull/33) |
-| S14 | core rollout: Special (replex advisory, repo-patches) | blocked: B8 (repo-patches); replex done | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
+| S14 | core rollout: Special (replex advisory, repo-patches) | todo: repo-patches (D23); replex done | [replex#2](https://github.com/edbfi/replex/pull/2); [#35](https://github.com/edbfi/edbfi-ci/pull/35) |
 | S15 | Dependabot `bun` blocks and `biome-migrate.yml` in the ten Biome repos | done | Bun: [portaler#122](https://github.com/edbfi/portaler/pull/122); [guides#86](https://github.com/edbfi/guides/pull/86); [isfuglen#73](https://github.com/edbfi/isfuglen/pull/73); [yt-redirect#91](https://github.com/edbfi/yt-redirect/pull/91); [docrewind#182](https://github.com/edbfi/docrewind/pull/182); [obzorarr#241](https://github.com/edbfi/obzorarr/pull/241); [otpravkarr#161](https://github.com/edbfi/otpravkarr/pull/161); [poyo-studio#98](https://github.com/edbfi/poyo-studio/pull/98); [setun#121](https://github.com/edbfi/setun/pull/121); [zondarr#286](https://github.com/edbfi/zondarr/pull/286); migrate: [portaler#126](https://github.com/edbfi/portaler/pull/126); [guides#89](https://github.com/edbfi/guides/pull/89); [isfuglen#77](https://github.com/edbfi/isfuglen/pull/77); [yt-redirect#95](https://github.com/edbfi/yt-redirect/pull/95); [docrewind#187](https://github.com/edbfi/docrewind/pull/187); [obzorarr#246](https://github.com/edbfi/obzorarr/pull/246); [otpravkarr#166](https://github.com/edbfi/otpravkarr/pull/166); [poyo-studio#103](https://github.com/edbfi/poyo-studio/pull/103); [setun#129](https://github.com/edbfi/setun/pull/129); [zondarr#295](https://github.com/edbfi/zondarr/pull/295); pilot: [edbfi-ci-playground#14](https://github.com/edbfi/edbfi-ci-playground/pull/14); [edbfi-ci-playground#15](https://github.com/edbfi/edbfi-ci-playground/pull/15); [edbfi-ci-playground#17](https://github.com/edbfi/edbfi-ci-playground/pull/17); [#58](https://github.com/edbfi/edbfi-ci/pull/58), [#60](https://github.com/edbfi/edbfi-ci/pull/60) |
 | S17 | D8: github-stats | done | [github-stats#33](https://github.com/edbfi/github-stats/pull/33); [#43](https://github.com/edbfi/edbfi-ci/pull/43) |
 | S18 | D8: EasyHDR | done | [EasyHDR#180](https://github.com/edbfi/EasyHDR/pull/180); [#60](https://github.com/edbfi/edbfi-ci/pull/60) |
@@ -32,6 +32,10 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S21 | agent-rules: record `sveltekit-superforms` 3.0.0 as stable in `docs/toolchain-floors.md` (docs only) | done | [agent-rules#45](https://github.com/edbfi/agent-rules/pull/45); [#45](https://github.com/edbfi/edbfi-ci/pull/45) |
 | S22 | otpravkarr: each e2e Playwright run owns and removes its temporary database directory | done | [otpravkarr#159](https://github.com/edbfi/otpravkarr/pull/159); [#46](https://github.com/edbfi/edbfi-ci/pull/46) |
 | S23 | zondarr: document the VPN port a direct `PUBLIC_API_URL` needs in the container (docs only) | done | [zondarr#283](https://github.com/edbfi/zondarr/pull/283); [#47](https://github.com/edbfi/edbfi-ci/pull/47) |
+| S24 | poyo-studio: drop the `route.fallback()` workarounds for microsoft/playwright#41802 | done | [poyo-studio#104](https://github.com/edbfi/poyo-studio/pull/104); [#61](https://github.com/edbfi/edbfi-ci/pull/61) |
+| S25 | UnoCSS in setun, obzorarr, otpravkarr, poyo-studio and zondarr/frontend: add `extractorSvelte` where missing (`class:` utilities get no CSS), Wind4's `font` theme key instead of `fontFamily`, UnoCSS before `sveltekit()`, `unocss/vite` imports; each verified by a built-CSS diff. Then move the agent rule from Wind3/`unocss-preset-shadcn/v3` to the Wind4 path the apps use and copy it into the five repos | todo | — |
+| S26 | zondarr on PostgreSQL: the initial Alembic migration fails (`totp_enabled` boolean default given as an integer) and `TimestampMixin` writes timezone-aware datetimes that asyncpg rejects; fix both with a PostgreSQL CI run | todo | — |
+| S27 | `templates/` action pins drift: edbfi-ci's Dependabot doesn't scan them (`biome-migrate.yml` is on `upload-artifact` v7.0.1, the repos on v7.0.2); keep them current | todo | — |
 
 ## Repos
 
@@ -67,7 +71,7 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | eksamen | Content | S13 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/eksamen/pull/40)) | Actions | — |
 | 3d-designs | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#5](https://github.com/edbfi/3d-designs/pull/5)) | — | — |
 | icarus-bevy | Content | S13 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
-| repo-patches | Special | S14 | — | — | — | — | — | B8 |
+| repo-patches | Special | S14 | — | — | — | — | — | — |
 | replex | Special | S14 | live, advisory ([repos.md](design/repos.md#contract) rule 4): push `checks` red (rustfmt, clippy, cargo-test), smoke green | live | active (`pr-policy` only) | none ([auto-merge.md](design/auto-merge.md#contract) rule 7) | — | — |
 
 ## GitHub state
@@ -80,7 +84,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - Every target repo not yet rolled out: SHA pinning not required, rebase merges allowed, squash title `COMMIT_OR_PR_TITLE`, auto-merge off, Dependabot alerts and security updates off, secret scanning and push protection off.
 - Grouped security updates ([settings.md](design/settings.md#contract) rule 3) have no API, so they wait for the owner in every rolled-out repo.
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
-- The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target except replex, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10]; repo-patches holds the secret and PAT access ahead of its own rollout (S14, B8).
+- The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target except replex, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10]; repo-patches holds the secret and PAT access ahead of its own rollout (S14).
 - The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos and edbfi-ci-playground (pilot; PAT `edbfi-biome-migrate` covers it too) [V, 2026-10-11]; github-stats has `STATS_READ_TOKEN`. homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09]. EasyHDR has `VT_API_KEY` [V, 2026-10-11].
 - otpravkarr-docker's and zondarr-docker's `release` builds fail at `archive/null.tar.gz` until each app publishes its first plain `X.Y.Z` release; accepted by the owner (2026-10-07).
 - `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts and security updates, secret scanning and push protection are on. Main push CI, audit and the watcher pass.
@@ -89,6 +93,6 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 ## Open items
 
 - replex: 22 Dependabot alerts stay open with no Dependabot PR (8 high: four in salvo, plus rustls, rustls-webpki, webpki, and rhai with no patched release) [V, 2026-10-10].
-- zondarr: on PostgreSQL, the initial Alembic migration fails (`totp_enabled` boolean default given as an integer) and `TimestampMixin` writes timezone-aware datetimes that asyncpg rejects, so only SQLite deployments work; the session tables of [zondarr#294](https://github.com/edbfi/zondarr/pull/294) are PostgreSQL-safe. Fix both in a zondarr PR with a PostgreSQL CI run.
+- poyo-studio: `E2E-01..15` timed out twice in a row locally at `tests/e2e/studio-flows.browser.ts:2274` (no "Generated video result" within 15 s after `stopApp`/`startApp`/`releaseHeldTasks`), then passed 9 runs, 4 of them under CPU load; CI has never failed there. Find the cause; don't raise the timeout.
 - homebrew-taps: the `DeployKey` bypass actor was removed (2026-10-09); the next updater push must show `bypass` and start push CI (`homebrew-push-admin-only` in [watch.yml](watch.yml)), as the playground did.
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
