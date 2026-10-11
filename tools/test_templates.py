@@ -3,6 +3,7 @@
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import tempfile
@@ -151,6 +152,33 @@ class TemplateContractTest(unittest.TestCase):
                     self.assertEqual(deploy["needs"], ["ci-ok"])
                     self.assertIn("needs.ci-ok.result == 'success'", str(deploy["if"]))
                     self.assertEqual(mapping(deploy["concurrency"])["queue"], "max")
+
+    def test_every_action_pin_is_a_sha_with_its_version(self) -> None:
+        # Dependabot rewrites the `# vX.Y.Z` comment only on a pin that has one.
+        uses = re.compile(r"^\s*(?:-\s+)?uses:\s*(\S+)(.*)$")
+        pinned = re.compile(r"^[\w.-]+/[\w./-]+@[0-9a-f]{40}$")
+        version = re.compile(r"^\s+# v\d+\.\d+\.\d+$")
+        paths = [*TEMPLATES.glob("*.yml"), *ROOT.glob(".github/workflows/*.yml")]
+        checked = 0
+        for path in paths:
+            for number, line in enumerate(path.read_text().splitlines(), 1):
+                match = uses.match(line)
+                if match is None or match.group(1).startswith("./"):
+                    continue
+                checked += 1
+                with self.subTest(path=path.name, line=number):
+                    self.assertRegex(match.group(1), pinned)
+                    self.assertRegex(match.group(2), version)
+        self.assertGreater(checked, 0)
+
+    def test_dependabot_updates_the_template_pins(self) -> None:
+        updates = [
+            mapping(item)
+            for item in items(load(ROOT / ".github/dependabot.yml")["updates"])
+        ]
+        actions = [u for u in updates if u["package-ecosystem"] == "github-actions"]
+        self.assertEqual(len(actions), 1)
+        self.assertEqual(actions[0]["directories"], ["/", "/templates"])
 
     def test_pr_policy_never_cancels(self) -> None:
         for path in (

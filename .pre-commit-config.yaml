@@ -117,4 +117,4 @@ repos:
         language_version: "3.14"
         additional_dependencies: [PyYAML]
         pass_filenames: false
-        files: ^(tools/|templates/|watch\.yml|\.github/workflows/watch\.yml|pyproject\.toml)
+        files: ^(tools/|templates/|watch\.yml|\.github/workflows/|\.github/dependabot\.yml|pyproject\.toml)
