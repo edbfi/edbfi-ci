@@ -1,4 +1,4 @@
-Last updated: 1791755321 (2026-10-11T21:48:41Z)
+Last updated: 1791755490 (2026-10-11T21:51:30Z)
 
 # State
 
@@ -97,7 +97,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - obzorarr custom slides: `src/lib/server/slides/sanitize.ts:54` allows `class` on user HTML, so the utilities a slide can use are whatever source extraction and the UnoCSS safelist happen to generate. About half of the 86 safelist entries also appear in source; the rest appear in no source file. The owner decides which classes slides support. `@unocss/reset` is an unused dependency there [V, 2026-10-11].
 - SvelteKit dev servers (all five apps): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead.
 - comradarr and zimuarr opt in to `svelte5-sveltekit-app` in agent-rules' `manifest.toml` but hold older accepted copies (`65c464cc`, `6cee75bc`, [repos.md](design/repos.md#contract) rule 10) [V, 2026-10-11]; re-copy from agent-rules `main`.
-- replex is a fork: GitHub runs its Dependabot version updates only once they're enabled in its settings (owner).
-- `tools/sync_pullfrog.py --check` compares bytes, so it flags every `pullfrog.yml` whose `pullfrog/pullfrog` pin differs from the template's: 12 copies, on that line only [V, 2026-10-11]. wtfnzb-adapter and replex should catch up through Dependabot (replex once its version updates are enabled); the 10 out-of-scope repos have no Dependabot and never will. Closes when the check normalizes the pin line, or [ci.md](design/ci.md#contract) documents the exception.
+- replex is a fork: GitHub runs its Dependabot version updates only once they're enabled in its settings [owner, 2026-10-11]. Closes when the owner enables them.
+- `tools/sync_pullfrog.py --check` compares bytes, so it flags every `pullfrog.yml` whose `pullfrog/pullfrog` pin differs from the template's: 12 copies, on that line only [V, 2026-10-11]. wtfnzb-adapter and replex should catch up through Dependabot (replex once its version updates are enabled); the other 10, the out-of-scope repos of [repos.md](design/repos.md#contract) rule 3 except the archived wings-vpn, have no Dependabot and never will. Closes when the check normalizes the pin line, or [ci.md](design/ci.md#contract) documents the exception.
 - `templates/pre-commit.*.yaml`: Dependabot's `pre-commit` updater reads only `.pre-commit-config.yaml`, so the template hook `rev:` values don't move. They still match edbfi-ci's own Dependabot-updated `.pre-commit-config.yaml` [V, 2026-10-11].
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
