@@ -1,4 +1,4 @@
-Last updated: 1791752873 (2026-10-11T21:07:53Z)
+Last updated: 1791755143 (2026-10-11T21:45:43Z)
 
 # State
 
@@ -43,7 +43,7 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 
 | repo | tier | step | ci | pr-policy | ruleset | auto-merge | pages | notes |
 |---|---|---|---|---|---|---|---|---|
-| edbfi-ci | — | S4 | live; push CI and audit verified | live | active | live; Dependabot merge observed ([#63](https://github.com/edbfi/edbfi-ci/pull/63)) | — | protocol verified in playground |
+| edbfi-ci | — | S4 | live; push CI and audit verified | live | active | live; Dependabot merge observed ([#63](https://github.com/edbfi/edbfi-ci/pull/63)) [V, 2026-10-11] | — | protocol verified in playground |
 | portaler | Bun web | S6 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#120](https://github.com/edbfi/portaler/pull/120)) | Actions | — |
 | obzorarr | Bun web | S7 | live; push CI verified | live | active | live; Dependabot merge observed ([#238](https://github.com/edbfi/obzorarr/pull/238)) | — | — |
 | wtfnzb-adapter | Python | S8 | live; push CI and audit verified | live | active | live; Dependabot merges observed ([#8](https://github.com/edbfi/wtfnzb-adapter/pull/8), [#9](https://github.com/edbfi/wtfnzb-adapter/pull/9)) | — | — |
@@ -97,7 +97,7 @@ All [V, 2026-10-07] unless dated otherwise. Each rollout step fixes its own repo
 - obzorarr custom slides: `src/lib/server/slides/sanitize.ts:54` allows `class` on user HTML, so the utilities a slide can use are whatever source extraction and the UnoCSS safelist happen to generate. About half of the 86 safelist entries also appear in source; the rest appear in no source file. The owner decides which classes slides support. `@unocss/reset` is an unused dependency there.
 - SvelteKit dev servers (all five apps): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead.
 - comradarr and zimuarr opt in to `svelte5-sveltekit-app` in agent-rules' `manifest.toml` but hold older accepted copies (`65c464cc`, `6cee75bc`, [repos.md](design/repos.md#contract) rule 10); re-copy agent-rules@1adb50b.
-- replex is a fork: GitHub runs its Dependabot version updates only once they're enabled in its settings (owner), and its `pullfrog.yml` is still v0.1.95.
+- replex is a fork: GitHub runs its Dependabot version updates only once they're enabled in its settings (owner).
 - `tools/sync_pullfrog.py --check` compares bytes, so it reports each repo whose Dependabot hasn't yet taken the template's `pullfrog/pullfrog` pin: 12 copies differ on that line only (replex, wtfnzb-adapter, and 10 out-of-scope repos without Dependabot) [V, 2026-10-11]. Compare with the pin line normalized, or document it.
-- `templates/pre-commit.*.yaml`: Dependabot's `pre-commit` updater reads only `.pre-commit-config.yaml`, so the template hook `rev:` values don't move; none has drifted yet.
+- `templates/pre-commit.*.yaml`: Dependabot's `pre-commit` updater reads only `.pre-commit-config.yaml`, so the template hook `rev:` values don't move. They still match edbfi-ci's own Dependabot-updated `.pre-commit-config.yaml` [V, 2026-10-11].
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
