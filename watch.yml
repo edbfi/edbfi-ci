@@ -43,6 +43,3 @@ triggers:
     repo: edbfi/obzorarr
     above: 0.1.11
     action: Inspect the latest release's tag and source. Once a plain X.Y.Z release contains SvelteKit 3, use a workflows PR into obzorarr-docker's release branch (design/repos.md rule 8) to remove the obsolete scripts/serve.ts* copies and the bun start entry, checking the remaining differences against nightly. Keep the issue open until that release exists.
-  - id: dependabot-pre-commit-templates
-    kind: manual
-    action: After the `pre-commit` glob for `/templates/pre-commit/*` merges, check that the next `pre_commit` Dependabot run (`gh run list --event dynamic`) lists all nine template directories; then close dependabot-A2 in design/dependabot.md, or list the directories explicitly if the glob didn't expand.

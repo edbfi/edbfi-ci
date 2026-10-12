@@ -28,7 +28,6 @@
 ## Open
 
 - dependabot-A1: a scheduled weekly run opens version PRs. Every `github-actions` bump seen so far came from a `dependabot.yml` change, not the schedule. Closes when the 2026-10-13 run opens the pending bumps (`upload-artifact` 7.0.2, `setup-uv` 10.3.0) in repos that still lack them.
-- dependabot-A2: the `pre-commit` entry's glob reaches every hook template. Closes when the first `pre_commit` Dependabot run after the glob lands (`gh run list --event dynamic`) lists `/templates/pre-commit/<stack>` for all nine stacks.
 
 ## Why
 
