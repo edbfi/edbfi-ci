@@ -8,7 +8,7 @@
 4. Groups MUST be, first match winning: `biome` (`@biomejs/*`); `playwright` (`playwright`, `@playwright/*`); `vitest` (`vitest`, `@vitest/*`); `slint` (EasyHDR: `slint`, `slint-build`); `compose-images` (setun); then `patch-minor` (`patterns: ["*"]`, `update-types: [minor, patch]`). The special groups may contain majors; other majors get one PR each.
 5. There MUST NOT be any `ignore:` entry, pinned-back version or hold. A broken upstream release keeps its PR red until a later release fixes it.
 6. Ecosystems and directories MUST follow [repos.md](repos.md#parameters). Every repo gets `github-actions` and `pre-commit`.
-7. edbfi-ci's `github-actions` entry MUST cover `/templates` as well as `/`, so Dependabot moves the template pins; every pin keeps its `# vX.Y.Z` comment, which Dependabot rewrites with the SHA.
+7. edbfi-ci's `github-actions` entry MUST cover `/templates` and its `pre-commit` entry `/templates/pre-commit/*`, each as well as `/`, so Dependabot moves the template pins; every pin keeps its `# vX.Y.Z` or `# frozen: vX.Y.Z` comment, which Dependabot rewrites with the SHA.
 
 ## Parameters
 
@@ -28,6 +28,7 @@
 ## Open
 
 - dependabot-A1: a scheduled weekly run opens version PRs. Every `github-actions` bump seen so far came from a `dependabot.yml` change, not the schedule. Closes when the 2026-10-13 run opens the pending bumps (`upload-artifact` 7.0.2, `setup-uv` 10.3.0) in repos that still lack them.
+- dependabot-A2: the `pre-commit` entry's glob reaches every hook template. Closes when the first `pre_commit` Dependabot run after the glob lands (`gh run list --event dynamic`) lists `/templates/pre-commit/<stack>` for all nine stacks.
 
 ## Why
 

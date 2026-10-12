@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Copy as .pre-commit-config.yaml; preserve existing project hooks during rollout.
+# Copy to the repo root; preserve existing project hooks during rollout.
 default_install_hook_types: [pre-commit, commit-msg]
 default_stages: [pre-commit, manual]
 repos:
@@ -51,15 +51,14 @@ repos:
 
   - repo: local
     hooks:
-      - id: bash-syntax
-        name: Bash syntax
-        language: system
-        types: [shell]
-        # Run once per file: bash -n otherwise checks only its first argument.
-        require_serial: true
-        entry: bash -c 'for file; do bash -n "$file" || exit; done' --
       - id: shellcheck
         name: ShellCheck
         entry: shellcheck -S error
         language: system
         types: [shell]
+      - id: tooling-tests
+        name: Homebrew tooling tests
+        entry: bash scripts/test-tooling.sh
+        language: system
+        pass_filenames: false
+        always_run: true

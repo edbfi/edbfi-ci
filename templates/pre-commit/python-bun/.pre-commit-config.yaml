@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Copy as .pre-commit-config.yaml; preserve existing project hooks during rollout.
+# Copy to the repo root; preserve existing project hooks during rollout.
 default_install_hook_types: [pre-commit, commit-msg]
 default_stages: [pre-commit, manual]
 repos:
@@ -48,24 +48,38 @@ repos:
     rev: d07ccc13141d4aee4fa28546f4328f4e48d5363b  # frozen: v0.1.0
     hooks:
       - id: privileged-jobs
+      - id: check-peers
+        args: [".", frontend]
 
   - repo: local
     hooks:
-      - id: rustfmt
-        name: Rust formatting
-        entry: cargo fmt --all -- --check
+      - id: uv-lock
+        name: Check locked dependencies
+        entry: uv lock --check --project backend
         language: system
         pass_filenames: false
         always_run: true
-      - id: clippy
-        name: Clippy
-        entry: cargo clippy --locked --all-targets -- -D warnings
+      - id: ruff
+        name: Ruff checks
+        entry: uvx ruff check
+        language: system
+        types: [python]
+      - id: basedpyright
+        name: Python types
+        entry: bash -c 'cd backend && uvx basedpyright@latest'
         language: system
         pass_filenames: false
         always_run: true
-      - id: cargo-test
-        name: Rust tests and doctests
-        entry: cargo test --locked -- --test-threads=1
+      - id: pytest
+        name: Python tests
+        entry: bash -c 'cd backend && uv run --locked pytest'
         language: system
+        pass_filenames: false
+        always_run: true
+      - id: biome-migrate
+        name: Migrate Biome configuration
+        entry: bunx --no-install biome migrate --write
+        language: system
+        stages: [manual]
         pass_filenames: false
         always_run: true

@@ -16,6 +16,7 @@ import yaml
 type Value = str | list[Value] | dict[str, Value]
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATES = ROOT / "templates"
+HOOK_TEMPLATES = sorted(TEMPLATES.glob("pre-commit/*/.pre-commit-config.yaml"))
 GIT = shutil.which("git") or "git"
 
 
@@ -179,6 +180,17 @@ class TemplateContractTest(unittest.TestCase):
         actions = [u for u in updates if u["package-ecosystem"] == "github-actions"]
         self.assertEqual(len(actions), 1)
         self.assertEqual(actions[0]["directories"], ["/", "/templates"])
+        hooks = [u for u in updates if u["package-ecosystem"] == "pre-commit"]
+        self.assertEqual(len(hooks), 1)
+        self.assertEqual(hooks[0]["directories"], ["/", "/templates/pre-commit/*"])
+        # The updater reads one config per directory, by its standard name.
+        self.assertEqual(list(TEMPLATES.glob("pre-commit.*")), [])
+        self.assertEqual(
+            sorted(path.name for path in (TEMPLATES / "pre-commit").iterdir()),
+            sorted(path.parent.name for path in HOOK_TEMPLATES),
+        )
+        # Without this, prek's workspace mode runs each template as a project.
+        self.assertIn("/templates/pre-commit/", (ROOT / ".prekignore").read_text().split())
 
     def test_pr_policy_never_cancels(self) -> None:
         for path in (
@@ -254,22 +266,25 @@ class TemplateContractTest(unittest.TestCase):
                             list(mapping(update["groups"])),
                             ["biome", "playwright", "vitest", "patch-minor"],
                         )
-        for path in TEMPLATES.glob("pre-commit.*.yaml"):
+        self.assertEqual(len(HOOK_TEMPLATES), 9)
+        # Dependabot moves a frozen SHA and its comment together.
+        frozen = re.compile(r"^    rev: [0-9a-f]{40}  # frozen: v\d+\.\d+\.\d+$")
+        for path in HOOK_TEMPLATES:
             config = load(path)
             self.assertEqual(config["default_stages"], ["pre-commit", "manual"])
             repos = [mapping(repo) for repo in items(config["repos"])]
-            for repo in repos:
-                if str(repo["repo"]).startswith("https:"):
-                    self.assertRegex(str(repo["rev"]), r"^[0-9a-f]{40}$")
+            revs = [line for line in path.read_text().splitlines() if "rev:" in line]
+            remote = [repo for repo in repos if str(repo["repo"]).startswith("https:")]
+            self.assertEqual(len(revs), len(remote))
+            for line in revs:
+                with self.subTest(path=path.parent.name, line=line):
+                    self.assertRegex(line, frozen)
             shared = [
                 repo
                 for repo in repos
                 if repo["repo"] == "https://github.com/edbfi/edbfi-ci"
             ]
             self.assertEqual(len(shared), 1)
-            self.assertEqual(
-                shared[0]["rev"], "d07ccc13141d4aee4fa28546f4328f4e48d5363b"
-            )
 
 
 class ScriptTest(unittest.TestCase):

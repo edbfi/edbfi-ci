@@ -31,7 +31,7 @@
 - A second CI run of the same config restores the prek cache and passes the Go actionlint hook [V, 2026-09-27]; gitleaks stays local-only.
 - Dependabot's `pre-commit` updater accepts `repo: builtin` and checks the remote hooks successfully [V, 2026-09-27].
 - Hook entries and filters: [manifest](../.pre-commit-hooks.yaml); implementations and tests: [hooks/](../hooks/). Both remote language modes pass against setun [V, 2026-09-27]; `script` avoids installing a second Bun environment.
-- Baseline: [Content](../templates/pre-commit.content.yaml). Stack additions: [Bun](../templates/pre-commit.bun-web.yaml), [Python](../templates/pre-commit.python.yaml), [Python + Bun](../templates/pre-commit.python-bun.yaml), [Rust](../templates/pre-commit.rust.yaml) (also replex), [Zig](../templates/pre-commit.zig.yaml), [Homebrew](../templates/pre-commit.homebrew.yaml), [Shell](../templates/pre-commit.shell.yaml), [Special](../templates/pre-commit.special.yaml). Preserve existing project hooks and apply [repos.md](repos.md#parameters).
+- Baseline: [Content](../templates/pre-commit/content/.pre-commit-config.yaml). Stack additions: [Bun](../templates/pre-commit/bun-web/.pre-commit-config.yaml), [Python](../templates/pre-commit/python/.pre-commit-config.yaml), [Python + Bun](../templates/pre-commit/python-bun/.pre-commit-config.yaml), [Rust](../templates/pre-commit/rust/.pre-commit-config.yaml) (also replex), [Zig](../templates/pre-commit/zig/.pre-commit-config.yaml), [Homebrew](../templates/pre-commit/homebrew/.pre-commit-config.yaml), [Shell](../templates/pre-commit/shell/.pre-commit-config.yaml), [Special](../templates/pre-commit/special/.pre-commit-config.yaml). Preserve existing project hooks and apply [repos.md](repos.md#parameters). Each sits alone in its directory under its standard name, so Dependabot updates it ([dependabot.md](dependabot.md#contract) rule 7); [`.prekignore`](../.prekignore) keeps prek's workspace mode from running them as nested projects.
 - Pages allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml).
 - The existing `prek.toml` configs convert 1:1 [V, 2026-09-27]: identical data, `prek validate-config` passes, `prek list` identical, `glob` excludes behave the same.
 
@@ -52,7 +52,7 @@
 
 ## Why
 
-- Dependabot's `pre-commit` ecosystem reads only `.pre-commit-config.yaml`/`.yml`; `prek.toml` support is stalled (dependabot-core#14624 unanswered, PRs #15239 and #15271 unreviewed since June 2026).
+- Dependabot's `pre-commit` ecosystem reads one `.pre-commit-config.yaml` (or `.pre-commit.yaml`) per directory; `prek.toml` support is stalled (dependabot-core#14624 unanswered, PRs #15239 and #15271 unreviewed since June 2026).
 - A frozen SHA with its `# frozen:` comment lets Dependabot rewrite both together.
 - Bun only warns about unmet peers and `bun ci` exits 0, so without `check-peers` a mismatched update would auto-merge through Dependabot's Bun updater.
 - Tagging only on hook changes keeps documentation commits from causing bump PRs elsewhere.
