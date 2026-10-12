@@ -88,7 +88,7 @@ repos:
         name: Validate hook templates
         entry: prek validate-config
         language: system
-        files: ^templates/pre-commit\..*\.yaml$
+        files: ^templates/pre-commit/[^/]+/\.pre-commit-config\.yaml$
       - id: privileged-jobs-tests
         name: privileged-jobs tests
         entry: python3 -m unittest discover -s hooks -p test_*.py
@@ -117,4 +117,4 @@ repos:
         language_version: "3.14"
         additional_dependencies: [PyYAML]
         pass_filenames: false
-        files: ^(tools/|templates/|watch\.yml|\.github/workflows/|\.github/dependabot\.yml|pyproject\.toml)
+        files: ^(tools/|templates/|watch\.yml|\.github/workflows/|\.github/dependabot\.yml|\.prekignore|pyproject\.toml)

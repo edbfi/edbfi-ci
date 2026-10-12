@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Copy as .pre-commit-config.yaml; preserve existing project hooks during rollout.
+# Copy to the repo root; preserve existing project hooks during rollout.
 default_install_hook_types: [pre-commit, commit-msg]
 default_stages: [pre-commit, manual]
 repos:
@@ -18,7 +18,7 @@ repos:
       - id: check-toml
       - id: check-yaml
       - id: no-commit-to-branch
-        args: [--branch, master]
+        args: [--branch, main]
         stages: [pre-commit]
 
   - repo: https://github.com/compilerla/conventional-pre-commit
@@ -51,14 +51,21 @@ repos:
 
   - repo: local
     hooks:
-      - id: zig-fmt
-        name: Zig formatting
-        entry: zig fmt --check
+      - id: rustfmt
+        name: Rust formatting
+        entry: cargo fmt --all -- --check
         language: system
-        files: \.zig(?:\.zon)?$
-      - id: zig-test
-        name: Zig tests
-        entry: zig build test
+        pass_filenames: false
+        always_run: true
+      - id: clippy
+        name: Clippy
+        entry: cargo clippy --locked --all-targets -- -D warnings
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: cargo-test
+        name: Rust tests and doctests
+        entry: cargo test --locked -- --test-threads=1
         language: system
         pass_filenames: false
         always_run: true

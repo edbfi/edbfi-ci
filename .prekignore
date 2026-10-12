@@ -1,0 +1,2 @@
+# Hook templates are copied into other repos, not run here (design/prek.md).
+/templates/pre-commit/

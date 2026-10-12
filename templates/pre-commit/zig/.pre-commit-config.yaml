@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Copy as .pre-commit-config.yaml; preserve existing project hooks during rollout.
+# Copy to the repo root; preserve existing project hooks during rollout.
 default_install_hook_types: [pre-commit, commit-msg]
 default_stages: [pre-commit, manual]
 repos:
@@ -18,7 +18,7 @@ repos:
       - id: check-toml
       - id: check-yaml
       - id: no-commit-to-branch
-        args: [--branch, main]
+        args: [--branch, master]
         stages: [pre-commit]
 
   - repo: https://github.com/compilerla/conventional-pre-commit
@@ -51,10 +51,14 @@ repos:
 
   - repo: local
     hooks:
-      - id: python-tests
-        name: Python tooling tests
-        entry: python3 -m unittest discover -s tools -p test_*.py
-        language: python
-        language_version: "3.14"
+      - id: zig-fmt
+        name: Zig formatting
+        entry: zig fmt --check
+        language: system
+        files: \.zig(?:\.zon)?$
+      - id: zig-test
+        name: Zig tests
+        entry: zig build test
+        language: system
         pass_filenames: false
         always_run: true
