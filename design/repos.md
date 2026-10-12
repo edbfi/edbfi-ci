@@ -22,7 +22,7 @@ Tiers: 29 public in-scope repos; `edbfi-ci` itself is outside the tiers. GitHub 
 |---|---|---|
 | Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); obzorarr, otpravkarr, poyo-studio, setun (SvelteKit 3 with `@sveltejs/adapter-bun` + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose) | Bun 1.4.2 (`packageManager` required by agent rules), Biome 2.5 |
 | Python | zondarr (Litestar `backend/` uv on SQLite or PostgreSQL, SvelteKit 3 `frontend/` bun with `@sveltejs/adapter-bun`, root bun for Biome/prek); wtfnzb-adapter (Litestar, uv); guide-capture (bash + stdlib Python + Node, needs macOS arm64); arrsenal-of-scripts (shell/zsh/Python); printlab-project (docs + stdlib Python gateway tooling) | uv |
-| Native | EasyHDR (Rust 1.98.1, Windows-only Slint GUI, `fuzz/` crate, cargo-deny); github-stats (Zig 0.16, default branch `master`); homebrew-taps (casks + Linux formulae + bash/python pipeline) | |
+| Native | EasyHDR (Rust 1.99.0, Windows-only Slint GUI, `fuzz/` crate, cargo-deny); github-stats (Zig 0.16, default branch `master`); homebrew-taps (casks + Linux formulae + bash/python pipeline) | |
 | Shell | pelican-eggs, mover-status | |
 | Content | edbfi, comradarr, zimuarr (docs only); agent-rules; skills; eksamen (static site in `docs/`, Pages); 3d-designs (OpenSCAD designs with generated print files); icarus-bevy (Rust + Bevy server, no Cargo project yet) | |
 | Special | repo-patches (stdlib Python tooling; scheduled `watch-hotio.yml` and dispatched `sync-hotio.yml` generate the base-image and website mirrors of Hotio); replex (Rust fork; its advisory CI's failures are accepted) | |

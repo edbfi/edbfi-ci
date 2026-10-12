@@ -1,4 +1,4 @@
-Last updated: 1791761249 (2026-10-11T23:27:29Z)
+Last updated: 1791764525 (2026-10-12T00:22:05Z)
 
 # State
 
@@ -99,4 +99,5 @@ All [V, 2026-10-07] unless dated otherwise.
 - comradarr and zimuarr opt in to `svelte5-sveltekit-app` in agent-rules' `manifest.toml` but hold older accepted copies (`65c464cc`, `6cee75bc`, [repos.md](design/repos.md#contract) rule 10) [V, 2026-10-11]; re-copy from agent-rules `main`.
 - `tools/sync_pullfrog.py --check` compares bytes, so it flags every `pullfrog.yml` whose `pullfrog/pullfrog` pin differs from the template's: 9 copies, on that line only [V, 2026-10-11]. wtfnzb-adapter should catch up through Dependabot; the other 8 (dox and the hotio-family docker repos of [repos.md](design/repos.md#contract) rule 7) have no Dependabot and never will. Closes when the check normalizes the pin line, or [ci.md](design/ci.md#contract) documents the exception.
 - `templates/pre-commit.*.yaml`: Dependabot's `pre-commit` updater reads only `.pre-commit-config.yaml`, so the template hook `rev:` values don't move. They still match edbfi-ci's own Dependabot-updated `.pre-commit-config.yaml` [V, 2026-10-11].
+- EasyHDR: `fuzz/` depends on `easyhdr` by path, so a root Dependabot PR that raises a requirement also used in `fuzz/` fails `cargo check --locked --manifest-path fuzz/Cargo.toml` until `fuzz/Cargo.lock` follows; the monthly `/fuzz` entry (D10) never updates that PR ([EasyHDR#179](https://github.com/edbfi/EasyHDR/pull/179)) [V, 2026-10-11]. Until it's automated, push a minimal re-resolution (`cargo metadata --manifest-path fuzz/Cargo.toml`) to the PR and enable auto-merge ([auto-merge.md](design/auto-merge.md#contract) rule 10).
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
