@@ -16,6 +16,7 @@
 - Copy the matching config to `.github/dependabot.yml`; adapt ecosystems and directories to [repos.md](repos.md#parameters).
 
 - Every `bun.lock` in the Bun directories of [repos.md](repos.md#parameters) is lockfile v2 [V, 2026-10-07]. Dependabot's `bun` updater keeps it v2, with exact pins and `npm:` aliases (`@typescript/native`) intact [V, 2026-10-11, portaler#124].
+- The `pre-commit` entry's `/templates/pre-commit/*` glob expands to all nine template directories in the `pre_commit` run [V, 2026-10-12].
 - The template cooldown exclusion permits updates less than 3 days after release [V, 2026-09-30, playground].
 - A security PR opened before `dependabot.yml` lands can't be rebased afterwards, and closing it doesn't make Dependabot recreate it, so a rollout turns on security updates only after its rollout PR merges [V, 2026-10-08, wtfnzb-adapter#6].
 
@@ -28,7 +29,6 @@
 ## Open
 
 - dependabot-A1: a scheduled weekly run opens version PRs. Every `github-actions` bump seen so far came from a `dependabot.yml` change, not the schedule. Closes when the 2026-10-13 run opens the pending bumps (`upload-artifact` 7.0.2, `setup-uv` 10.3.0) in repos that still lack them.
-- dependabot-A2: the `pre-commit` entry's glob reaches every hook template. Closes when the first `pre_commit` Dependabot run after the glob lands (`gh run list --event dynamic`) lists `/templates/pre-commit/<stack>` for all nine stacks.
 
 ## Why
 

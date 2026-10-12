@@ -1,4 +1,4 @@
-Last updated: 1791803149 (2026-10-12T11:05:49Z)
+Last updated: 1791810594 (2026-10-12T13:09:54Z)
 
 # State
 
@@ -38,6 +38,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S27 | `templates/` action pins move with Dependabot | done | [#62](https://github.com/edbfi/edbfi-ci/pull/62), [#63](https://github.com/edbfi/edbfi-ci/pull/63), [#64](https://github.com/edbfi/edbfi-ci/pull/64) |
 | S28 | replex archived and removed from the docs (D26) | done | [#67](https://github.com/edbfi/edbfi-ci/pull/67) |
 | S29 | open-item follow-ups | done | [comradarr#160](https://github.com/edbfi/comradarr/pull/160); [zimuarr#34](https://github.com/edbfi/zimuarr/pull/34); [EasyHDR#182](https://github.com/edbfi/EasyHDR/pull/182); [zondarr#301](https://github.com/edbfi/zondarr/pull/301); [poyo-studio#108](https://github.com/edbfi/poyo-studio/pull/108); [#68](https://github.com/edbfi/edbfi-ci/pull/68), [#69](https://github.com/edbfi/edbfi-ci/pull/69), [#70](https://github.com/edbfi/edbfi-ci/pull/70) |
+| S30 | open-item follow-ups: dependabot-A2 closed, stale EasyHDR advisory ignores, Dependabot alerts on the out-of-scope repos | done | [EasyHDR#183](https://github.com/edbfi/EasyHDR/pull/183); [#71](https://github.com/edbfi/edbfi-ci/pull/71) |
 
 ## Repos
 
@@ -84,6 +85,7 @@ All [V, 2026-10-07] unless dated otherwise.
 - Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-09; repo-patches, 2026-10-11]; no repo has classic branch protection.
 - Grouped security updates ([settings.md](design/settings.md#contract) rule 3) are on in every rolled-out repo; they have no API, so they're set and checked in the UI [V, 2026-10-11].
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
+- Dependabot alerts are on, with security updates off, in dox and the seven hotio-family docker repos (D27) [V, 2026-10-12].
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10].
 - The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos and edbfi-ci-playground (pilot; PAT `edbfi-biome-migrate` covers it too) [V, 2026-10-11]; github-stats has `STATS_READ_TOKEN`. homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09]. EasyHDR has `VT_API_KEY` [V, 2026-10-11].
 - otpravkarr-docker's and zondarr-docker's `release` builds fail at `archive/null.tar.gz` until each app publishes its first plain `X.Y.Z` release; accepted by the owner (2026-10-07).
