@@ -2,7 +2,7 @@
 
 ## Contract
 
-1. Every entry MUST follow the schedule in its stack template; the fuzz project uses its monthly variant.
+1. Every entry MUST follow the schedule in its stack template.
 2. Every entry MUST disable cooldown with the template exclusion and its scoped linter suppression (D2).
 3. Every entry MUST use the template commit-message settings to produce Conventional Commit titles.
 4. Groups MUST be, first match winning: `biome` (`@biomejs/*`); `playwright` (`playwright`, `@playwright/*`); `vitest` (`vitest`, `@vitest/*`); `slint` (EasyHDR: `slint`, `slint-build`); `compose-images` (setun); then `patch-minor` (`patterns: ["*"]`, `update-types: [minor, patch]`). The special groups may contain majors; other majors get one PR each.
@@ -35,4 +35,5 @@
 - Omitting `cooldown` gives a 3-day default, and `default-days: 0` violates the schema (minimum 1); zizmor fails all three forms without the suppression.
 - `@vitest/*` packages pin `vitest` exactly, so they must move together.
 - For `/` the `github-actions` updater reads only `.github/workflows` and a root `action.yml`; for any other directory it reads that directory's own `*.yml`, so `templates/` needs its own entry.
-- Example of a hold refused: a TypeScript 7 PR sits red until `svelte-check` and the Kit peers accept it.
+- Example of a hold refused: the TypeScript 7 PRs sit red ([B7](../DECISIONS.md#blockers)).
+- Dependabot never re-locks a separate lockfile behind a path dependency (dependabot-core#11500), so EasyHDR's `fuzz/` is a root workspace member with no entry of its own.

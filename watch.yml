@@ -17,11 +17,11 @@ triggers:
   - id: icarus-bevy-cargo
     kind: manual
     action: Once icarus-bevy has a Cargo project, move it to the Native tier in a PR that adds rust-toolchain.toml, a committed Cargo.lock, a Linux build job, cargo Dependabot and a cargo audit entry (design/repos.md).
-  - id: openapi-typescript-peers
+  - id: typescript-7
     kind: npm_release
-    package: openapi-typescript
-    above: 7.13.0
-    action: Recheck TypeScript peer compatibility in zondarr/frontend before enabling check-peers there (B6 in DECISIONS.md).
+    package: svelte-check
+    above: 4.7.6
+    action: Check whether svelte-check's `typescript` peer now accepts 7, and whether @sveltejs/kit (`svelte-kit sync`), @astrojs/check and @astrojs/svelte work with TypeScript 7 (B7 in DECISIONS.md). Once all do, comment `@dependabot recreate` on the red TypeScript 7 PRs and delete B7; otherwise re-add this entry under a new id with `above` set to the release just checked.
   - id: dependabot-schedule
     kind: manual
     action: After Dependabot's run on Monday 2026-10-13, check that its scheduled `github-actions` runs opened the pending bumps (`upload-artifact` 7.0.2, `setup-uv` 10.3.0) in repos that still lack them; then close dependabot-A1 in design/dependabot.md, or inspect each repo's Dependabot tab if none appeared.
