@@ -74,6 +74,13 @@ class SyncPullfrogTest(unittest.TestCase):
         self.assertIn("pins differ:", result.stdout)
         self.assertEqual(self.workflow.read_text(), pinned(TEMPLATE, NEW))
 
+    def test_check_reports_whatever_sync_would_rewrite(self) -> None:
+        sha = TEMPLATE.split("pullfrog/pullfrog@")[1][:40]
+        self.write(pinned(TEMPLATE, f"pullfrog/pullfrog@{sha} # v0.0.1"))
+        self.assertIn("pins differ:", self.sync("--check").stdout)
+        self.assertIn("copied:", self.sync().stdout)
+        self.assertEqual(self.workflow.read_text(), TEMPLATE)
+
     def test_structural_drift_fails_and_sync_keeps_a_newer_pin(self) -> None:
         self.write(pinned(TEMPLATE, NEW).replace("timeout: 1h", "timeout: 2h"))
         check = self.sync("--check")

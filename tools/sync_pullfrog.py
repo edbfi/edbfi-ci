@@ -37,7 +37,7 @@ def merge(template: str, target: str) -> tuple[str, list[str]]:
 
     def pick(match: re.Match[str]) -> str:
         other = pins.get(match["action"])
-        if other is None or other["sha"] == match["sha"]:
+        if other is None or other.group("sha", "version") == match.group("sha", "version"):
             return match[0]
         differences.append(
             f"{match['action']} {other['version']} (template {match['version']})"
