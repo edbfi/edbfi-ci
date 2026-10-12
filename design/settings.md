@@ -15,7 +15,7 @@
 - Current drift is recorded in [STATE.md](../STATE.md#github-state).
 - Personal-account rulesets enforce both checks [V, 2026-09-27] and accept the admin-role bypass [V, 2026-10-08, playground].
 - Owner direct pushes are accepted, logged as `bypass` in the rule suites, and start push CI. Dependabot PRs whose auto-merge the D5 PAT enables wait for both checks, stay open while `ci-ok` is red and merge once it is green, logged as `pass` [V, 2026-10-08, playground].
-- Deploy-key pushes on a personal account are attributed to the owner, logged as `bypass`, and start push CI [V, 2026-10-09, homebrew-taps e20e421 and playground]; the playground showed the admin-role bypass suffices without a `DeployKey` actor. A read-only deploy key can clone but not push.
+- Deploy-key pushes on a personal account are attributed to the owner, logged as `bypass`, and start push CI, with the admin role as the only bypass actor [V, 2026-10-12, homebrew-taps ef9c871]. A read-only deploy key can clone but not push [V, 2026-10-09, playground].
 - The pinned `j178/prek-action` and `oven-sh/setup-bun` use Node 24 and run with SHA pinning required [V, 2026-10-08].
 
 ## Verification

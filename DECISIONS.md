@@ -35,4 +35,4 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 
 | ID | Blocker | Enforced by |
 |---|---|---|
-| B7 | TypeScript 7's `typescript` package has no JS compiler API, so its Dependabot PRs stay red: Kit 3.0.1's `svelte-kit sync` fails on `ts.sys.readFile`, and svelte-check 4.7.6, `@astrojs/check` and `@astrojs/svelte` peer `typescript` ^6 at most. | `typescript-7` watch trigger; `check-peers` ([prek.md](design/prek.md#contract) rule 10) |
+| B7 | TypeScript 7's `typescript` package has no JS compiler API, which SvelteKit, svelte-check and the Astro check tools still use, so its Dependabot PRs stay red until they support it; a later TS 7 bump then replaces them. Not watched (owner, 2026-10-12). | `check-peers` ([prek.md](design/prek.md#contract) rule 10) |
