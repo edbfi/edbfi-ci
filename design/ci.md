@@ -31,6 +31,7 @@
 21. Pullfrog MUST use a separate default-branch-only dispatch workflow from the [template](../templates/pullfrog.yml), with its Claude subscription stored at account scope in Pullfrog, never in GitHub Actions secrets. It MUST stay outside `ci-ok` and the required checks. New repositories MUST receive the workflow, settings and review instructions before activation.
 22. Reviews MUST cover all base branches, new commits, drafts and bot PRs, with critical, high, medium, low and nitpick findings included. Review instructions MUST respect repository rules and owner decisions. External contributors MUST require a collaborator's review request.
 23. Pullfrog MUST NOT push code, approve or auto-merge PRs, auto-address reviews, fix CI or enrich issues. Shell isolation MUST stay restricted. Changing Pullfrog MUST preserve existing publishing workflow states and MUST NOT advance the core CI rollout.
+24. Each copy's action pins MUST be left to its own Dependabot: a pin-only difference from the template isn't drift, and a sync MUST NOT downgrade a pin. Copies without Dependabot (dox and the hotio-family docker repos) take newer pins only through a sync PR, which on a docker repo publishes an image ([repos.md](repos.md#contract) rule 8), so it MUST ride along with a structural change or replace a broken or vulnerable pin, never a routine bump.
 
 ## Parameters
 
@@ -49,7 +50,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 - Pins, schedules, runners and commands live in those templates. Runner architectures were verified [V, 2026-09-27]; re-check at rollout (ci-A2).
 - Pages linter allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml), copied to `.github/actionlint.yaml`.
 - Pullfrog: [setup](https://docs.pullfrog.com/getting-started), [account-scoped Claude auth](https://docs.pullfrog.com/claude-auth), [review configuration](https://docs.pullfrog.com/pr-reviews), and [CLI settings](https://docs.pullfrog.com/cli-configuration). A SHA pins its action bootstrap; its npm runtime still follows the upstream major ([versioning](https://docs.pullfrog.com/versioning)).
-- Maintain Pullfrog in its template; `python3 tools/sync_pullfrog.py <checkout>…` copies it locally, and `--check` detects drift. Commit copies through per-repository PRs. The command never pushes, merges or changes settings.
+- Maintain Pullfrog in its template; `python3 tools/sync_pullfrog.py <checkout>…` copies it locally, keeping newer pins (rule 24). `--check` exits 1 only on structural drift and lists pin-only differences as `pins differ`. Commit copies through per-repository PRs. The command never pushes, merges or changes settings.
 - Console values: [settings](../templates/pullfrog-settings.json); the Review mode's instructions: [prompt](../templates/pullfrog-review.txt). Apply the prompt through `pullfrog config set prompts.review --file templates/pullfrog-review.txt --repo <owner/repo>`; settings use the console because bot inclusion and base-branch scope have no CLI keys.
 
 ## Verification
