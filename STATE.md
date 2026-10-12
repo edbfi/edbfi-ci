@@ -1,4 +1,4 @@
-Last updated: 1791810594 (2026-10-12T13:09:54Z)
+Last updated: 1791816155 (2026-10-12T14:42:35Z)
 
 # State
 
@@ -39,6 +39,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S28 | replex archived and removed from the docs (D26) | done | [#67](https://github.com/edbfi/edbfi-ci/pull/67) |
 | S29 | open-item follow-ups | done | [comradarr#160](https://github.com/edbfi/comradarr/pull/160); [zimuarr#34](https://github.com/edbfi/zimuarr/pull/34); [EasyHDR#182](https://github.com/edbfi/EasyHDR/pull/182); [zondarr#301](https://github.com/edbfi/zondarr/pull/301); [poyo-studio#108](https://github.com/edbfi/poyo-studio/pull/108); [#68](https://github.com/edbfi/edbfi-ci/pull/68), [#69](https://github.com/edbfi/edbfi-ci/pull/69), [#70](https://github.com/edbfi/edbfi-ci/pull/70) |
 | S30 | open-item follow-ups: dependabot-A2 closed, stale EasyHDR advisory ignores, Dependabot alerts on the out-of-scope repos | done | [EasyHDR#183](https://github.com/edbfi/EasyHDR/pull/183); [#71](https://github.com/edbfi/edbfi-ci/pull/71) |
+| S31 | open-item follow-ups: homebrew-taps' admin-only deploy-key push verified with a probe cask; B7 and hotio/base#30 no longer tracked | done | [homebrew-taps#47](https://github.com/edbfi/homebrew-taps/pull/47), [homebrew-taps#48](https://github.com/edbfi/homebrew-taps/pull/48); [#72](https://github.com/edbfi/edbfi-ci/pull/72) |
 
 ## Repos
 
@@ -94,6 +95,4 @@ All [V, 2026-10-07] unless dated otherwise.
 
 ## Open items
 
-- homebrew-taps: the `DeployKey` bypass actor was removed (2026-10-09); the next updater push must show `bypass` and start push CI (`homebrew-push-admin-only` in [watch.yml](watch.yml)), as the playground did.
 - SvelteKit dev servers (all five apps): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead [V, 2026-10-11, S25].
-- hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
