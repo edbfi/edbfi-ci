@@ -4,8 +4,8 @@
 
 1. In the tiers below, "main" means the repo's default branch: `main` everywhere except github-stats, whose default branch is `master`. Substitute `master` there in every branch filter, ref guard and API path.
 2. "PAT" means a fine-grained personal access token; every PAT here acts as the owner.
-3. The in-scope repos are the tiers below (D1). Out of scope: website, base-image, obzorarr-docker, otpravkarr-docker, zondarr-docker, caddy, qbittorrent, qflood, sabnzbd (the hotio family keeps its upstream CI), wings-vpn (archived, D10), and dox (private Markdown notes, D22).
-4. replex is in scope with advisory CI whose failures are accepted; repo-patches only for its tooling (D1).
+3. The in-scope repos are the tiers below (D1). Out of scope: website, base-image, obzorarr-docker, otpravkarr-docker, zondarr-docker, caddy, qbittorrent, qflood, sabnzbd (the hotio family keeps its upstream CI), wings-vpn (archived, D10), replex (archived, D26), and dox (private Markdown notes, D22).
+4. repo-patches is in scope only for its tooling (D1).
 5. Each repo MUST own `ci.yml` (required check `ci-ok`), `pr-policy.yml` (required check `pr-policy`), `dependabot.yml` and `.pre-commit-config.yaml`; where they apply, `dependabot-auto-merge.yml`, `.github/actionlint.yaml` (Pages) and `scripts/smoke.*`; with its first scheduled workflow, `immortality.yml` ([watchdog.md](watchdog.md#contract)); and, in later steps, `biome-migrate.yml` ([biome.md](biome.md#parameters) repos) and the D8 workflows ([d8.md](d8.md#contract) repos).
 6. Each repo MUST get the adaptations in its row below. Each rollout PR MUST also keep `process.env.CI`, `scripts/serve-dist.ts` and poyo-studio's `*:ci` scripts.
 7. The hotio-family docker repos (caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker; D20) MUST carry Hotio's `call-build.yml` and `call-update.yml` on every channel branch, byte-identical to the matching hotio repo (schedules included) except that `uses:` points at `edbfi/base-image/.github/workflows/{build,update}-on-call.yml@workflows`. These repos and base-image MUST keep the default `GITHUB_TOKEN` permission `write`, which their reusable workflows need. Any other difference in these two caller workflows needs an owner decision.
@@ -16,7 +16,7 @@
 
 ## Parameters
 
-Tiers: 29 public in-scope repos; `edbfi-ci` itself is outside the tiers. GitHub default branches match rule 1 [V, 2026-10-07].
+Tiers: 28 public in-scope repos; `edbfi-ci` itself is outside the tiers. GitHub default branches match rule 1 [V, 2026-10-07].
 
 | Tier | Repos | Stack |
 |---|---|---|
@@ -25,7 +25,7 @@ Tiers: 29 public in-scope repos; `edbfi-ci` itself is outside the tiers. GitHub 
 | Native | EasyHDR (Rust 1.99.0, Windows-only Slint GUI, `fuzz/` crate, cargo-deny); github-stats (Zig 0.16, default branch `master`); homebrew-taps (casks + Linux formulae + bash/python pipeline) | |
 | Shell | pelican-eggs, mover-status | |
 | Content | edbfi, comradarr, zimuarr (docs only); agent-rules; skills; eksamen (static site in `docs/`, Pages); 3d-designs (OpenSCAD designs with generated print files); icarus-bevy (Rust + Bevy server, no Cargo project yet) | |
-| Special | repo-patches (stdlib Python tooling; scheduled `watch-hotio.yml` and dispatched `sync-hotio.yml` generate the base-image and website mirrors of Hotio); replex (Rust fork; its advisory CI's failures are accepted) | |
+| Special | repo-patches (stdlib Python tooling; scheduled `watch-hotio.yml` and dispatched `sync-hotio.yml` generate the base-image and website mirrors of Hotio) | |
 
 Hotio-family credentials (revoke neither PAT): repo-patches' `PERSONAL_TOKEN` is PAT `edbfi-hotio-mirror-sync` (Contents and Workflows RW on base-image and website); base-image's and the docker repos' `PERSONAL_TOKEN` is PAT `edbfi-hotio-container-sync`, used by their updaters; `DISCORD_WEBHOOK` feeds Hotio's `notify` job in base-image and the docker repos.
 
@@ -59,7 +59,6 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | skills | docendo tests, `node --check scripts/*.mjs` | `scripts/check-content.py` | ubuntu | gha |
 | eksamen | Pages deploy of `docs/` | `scripts/smoke.sh`: serve `docs/`, `/index.html`, `/optagelsesprover.html` | ubuntu | gha |
 | repo-patches | `python3 -m unittest discover -s tools -p 'test_*.py'` | — | ubuntu | gha |
-| replex | fmt, clippy, test, build (red is accepted) | `REPLEX_HOST=http://127.0.0.1:9`, `/ping` → `pong!` | ubuntu | cargo (security-only, `open-pull-requests-limit: 0`, monthly), docker `/docker`, gha |
 
 ## Verification
 

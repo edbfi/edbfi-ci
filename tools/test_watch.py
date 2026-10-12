@@ -36,7 +36,7 @@ class WatchTest(unittest.TestCase):
             _ = uv.write_text('#!/bin/bash\nprintf "%s\\n" "$@"\n')
             uv.chmod(0o755)
             for dry_run in ("true", "false"):
-                manual = "$(exit 99); replex-green"
+                manual = "$(exit 99); example-trigger"
                 result = run(
                     code,
                     {

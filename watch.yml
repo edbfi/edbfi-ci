@@ -8,9 +8,6 @@ triggers:
   - id: ubuntu-latest-26
     kind: manual
     action: When the runner-images README maps `ubuntu-latest` to Ubuntu 26.04, move every `ubuntu-24.04-arm` label to `ubuntu-26.04-arm` in one PR per repo (design/ci.md ci-A2).
-  - id: replex-green
-    kind: manual
-    action: Move replex to the normal auto-merge path after manually verifying its CI is green and enforced (design/auto-merge.md).
   - id: qbittorrent-standard-dmg
     kind: manual
     action: Once the latest stable qBittorrent release has its standard `qbittorrent-X.Y.Z.dmg`, check that the homebrew-taps updater published it and pushed the cask (design/d8.md rule 9).

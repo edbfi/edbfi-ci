@@ -4,7 +4,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 
 | ID | Decision | Enforced by |
 |---|---|---|
-| D1 | Scope as in [repos.md](design/repos.md#contract); replex has advisory CI with accepted failures; repo-patches is in for its tooling only. | per-repo table in [STATE.md](STATE.md) |
+| D1 | Scope as in [repos.md](design/repos.md#contract); repo-patches is in for its tooling only. | per-repo table in [STATE.md](STATE.md) |
 | D2 | Every Dependabot PR auto-merges once CI passes, majors included, with no cooldown. | `dependabot-auto-merge.yml`; `cooldown` exclusion ([dependabot.md](design/dependabot.md#contract)) |
 | D3 | Bun dependencies update through Dependabot's `bun` updater (`bun.lock` v2 since dependabot-core#16485), with the `audit` job alongside. | Bun blocks in the Dependabot templates; `audit` job |
 | D4 | Automatic Biome migration with `BIOME_MIGRATE_TOKEN`. | `biome-migrate` hook and `biome-migrate.yml` ([biome.md](design/biome.md#contract)) |
@@ -28,6 +28,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D23 | repo-patches gets the two-job [`ci-special.yml`](templates/ci-special.yml); its `test_workflows` checks the privileged-job rule per job instead of requiring one job per workflow (owner, 2026-10-11). | repo-patches `tools/test_workflows.py` (S14) |
 | D24 | Kit 3's `transform_index_html_unsupported` warning for UnoCSS stays: Kit never calls the hook, and `app.html` holds no utilities, so nothing is lost (owner, 2026-10-11). | — |
 | D25 | repo-patches' `test_workflows` requires the main guard only on dispatchable secret jobs; a secret job in a `pull_request`-only workflow leads its `if:` with the Dependabot author and same-repository head check instead (owner, 2026-10-11). | repo-patches `tools/test_workflows.py` ([repo-patches#58](https://github.com/edbfi/repo-patches/pull/58)) |
+| D26 | Archive replex, an outdated fork (owner, 2026-10-12); its secrets, PATs, deploy keys and Actions settings stay as they are. | replex archived ([STATE](STATE.md#github-state)); [repos.md](design/repos.md#contract) rule 3 |
 
 ## Blockers
 

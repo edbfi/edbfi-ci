@@ -2,7 +2,7 @@
 
 ## Contract
 
-1. Every entry MUST follow the schedule in its stack template; replex and the fuzz project use their monthly variants.
+1. Every entry MUST follow the schedule in its stack template; the fuzz project uses its monthly variant.
 2. Every entry MUST disable cooldown with the template exclusion and its scoped linter suppression (D2).
 3. Every entry MUST use the template commit-message settings to produce Conventional Commit titles.
 4. Groups MUST be, first match winning: `biome` (`@biomejs/*`); `playwright` (`playwright`, `@playwright/*`); `vitest` (`vitest`, `@vitest/*`); `slint` (EasyHDR: `slint`, `slint-build`); `compose-images` (setun); then `patch-minor` (`patterns: ["*"]`, `update-types: [minor, patch]`). The special groups may contain majors; other majors get one PR each.
@@ -12,7 +12,7 @@
 
 ## Parameters
 
-- Configs: [Bun](../templates/dependabot.bun-web.yml), [setun](../templates/dependabot.setun.yml), [Python](../templates/dependabot.python.yml), [Python + Bun](../templates/dependabot.python-bun.yml), [Rust](../templates/dependabot.rust.yml), [Zig](../templates/dependabot.zig.yml), [Homebrew](../templates/dependabot.homebrew.yml), [Shell](../templates/dependabot.shell.yml), [Content](../templates/dependabot.content.yml), [Special](../templates/dependabot.special.yml), [replex](../templates/dependabot.replex.yml).
+- Configs: [Bun](../templates/dependabot.bun-web.yml), [setun](../templates/dependabot.setun.yml), [Python](../templates/dependabot.python.yml), [Python + Bun](../templates/dependabot.python-bun.yml), [Rust](../templates/dependabot.rust.yml), [Zig](../templates/dependabot.zig.yml), [Homebrew](../templates/dependabot.homebrew.yml), [Shell](../templates/dependabot.shell.yml), [Content](../templates/dependabot.content.yml), [Special](../templates/dependabot.special.yml).
 - Copy the matching config to `.github/dependabot.yml`; adapt ecosystems and directories to [repos.md](repos.md#parameters).
 
 - Every `bun.lock` in the Bun directories of [repos.md](repos.md#parameters) is lockfile v2 [V, 2026-10-07]. Dependabot's `bun` updater keeps it v2, with exact pins and `npm:` aliases (`@typescript/native`) intact [V, 2026-10-11, portaler#124].
