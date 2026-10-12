@@ -1,4 +1,4 @@
-Last updated: 1791810011 (2026-10-12T13:00:11Z)
+Last updated: 1791810594 (2026-10-12T13:09:54Z)
 
 # State
 
@@ -85,7 +85,7 @@ All [V, 2026-10-07] unless dated otherwise.
 - Rulesets exist only in edbfi-ci, edbfi-ci-playground and the rolled-out target repos, all in the D21 shape [V, 2026-10-09; repo-patches, 2026-10-11]; no repo has classic branch protection.
 - Grouped security updates ([settings.md](design/settings.md#contract) rule 3) are on in every rolled-out repo; they have no API, so they're set and checked in the UI [V, 2026-10-11].
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
-- Dependabot alerts are on, with security updates off, in dox and the seven hotio-family docker repos ([repos.md](design/repos.md#contract) rule 7) [V, 2026-10-12].
+- Dependabot alerts are on, with security updates off, in dox and the seven hotio-family docker repos (D27) [V, 2026-10-12].
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10].
 - The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the ten Biome repos and edbfi-ci-playground (pilot; PAT `edbfi-biome-migrate` covers it too) [V, 2026-10-11]; github-stats has `STATS_READ_TOKEN`. homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09]. EasyHDR has `VT_API_KEY` [V, 2026-10-11].
 - otpravkarr-docker's and zondarr-docker's `release` builds fail at `archive/null.tar.gz` until each app publishes its first plain `X.Y.Z` release; accepted by the owner (2026-10-07).
