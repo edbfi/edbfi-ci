@@ -1,4 +1,4 @@
-Last updated: 1791816155 (2026-10-12T14:42:35Z)
+Last updated: 1791839203 (2026-10-12T21:06:43Z)
 
 # State
 
@@ -40,6 +40,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S29 | open-item follow-ups | done | [comradarr#160](https://github.com/edbfi/comradarr/pull/160); [zimuarr#34](https://github.com/edbfi/zimuarr/pull/34); [EasyHDR#182](https://github.com/edbfi/EasyHDR/pull/182); [zondarr#301](https://github.com/edbfi/zondarr/pull/301); [poyo-studio#108](https://github.com/edbfi/poyo-studio/pull/108); [#68](https://github.com/edbfi/edbfi-ci/pull/68), [#69](https://github.com/edbfi/edbfi-ci/pull/69), [#70](https://github.com/edbfi/edbfi-ci/pull/70) |
 | S30 | open-item follow-ups: dependabot-A2 closed, stale EasyHDR advisory ignores, Dependabot alerts on the out-of-scope repos | done | [EasyHDR#183](https://github.com/edbfi/EasyHDR/pull/183); [#71](https://github.com/edbfi/edbfi-ci/pull/71) |
 | S31 | open-item follow-ups: homebrew-taps' admin-only deploy-key push verified with a probe cask; B7 and hotio/base#30 no longer tracked | done | [homebrew-taps#47](https://github.com/edbfi/homebrew-taps/pull/47), [homebrew-taps#48](https://github.com/edbfi/homebrew-taps/pull/48); [#72](https://github.com/edbfi/edbfi-ci/pull/72) |
+| S32 | homebrew-taps' cask updater runs one job per cask on per-cask timeouts, verified with two probe casks | done | [homebrew-taps#49](https://github.com/edbfi/homebrew-taps/pull/49), [homebrew-taps#50](https://github.com/edbfi/homebrew-taps/pull/50), [homebrew-taps#51](https://github.com/edbfi/homebrew-taps/pull/51), [homebrew-taps#52](https://github.com/edbfi/homebrew-taps/pull/52); [#73](https://github.com/edbfi/edbfi-ci/pull/73) |
 
 ## Repos
 
@@ -65,7 +66,7 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | printlab-project | Python | S11 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
 | EasyHDR | Native | S12, S18 | live; push CI verified (Windows tests, smoke, cargo-deny and the `fuzz/` check on the one workspace lockfile [V, 2026-10-12]); nightly audit, weekly Miri, release (verified end to end with a deleted test prerelease) and profiling workflows live | live | active | live; Dependabot merges observed ([#177](https://github.com/edbfi/EasyHDR/pull/177), [#178](https://github.com/edbfi/EasyHDR/pull/178)) | — | — |
 | github-stats | Native | S12, S17 | live on `master`; push CI verified; daily stats generator live | live | active | live; Dependabot merge observed ([#32](https://github.com/edbfi/github-stats/pull/32)) | — | — |
-| homebrew-taps | Native | S12, S19 | live; push CI verified (formulae on x86_64 and ARM64, macOS casks); cask updater live | live | active (admin role only; the deploy key passes it, D16) | live; Dependabot merge observed ([#41](https://github.com/edbfi/homebrew-taps/pull/41)) | — | — |
+| homebrew-taps | Native | S12, S19, S32 | live; push CI verified (formulae on x86_64 and ARM64, macOS casks); cask updater live, one job per cask [V, 2026-10-12] | live | active (admin role only; the deploy key passes it, D16) | live; Dependabot merge observed ([#41](https://github.com/edbfi/homebrew-taps/pull/41)) | — | — |
 | pelican-eggs | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#37](https://github.com/edbfi/pelican-eggs/pull/37)) | — | — |
 | mover-status | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#60](https://github.com/edbfi/mover-status/pull/60)) | — | — |
 | comradarr | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#159](https://github.com/edbfi/comradarr/pull/159)) | — | — |
