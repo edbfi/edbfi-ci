@@ -13,7 +13,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D7 | Local gitleaks plus GitHub secret scanning and push protection; no gitleaks CI scan. | gitleaks hook; repo security settings ([settings.md](design/settings.md#contract)) |
 | D8 | Restore the github-stats generator, homebrew direct updates, EasyHDR release/audit/Miri/profiling; defer docrewind releases. | D8 workflows ([d8.md](design/d8.md#contract)) |
 | D9 | Conventional Commits titles plus DCO. | required check `pr-policy` ([pr-policy.md](design/pr-policy.md#contract)) |
-| D10 | Archive wings-vpn; EasyHDR `/fuzz` updates monthly. | wings-vpn archived ([STATE](STATE.md#github-state)); EasyHDR `dependabot.yml` |
+| D10 | Archive wings-vpn. | wings-vpn archived ([STATE](STATE.md#github-state)) |
 | D11 | eksamen publishes through the gated deploy. | `deploy` job ([ci.md](design/ci.md#contract)) |
 | D12 | `-latest` runner labels, keeping required architectures. | [ci.md](design/ci.md#contract) rule 10; actionlint |
 | D13 | poyo-studio macOS media-tools job; homebrew Linux x86_64/ARM64 formula builds. | jobs required in `ci-ok` ([d8.md](design/d8.md#contract)) |
@@ -34,4 +34,4 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 
 | ID | Blocker | Enforced by |
 |---|---|---|
-| B6 | `openapi-typescript@7.13.0` requires `typescript ^5.x` in zondarr/frontend (openapi-typescript#2723); D18 doesn't cover it. | `openapi-typescript-peers` watch trigger; [prek.md](design/prek.md#contract) rule 12 |
+| B7 | TypeScript 7's `typescript` package has no JS compiler API, so its Dependabot PRs stay red: Kit 3.0.1's `svelte-kit sync` fails on `ts.sys.readFile`, and svelte-check 4.7.6, `@astrojs/check` and `@astrojs/svelte` peer `typescript` ^6 at most. | `typescript-7` watch trigger; `check-peers` ([prek.md](design/prek.md#contract) rule 10) |

@@ -1,4 +1,4 @@
-Last updated: 1791800317 (2026-10-12T10:18:37Z)
+Last updated: 1791803149 (2026-10-12T11:05:49Z)
 
 # State
 
@@ -37,6 +37,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S26 | zondarr on PostgreSQL | done | [zondarr#296](https://github.com/edbfi/zondarr/pull/296), [zondarr#297](https://github.com/edbfi/zondarr/pull/297); [#64](https://github.com/edbfi/edbfi-ci/pull/64) |
 | S27 | `templates/` action pins move with Dependabot | done | [#62](https://github.com/edbfi/edbfi-ci/pull/62), [#63](https://github.com/edbfi/edbfi-ci/pull/63), [#64](https://github.com/edbfi/edbfi-ci/pull/64) |
 | S28 | replex archived and removed from the docs (D26) | done | [#67](https://github.com/edbfi/edbfi-ci/pull/67) |
+| S29 | open-item follow-ups | done | [comradarr#160](https://github.com/edbfi/comradarr/pull/160); [zimuarr#34](https://github.com/edbfi/zimuarr/pull/34); [EasyHDR#182](https://github.com/edbfi/EasyHDR/pull/182); [zondarr#301](https://github.com/edbfi/zondarr/pull/301); [poyo-studio#108](https://github.com/edbfi/poyo-studio/pull/108); [#68](https://github.com/edbfi/edbfi-ci/pull/68), [#69](https://github.com/edbfi/edbfi-ci/pull/69), [#70](https://github.com/edbfi/edbfi-ci/pull/70) |
 
 ## Repos
 
@@ -56,11 +57,11 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | otpravkarr | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | — |
 | poyo-studio | Bun web | S10 | live; push CI verified (macOS media-tools included) | live | active | live; Dependabot merge observed ([#96](https://github.com/edbfi/poyo-studio/pull/96)) | — | — |
 | setun | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merges observed ([#113](https://github.com/edbfi/setun/pull/113), [#114](https://github.com/edbfi/setun/pull/114), [#115](https://github.com/edbfi/setun/pull/115)) | — | — |
-| zondarr | Python | S11, S26 | live; push CI and audit verified; backend suite on SQLite and PostgreSQL [V, 2026-10-11] | live | active | live; Dependabot merges observed ([#277](https://github.com/edbfi/zondarr/pull/277), [#278](https://github.com/edbfi/zondarr/pull/278)) | — | B6 |
+| zondarr | Python | S11, S26 | live; push CI and audit verified; backend suite on SQLite and PostgreSQL [V, 2026-10-11] | live | active | live; Dependabot merges observed ([#277](https://github.com/edbfi/zondarr/pull/277), [#278](https://github.com/edbfi/zondarr/pull/278)) | — | — |
 | guide-capture | Python | S11 | live; push CI verified (macOS included) | live | active | live; Dependabot merge observed ([#39](https://github.com/edbfi/guide-capture/pull/39)) | — | — |
 | arrsenal-of-scripts | Python | S11 | live; push CI verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/arrsenal-of-scripts/pull/40)) | — | — |
 | printlab-project | Python | S11 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
-| EasyHDR | Native | S12, S18 | live; push CI verified (Windows tests, smoke, cargo-deny, `fuzz/` check); nightly audit, weekly Miri, release (verified end to end with a deleted test prerelease) and profiling workflows live | live | active | live; Dependabot merges observed ([#177](https://github.com/edbfi/EasyHDR/pull/177), [#178](https://github.com/edbfi/EasyHDR/pull/178)) | — | — |
+| EasyHDR | Native | S12, S18 | live; push CI verified (Windows tests, smoke, cargo-deny and the `fuzz/` check on the one workspace lockfile [V, 2026-10-12]); nightly audit, weekly Miri, release (verified end to end with a deleted test prerelease) and profiling workflows live | live | active | live; Dependabot merges observed ([#177](https://github.com/edbfi/EasyHDR/pull/177), [#178](https://github.com/edbfi/EasyHDR/pull/178)) | — | — |
 | github-stats | Native | S12, S17 | live on `master`; push CI verified; daily stats generator live | live | active | live; Dependabot merge observed ([#32](https://github.com/edbfi/github-stats/pull/32)) | — | — |
 | homebrew-taps | Native | S12, S19 | live; push CI verified (formulae on x86_64 and ARM64, macOS casks); cask updater live | live | active (admin role only; the deploy key passes it, D16) | live; Dependabot merge observed ([#41](https://github.com/edbfi/homebrew-taps/pull/41)) | — | — |
 | pelican-eggs | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#37](https://github.com/edbfi/pelican-eggs/pull/37)) | — | — |
@@ -91,12 +92,6 @@ All [V, 2026-10-07] unless dated otherwise.
 
 ## Open items
 
-- poyo-studio: `E2E-01..15` timed out twice in a row locally at `tests/e2e/studio-flows.browser.ts:2274` (no "Generated video result" within 15 s after `stopApp`/`startApp`/`releaseHeldTasks`), then passed 9 runs, 4 of them under CPU load; CI has never failed there. Find the cause; don't raise the timeout.
 - homebrew-taps: the `DeployKey` bypass actor was removed (2026-10-09); the next updater push must show `bypass` and start push CI (`homebrew-push-admin-only` in [watch.yml](watch.yml)), as the playground did.
-- obzorarr `uno.config.ts`: about half of the 86 safelist entries appear in no source file [V, 2026-10-11]. Custom slides no longer use it ([obzorarr#248](https://github.com/edbfi/obzorarr/pull/248) strips their classes); drop the entries no portalled component needs.
 - SvelteKit dev servers (all five apps): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead [V, 2026-10-11, S25].
-- comradarr and zimuarr opt in to `svelte5-sveltekit-app` in agent-rules' `manifest.toml` but hold older accepted copies (`65c464cc`, `6cee75bc`, [repos.md](design/repos.md#contract) rule 10) [V, 2026-10-11]; re-copy from agent-rules `main`.
-- `tools/sync_pullfrog.py --check` compares bytes, so it flags every `pullfrog.yml` whose `pullfrog/pullfrog` pin differs from the template's: 9 copies, on that line only [V, 2026-10-11]. wtfnzb-adapter should catch up through Dependabot; the other 8 (dox and the hotio-family docker repos of [repos.md](design/repos.md#contract) rule 7) have no Dependabot and never will. Closes when the check normalizes the pin line, or [ci.md](design/ci.md#contract) documents the exception.
-- `templates/pre-commit.*.yaml`: Dependabot's `pre-commit` updater reads only `.pre-commit-config.yaml`, so the template hook `rev:` values don't move. They still match edbfi-ci's own Dependabot-updated `.pre-commit-config.yaml` [V, 2026-10-11].
-- EasyHDR: `fuzz/` depends on `easyhdr` by path, so a root Dependabot PR that raises a requirement also used in `fuzz/` fails `cargo check --locked --manifest-path fuzz/Cargo.toml` until `fuzz/Cargo.lock` follows; the monthly `/fuzz` entry (D10) never updates that PR ([EasyHDR#179](https://github.com/edbfi/EasyHDR/pull/179)) [V, 2026-10-11]. Until it's automated, push a minimal re-resolution (`cargo metadata --manifest-path fuzz/Cargo.toml`) to the PR and enable auto-merge ([auto-merge.md](design/auto-merge.md#contract) rule 9).
 - hotio/base#30: if Hotio closes it unmerged, delete the edbfi/base-image branch `fix/manifest-retry-cleanup` (a merge fires `hotio-manifest-retry-cleanup` in [watch.yml](watch.yml)).
