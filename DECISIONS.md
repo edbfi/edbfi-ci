@@ -30,6 +30,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D25 | repo-patches' `test_workflows` requires the main guard only on dispatchable secret jobs; a secret job in a `pull_request`-only workflow leads its `if:` with the Dependabot author and same-repository head check instead (owner, 2026-10-11). | repo-patches `tools/test_workflows.py` ([repo-patches#58](https://github.com/edbfi/repo-patches/pull/58)) |
 | D26 | Archive replex, an outdated fork (owner, 2026-10-12); its secrets, PATs, deploy keys and Actions settings stay as they are. | replex archived ([STATE](STATE.md#github-state)); [repos.md](design/repos.md#contract) rule 3 |
 | D27 | Dependabot alerts are on, with security updates off, in the out-of-scope dox and hotio-family docker repos, so vulnerable pins are flagged without opening PRs (owner, 2026-10-12). | alert settings ([STATE](STATE.md#github-state)) |
+| D28 | Rewrite comradarr, obzorarr, otpravkarr, zimuarr and zondarr from scratch: each `main` becomes a Content-tier starting point and the old `main` stays on `legacy-old/v1`; their docker repos' `nightly` failures are accepted (owner, 2026-10-17). | [repos.md](design/repos.md#contract) rule 12 |
 
 ## Blockers
 

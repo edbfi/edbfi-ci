@@ -40,7 +40,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 | Stack | Templates |
 |---|---|
 | Bun web | [Bun](../templates/ci-bun-web.yml), [Bun + Pages](../templates/ci-bun-pages.yml) |
-| Python | [uv](../templates/ci-python.yml), [Python + Bun](../templates/ci-python-bun.yml); stdlib-only repos start from [Special](../templates/ci-special.yml) and add their smoke/runner |
+| Python | [uv](../templates/ci-python.yml); stdlib-only repos start from [Special](../templates/ci-special.yml) and add their smoke/runner |
 | Native | [Rust/Windows](../templates/ci-rust.yml), [Zig](../templates/ci-zig.yml), [Homebrew](../templates/ci-homebrew.yml) |
 | Shell | [Shell](../templates/ci-shell.yml) |
 | Content | [Content](../templates/ci-content.yml), [static Pages](../templates/ci-content-pages.yml) |
