@@ -12,7 +12,8 @@
 8. A PR into a hotio-family channel branch MUST use the branch name `workflows`, the one branch `call-build` doesn't build and publish. Merging it publishes that channel's image.
 9. base-image and website MUST stay generated mirrors of hotio/base and hotio/website (D20): repo-patches' `watch-hotio.yml` and `sync-hotio.yml` reset each mirrored branch to Hotio and apply edbfi's edits (base-image's `immortality.yml` included). Never change them by hand or PR.
 10. A shared agent rule changes in agent-rules first. Consumers then copy the canonical bytes from agent-rules `main` into `.agents/rules/` in a PR that changes nothing else, and agent-rules lists the earlier hash under `[accepted]` in `manifest.toml`. Copies are never edited in place.
-11. Each SvelteKit app (obzorarr, otpravkarr, poyo-studio, setun, zondarr/frontend) owns its front ([svelte5-sveltekit-app](https://github.com/edbfi/agent-rules/blob/main/rules/svelte5-sveltekit-app.md)). A fix found in one front MUST be ported to the others where it applies; the `IDLE_TIMEOUT` alias stays only in otpravkarr, obzorarr and zondarr.
+11. Each SvelteKit app (poyo-studio, setun) owns its front ([svelte5-sveltekit-app](https://github.com/edbfi/agent-rules/blob/main/rules/svelte5-sveltekit-app.md)). A fix found in one front MUST be ported to the other where it applies.
+12. A rewrite starting point (comradarr, obzorarr, otpravkarr, zimuarr, zondarr; D28) MUST hold only its Content-tier CI files, `LICENSE`, README and logo; its old `main` MUST stay on the `legacy-old/v1` branch. Once it has an application manifest on main, it MUST move to its stack tier.
 
 ## Parameters
 
@@ -20,11 +21,11 @@ Tiers: 28 public in-scope repos; `edbfi-ci` itself is outside the tiers. GitHub 
 
 | Tier | Repos | Stack |
 |---|---|---|
-| Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); obzorarr, otpravkarr, poyo-studio, setun (SvelteKit 3 with `@sveltejs/adapter-bun` + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose) | Bun 1.4.2 (`packageManager` required by agent rules), Biome 2.5 |
-| Python | zondarr (Litestar `backend/` uv on SQLite or PostgreSQL, SvelteKit 3 `frontend/` bun with `@sveltejs/adapter-bun`, root bun for Biome/prek); wtfnzb-adapter (Litestar, uv); guide-capture (bash + stdlib Python + Node, needs macOS arm64); arrsenal-of-scripts (shell/zsh/Python); printlab-project (docs + stdlib Python gateway tooling) | uv |
+| Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); poyo-studio, setun (SvelteKit 3 with `@sveltejs/adapter-bun` + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose) | Bun 1.4.2 (`packageManager` required by agent rules), Biome 2.5 |
+| Python | wtfnzb-adapter (Litestar, uv); guide-capture (bash + stdlib Python + Node, needs macOS arm64); arrsenal-of-scripts (shell/zsh/Python); printlab-project (docs + stdlib Python gateway tooling) | uv |
 | Native | EasyHDR (Rust 1.99.0, Windows-only Slint GUI, `fuzz/` crate in the root workspace, cargo-deny); github-stats (Zig 0.16, default branch `master`); homebrew-taps (casks + Linux formulae + bash/python pipeline) | |
 | Shell | pelican-eggs, mover-status | |
-| Content | edbfi, comradarr, zimuarr (docs only); agent-rules; skills; eksamen (static site in `docs/`, Pages); 3d-designs (OpenSCAD designs with generated print files); icarus-bevy (Rust + Bevy server, no Cargo project yet) | |
+| Content | edbfi (docs only); comradarr, obzorarr, otpravkarr, zimuarr, zondarr (rewrite starting points, rule 12); agent-rules; skills; eksamen (static site in `docs/`, Pages); 3d-designs (OpenSCAD designs with generated print files); icarus-bevy (Rust + Bevy server, no Cargo project yet) | |
 | Special | repo-patches (stdlib Python tooling; scheduled `watch-hotio.yml` and dispatched `sync-hotio.yml` generate the base-image and website mirrors of Hotio) | |
 
 Hotio-family credentials (revoke neither PAT): repo-patches' `PERSONAL_TOKEN` is PAT `edbfi-hotio-mirror-sync` (Contents and Workflows RW on base-image and website); base-image's and the docker repos' `PERSONAL_TOKEN` is PAT `edbfi-hotio-container-sync`, used by their updaters; `DISCORD_WEBHOOK` feeds Hotio's `notify` job in base-image and the docker repos.
@@ -38,11 +39,8 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | portaler | tests in prek; build | `PORT=4321 bun run scripts/serve-dist.ts`; `/ /other /grade/3 /fag/matematik` | ubuntu | bun `/`, gha |
 | yt-redirect | tests + build | Playwright chromium (24 tests, `e2e/`) | ubuntu | bun `/`, gha |
 | docrewind | guard scripts (~190 s), `test:logic`, `test:coverage`, build, zip, `zip:firefox`, `verify-manifest.sh`, `lint:firefox` | Playwright extension smoke; `verify-reproducible-build.sh` | ubuntu | bun `/`, gha |
-| obzorarr | drizzle drift (`drizzle-kit check`/`generate`, clean `git status`); build | `bun run smoke:production` with `DATABASE_PATH=$RUNNER_TEMP/smoke.db` | ubuntu | bun `/`, gha |
-| otpravkarr | Vitest (Node), build | `scripts/smoke.ts`: empty DB, start `scripts/serve.ts`, `/api/health` ok/degraded, `/`→`/setup`; `test:e2e` | ubuntu | bun `/`, gha |
 | poyo-studio | prek runs tests+build; `test:browser:ci` | `test:production-smoke`; never `test:live`, its live-approval switches or bare `bun test` | ubuntu + macOS media-tools | bun `/`, gha |
 | setun | `test:component`, Playwright (4 servers), `check:python`, `uv lock --check --project scripts`, drizzle drift, build; Playwright uses a stub model gateway (no provider login or MCP credential) | dummy env with a synthetic `ORIGIN` (without one setun exits at startup), `/`→`/setup` title+banner, SIGTERM exits 0; `container`: the Compose deployment with dummy settings, through Caddy `/`→`/setup` and sandbox headers, CPA key auth and egress, stop exits 0, same images in both Compose files; not covered: TLS, a real provider call, floating-tag drift | ubuntu | bun `/`, uv `/scripts`, docker `/`, docker-compose `/` + `/scripts` (grouped) |
-| zondarr | `uv sync --locked` (backend), the backend suite again on a PostgreSQL service, `bun ci --ignore-scripts` at root + `frontend/`, frontend build, `uv build`, API-types drift (`.github/scripts/check-api.ts`) | `.github/scripts/smoke.py`: alembic upgrade, both servers (frontend through `scripts/serve.ts`), `/health/ready`, `/api/auth/methods` via proxy | ubuntu | uv `/backend`, bun `/`, bun `/frontend`, gha |
 | wtfnzb-adapter | pytest hook, `uv build`, `prek validate-config` | Litestar `/health` + `caps` with dummy config | ubuntu | uv `/`, gha |
 | guide-capture | `check-sensitive-files --all`, `/bin/bash -n` | `bin/guide-capture validate specs/…android.json` | macos-latest (arm64) | gha |
 | arrsenal-of-scripts | `bash -n`, `shellcheck -S error`, `zsh -n`, unittest (63), basedpyright via `uvx` | `claude-diag.py --self-test` (age ≥1.3, zsh, GNU tar) | ubuntu | gha |
@@ -52,7 +50,7 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | homebrew-taps | `bash -n` + shellcheck, 2 unittest trees; macOS: `brew readall`, `brew style`, `brew audit --cask` | changed formulae on Linux x64 + ARM64 ([d8.md](d8.md#contract)) | ubuntu-latest + `ubuntu-<gen>-arm` + macos-latest | gha |
 | pelican-eggs | `.github/scripts/check-eggs.py`, `check-pair.py` | unittest (5), `bash -n` + shellcheck on `ini-merge.sh` | ubuntu | gha |
 | mover-status | `bash -n`, shellcheck | `python3 tests/runtime.py` (timing-sensitive; Linux only) | ubuntu | gha |
-| edbfi, comradarr, zimuarr | — | — | ubuntu | gha |
+| edbfi, comradarr, obzorarr, otpravkarr, zimuarr, zondarr | — | — | ubuntu | gha |
 | 3d-designs | keeps its read-only builtin hooks: no whitespace fixers or `check-added-large-files`, so generated print files, SVG and JSON stay byte-exact | — (renders need OpenSCAD and Bambu Studio) | ubuntu | gha |
 | icarus-bevy | keeps its `exclude` and its cargo fmt/clippy/test hooks, which run once `.rs` or Cargo files exist | — | ubuntu | gha |
 | agent-rules | rule-shape check (frontmatter, title, filename, TOML) | — | ubuntu | gha (pins inside `rules/*.md` stay manual) |

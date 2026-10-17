@@ -17,14 +17,17 @@ triggers:
   - id: dependabot-schedule
     kind: manual
     action: After Dependabot's run on Monday 2026-10-13, check that its scheduled `github-actions` runs opened the pending bumps (`upload-artifact` 7.0.2, `setup-uv` 10.3.0) in repos that still lack them; then close dependabot-A1 in design/dependabot.md, or inspect each repo's Dependabot tab if none appeared.
+  - id: rewrite-stack-tier
+    kind: manual
+    action: Once comradarr, obzorarr, otpravkarr, zimuarr or zondarr has an application manifest on main, move it to its stack tier (design/repos.md rule 12) in a PR that adds its CI jobs, smoke, Dependabot ecosystems and audit entries, and Biome's three layers if it uses Biome.
   - id: kit-runtime-origin
     kind: manual
-    action: Once SvelteKit ships a runtime origin setting (sveltejs/kit#17328), replace the app-owned origin fronts in obzorarr, otpravkarr, poyo-studio, setun and zondarr/frontend with it.
+    action: Once SvelteKit ships a runtime origin setting (sveltejs/kit#17328), replace the app-owned origin fronts in poyo-studio and setun with it.
   - id: kit-malformed-path-redirect
     kind: merged_pr
     repo: sveltejs/kit
     number: 17194
-    action: This fixes sveltejs/kit#17193 (a redirect() thrown in handle escapes server.respond() for an undecodable path). Wait for the first stable @sveltejs/kit release that contains the merge, then check that Dependabot's bun PRs took it into otpravkarr, setun, zondarr/frontend, obzorarr and poyo-studio. Add a regression test that fails on 3.0.0 to each affected app (the otpravkarr and setun setup gates, the zondarr/frontend /login and /setup redirects) showing that document and __data.json requests for /%, /%zz, /%C3 and /%E0%A4%A get the app's redirect, the server stays healthy and the process exits 0 after SIGTERM, with /%25zz and /%C3%A6 as valid controls.
+    action: This fixes sveltejs/kit#17193 (a redirect() thrown in handle escapes server.respond() for an undecodable path). Wait for the first stable @sveltejs/kit release that contains the merge, then check that Dependabot's bun PRs took it into setun and poyo-studio. Add a regression test that fails on 3.0.0 to the setun setup gate showing that document and __data.json requests for /%, /%zz, /%C3 and /%E0%A4%A get the app's redirect, the server stays healthy and the process exits 0 after SIGTERM, with /%25zz and /%C3%A6 as valid controls.
   - id: hotio-manifest-retry-cleanup
     kind: merged_pr
     repo: hotio/base
