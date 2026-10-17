@@ -206,7 +206,6 @@ class TemplateContractTest(unittest.TestCase):
     def test_sveltekit_templates_set_node_before_install(self) -> None:
         for name, node_file in (
             ("ci-bun-web.yml", ".node-version"),
-            ("ci-python-bun.yml", "frontend/.node-version"),
         ):
             jobs = mapping(load(TEMPLATES / name)["jobs"])
             for job in ("checks", "smoke"):
@@ -266,7 +265,7 @@ class TemplateContractTest(unittest.TestCase):
                             list(mapping(update["groups"])),
                             ["biome", "playwright", "vitest", "patch-minor"],
                         )
-        self.assertEqual(len(HOOK_TEMPLATES), 9)
+        self.assertEqual(len(HOOK_TEMPLATES), 8)
         # Dependabot moves a frozen SHA and its comment together.
         frozen = re.compile(r"^    rev: [0-9a-f]{40}  # frozen: v\d+\.\d+\.\d+$")
         for path in HOOK_TEMPLATES:
