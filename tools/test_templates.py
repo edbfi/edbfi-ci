@@ -14,14 +14,17 @@ from typing import cast, override
 import yaml
 
 type Value = str | list[Value] | dict[str, Value]
-# A pre-commit hook inherits GIT_DIR and GIT_INDEX_FILE; without this the fixture
-# repositories would write to the caller's repository.
-for name in [name for name in os.environ if name.startswith("GIT_")]:
-    del os.environ[name]
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATES = ROOT / "templates"
 HOOK_TEMPLATES = sorted(TEMPLATES.glob("pre-commit/*/.pre-commit-config.yaml"))
 GIT = shutil.which("git") or "git"
+
+
+def setUpModule() -> None:
+    # A pre-commit hook inherits GIT_DIR and GIT_INDEX_FILE; without this the fixture
+    # repositories would write to the caller's repository.
+    for key in [key for key in os.environ if key.startswith("GIT_")]:
+        _ = os.environ.pop(key)
 
 
 def mapping(value: Value) -> dict[str, Value]:
