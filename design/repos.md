@@ -11,21 +11,22 @@
 7. The hotio-family docker repos (caddy, qbittorrent, qflood, sabnzbd, otpravkarr-docker, obzorarr-docker, zondarr-docker; D20) MUST carry Hotio's `call-build.yml` and `call-update.yml` on every channel branch, byte-identical to the matching hotio repo (schedules included) except that `uses:` points at `edbfi/base-image/.github/workflows/{build,update}-on-call.yml@workflows`. These repos and base-image MUST keep the default `GITHUB_TOKEN` permission `write`, which their reusable workflows need. Any other difference in these two caller workflows needs an owner decision.
 8. A PR into a hotio-family channel branch MUST use the branch name `workflows`, the one branch `call-build` doesn't build and publish. Merging it publishes that channel's image.
 9. base-image and website MUST stay generated mirrors of hotio/base and hotio/website (D20): repo-patches' `watch-hotio.yml` and `sync-hotio.yml` reset each mirrored branch to Hotio and apply edbfi's edits (base-image's `immortality.yml` included). Never change them by hand or PR.
-10. A shared agent rule changes in agent-rules first. Consumers then copy the canonical bytes from agent-rules `main` into `.agents/rules/` in a PR that changes nothing else, and agent-rules lists the earlier hash under `[accepted]` in `manifest.toml`. Copies are never edited in place.
-11. Each SvelteKit app (poyo-studio, setun) owns its front ([svelte5-sveltekit-app](https://github.com/edbfi/agent-rules/blob/main/rules/svelte5-sveltekit-app.md)). A fix found in one front MUST be ported to the other where it applies.
-12. A rewrite starting point (comradarr, obzorarr, otpravkarr, zimuarr, zondarr; D28) MUST hold only its Content-tier CI files, `LICENSE`, README, logo and a `biome.json` identical across the five, free of project paths and holding Layer 1's `$schema` ([biome.md](biome.md#contract)); its old `main` MUST stay on the `legacy-old/v1` branch. Once it has an application manifest on main, it MUST move to its stack tier.
+10. Agent guidance MUST live in each repo's own `AGENTS.md`; there is no shared rules repository (D30).
+11. Each SvelteKit app (poyo-studio, setun) owns its front. A fix found in one front MUST be ported to the other where it applies.
+12. A rewrite starting point (comradarr, obzorarr, otpravkarr, zimuarr, zondarr; D28) MUST hold only its Content-tier CI files, `LICENSE`, README, logo and a `biome.json` identical across the five, free of project paths and holding Layer 1's `$schema` ([biome.md](biome.md#contract)); its old `main` MUST stay on the `legacy-old/v1` branch. It MAY also hold its context state without changing tier: the installed agent skills (`.agents/`, `.claude/`, `.codex/`, `.opencode/`, `.impeccable/`, `skills-lock.json`), `AGENTS.md`, `CLAUDE.md`, `.gitignore`, `PRODUCT.md`, `DESIGN.md`, `docs/` and `tasks/` (rule 13), and `tests/fixtures/`. A `package.json` on main MUST move obzorarr, otpravkarr and zondarr to Bun web, and comradarr and zimuarr to their tooling-only row below until an application exists, then to their stack tier.
+13. The five rewrite apps MUST keep their Markdown to the docs set of the `docs-set` hook in the [Content](../templates/pre-commit/content/.pre-commit-config.yaml) and [Bun](../templates/pre-commit/bun-web/.pre-commit-config.yaml) prek templates; every other repo MUST drop that hook when copying a template.
 
 ## Parameters
 
-Tiers: 28 public in-scope repos; `edbfi-ci` itself is outside the tiers. GitHub default branches match rule 1 [V, 2026-10-07].
+Tiers: 27 public in-scope repos; `edbfi-ci` itself is outside the tiers. GitHub default branches match rule 1 [V, 2026-10-07].
 
 | Tier | Repos | Stack |
 |---|---|---|
-| Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); poyo-studio, setun (SvelteKit 3 with `@sveltejs/adapter-bun` + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose) | Bun 1.4.2 (`packageManager` required by agent rules), Biome 2.5 |
+| Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); poyo-studio, setun (SvelteKit 3 with `@sveltejs/adapter-bun` + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose) | Bun 1.4.3 (`packageManager` required), Biome 2.5 |
 | Python | wtfnzb-adapter (Litestar, uv); guide-capture (bash + stdlib Python + Node, needs macOS arm64); arrsenal-of-scripts (shell/zsh/Python); printlab-project (docs + stdlib Python gateway tooling) | uv |
 | Native | EasyHDR (Rust 1.99.0, Windows-only Slint GUI, `fuzz/` crate in the root workspace, cargo-deny); github-stats (Zig 0.16, default branch `master`); homebrew-taps (casks + Linux formulae + bash/python pipeline) | |
 | Shell | pelican-eggs, mover-status | |
-| Content | edbfi (docs only); comradarr, obzorarr, otpravkarr, zimuarr, zondarr (rewrite starting points, rule 12); agent-rules; skills; eksamen (static site in `docs/`, Pages); 3d-designs (OpenSCAD designs with generated print files); icarus-bevy (Rust + Bevy server, no Cargo project yet) | |
+| Content | edbfi (docs only); comradarr, obzorarr, otpravkarr, zimuarr, zondarr (rewrite starting points, rule 12); skills; eksamen (static site in `docs/`, Pages); 3d-designs (OpenSCAD designs with generated print files); icarus-bevy (Rust + Bevy server, no Cargo project yet) | |
 | Special | repo-patches (stdlib Python tooling; scheduled `watch-hotio.yml` and dispatched `sync-hotio.yml` generate the base-image and website mirrors of Hotio) | |
 
 Hotio-family credentials (revoke neither PAT): repo-patches' `PERSONAL_TOKEN` is PAT `edbfi-hotio-mirror-sync` (Contents and Workflows RW on base-image and website); base-image's and the docker repos' `PERSONAL_TOKEN` is PAT `edbfi-hotio-container-sync`, used by their updaters; `DISCORD_WEBHOOK` feeds Hotio's `notify` job in base-image and the docker repos.
@@ -50,11 +51,12 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | homebrew-taps | `bash -n` + shellcheck, 2 unittest trees; macOS: `brew readall`, `brew style`, `brew audit --cask` | changed formulae on Linux x64 + ARM64 ([d8.md](d8.md#contract)) | ubuntu-latest + `ubuntu-<gen>-arm` + macos-latest | gha |
 | pelican-eggs | `.github/scripts/check-eggs.py`, `check-pair.py` | unittest (5), `bash -n` + shellcheck on `ini-merge.sh` | ubuntu | gha |
 | mover-status | `bash -n`, shellcheck | `python3 tests/runtime.py` (timing-sensitive; Linux only) | ubuntu | gha |
-| edbfi, comradarr, obzorarr, otpravkarr, zimuarr, zondarr | — | — | ubuntu | gha |
+| edbfi | — | — | ubuntu | gha |
+| comradarr, obzorarr, otpravkarr, zimuarr, zondarr, until their `package.json` (rule 12) | `docs-set` hook (rule 13) | — | ubuntu | gha |
+| comradarr, zimuarr, from their tooling-only `package.json` and `bun.lock` until an application exists | `docs-set` hook; Biome and `biome-migrate` hooks, `biome-migrate.yml`; CI: the [Bun web](../templates/ci-bun-web.yml) `checks` job plus `audit`; no `tests` hook | — (no smoke job) | ubuntu | bun `/`, gha |
 | 3d-designs | keeps its read-only builtin hooks: no whitespace fixers or `check-added-large-files`, so generated print files, SVG and JSON stay byte-exact | — (renders need OpenSCAD and Bambu Studio) | ubuntu | gha |
 | icarus-bevy | keeps its `exclude` and its cargo fmt/clippy/test hooks, which run once `.rs` or Cargo files exist | — | ubuntu | gha |
-| agent-rules | rule-shape check (frontmatter, title, filename, TOML) | — | ubuntu | gha (pins inside `rules/*.md` stay manual) |
-| skills | docendo tests, `node --check scripts/*.mjs` | `scripts/check-content.py` | ubuntu | gha |
+| skills | docendo tests; a Bun syntax check of each `.js`/`.mjs` file (`bun build --no-bundle <file>` exits 1 on a syntax error) | `scripts/check-content.py` | ubuntu | gha |
 | eksamen | Pages deploy of `docs/` | `scripts/smoke.sh`: serve `docs/`, `/index.html`, `/optagelsesprover.html` | ubuntu | gha |
 | repo-patches | `python3 -m unittest discover -s tools -p 'test_*.py'` | — | ubuntu | gha |
 
@@ -63,6 +65,7 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 - Each rolled-out repo's `ci.yml` has the row's checks and smoke, on the row's runners, and its `dependabot.yml` has exactly the row's ecosystems and directories.
 - github-stats workflows filter on `master`, never `main`.
 - Each rewrite starting point's `main` tree (`gh api repos/edbfi/{repo}/git/trees/main?recursive=1`) holds only rule 12's files, its `biome.json` matches the other four byte for byte and passes the Layer 1 `$schema` check in [biome.md](biome.md#verification), and its `legacy-old/v1` branch exists.
+- In each rewrite app, a stray `.md` outside the rule 13 set fails `docs-set`, which names it.
 - Retiring a workflow registration: its file is absent from every branch, its runs' logs and artifacts are saved, only that workflow's runs are deleted, and the registrations are re-queried.
 
 ## Open

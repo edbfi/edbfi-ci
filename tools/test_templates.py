@@ -292,6 +292,50 @@ class TemplateContractTest(unittest.TestCase):
             ]
             self.assertEqual(len(shared), 1)
 
+    def test_vendored_skills_and_docs_set(self) -> None:
+        # design/prek.md rule 4.7 and design/repos.md rule 13, identical in both templates.
+        hooks = {
+            name: {
+                str(hook["id"]): hook
+                for repo in items(load(path)["repos"])
+                for hook in map(mapping, items(mapping(repo)["hooks"]))
+            }
+            for path in HOOK_TEMPLATES
+            if (name := path.parent.name) in {"content", "bun-web"}
+        }
+        fixers = ("trailing-whitespace", "end-of-file-fixer", "mixed-line-ending")
+        content, bun = hooks["content"], hooks["bun-web"]
+        vendored = str(content["trailing-whitespace"]["exclude"])
+        for name in fixers:
+            self.assertEqual(content[name]["exclude"], vendored)
+            self.assertEqual(bun[name]["exclude"], vendored)
+        self.assertEqual(bun["biome"]["exclude"], vendored)
+        self.assertNotIn("exclude", content["detect-private-key"])
+        for path in (".agents/skills/a/x", ".claude/agents/a.md", ".opencode/a.md"):
+            self.assertRegex(path, vendored)
+        for path in (".agents/rules/a.md", "src/.claude/skills/a", ".codex/a.json"):
+            self.assertNotRegex(path, vendored)
+        large = str(content["check-added-large-files"]["exclude"])
+        self.assertEqual(bun["check-added-large-files"]["exclude"], large)
+        for tool in (".agents", ".claude", ".opencode"):
+            self.assertRegex(f"{tool}/skills/impeccable/scripts/x.json", large)
+            self.assertNotRegex(f"{tool}/skills/impeccable/x.json", large)
+        docs = content["docs-set"]
+        self.assertEqual(bun["docs-set"], docs)
+        self.assertEqual((docs["language"], docs["files"]), ("fail", r"\.md$"))
+        allowed = [f"{name}.md" for name in ("README", "AGENTS", "CLAUDE", "PRODUCT")]
+        allowed += ["DESIGN.md", "docs/SPEC.md", "docs/SPEC-auth.md", "docs/decisions.md"]
+        allowed += ["docs/product/legacy-spec.md", "docs/research/plex.md"]
+        allowed += ["tasks/plan.md", "tasks/todo.md", ".impeccable/surfaces/home.md"]
+        allowed += ["critique/ignore.md", ".agents/skills/a/SKILL.md", ".claude/a.md"]
+        allowed += [".codex/a.md", ".opencode/commands/a.md"]
+        stray = ["NOTES.md", "docs/notes/x.md", "docs/SPEC-.md", "docs/research/a/b.md"]
+        stray += ["tasks/done.md", "src/README.md", "docs/design/a.md", "docs/README.md"]
+        for path in allowed:
+            self.assertRegex(path, str(docs["exclude"]))
+        for path in stray:
+            self.assertNotRegex(path, str(docs["exclude"]))
+
 
 class ScriptTest(unittest.TestCase):
     root: Path = Path()

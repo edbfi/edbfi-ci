@@ -32,9 +32,8 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D27 | Dependabot alerts are on, with security updates off, in the out-of-scope dox and hotio-family docker repos, so vulnerable pins are flagged without opening PRs (owner, 2026-10-12). | alert settings ([STATE](STATE.md#github-state)) |
 | D28 | Rewrite comradarr, obzorarr, otpravkarr, zimuarr and zondarr from scratch: each `main` becomes a Content-tier starting point and the old `main` stays on `legacy-old/v1`; their docker repos' `nightly` failures are accepted (owner, 2026-10-17). | [repos.md](design/repos.md#contract) rule 12 |
 | D29 | Bun repos use Bun alone to install and run their tooling, with no Node, npm or npx; Node only as an exception named in ci.md rule 8 (owner, 2026-10-18). | [ci.md](design/ci.md#contract) rule 8; the failing `node`, `npm` and `npx` in the Bun templates |
+| D30 | Agent guidance lives in each repo's `AGENTS.md`, with no shared rules repository (owner, 2026-10-18). | [repos.md](design/repos.md#contract) rule 10 |
 
 ## Blockers
 
-| ID | Blocker | Enforced by |
-|---|---|---|
-| B7 | TypeScript 7's `typescript` package has no JS compiler API, which SvelteKit, svelte-check and the Astro check tools still use, so its Dependabot PRs stay red until they support it; a later TS 7 bump then replaces them. Not watched (owner, 2026-10-12). | `check-peers` ([prek.md](design/prek.md#contract) rule 10) |
+- **B7:** TypeScript 7's `typescript` package has no JS compiler API, which SvelteKit, svelte-check and the Astro check tools still use, so its Dependabot PRs stay red until they support it; a later TS 7 bump then replaces them. Not watched (owner, 2026-10-12). Enforced by `check-peers` ([prek.md](design/prek.md#contract) rule 10).

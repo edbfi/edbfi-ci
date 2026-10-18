@@ -5,14 +5,20 @@ default_stages: [pre-commit, manual]
 repos:
   - repo: builtin
     hooks:
+      # Installed agent skills are vendored: the fixers skip them, the security hooks don't.
       - id: trailing-whitespace
+        exclude: ^(\.agents/skills|\.claude/skills|\.claude/agents|\.opencode)/
       - id: end-of-file-fixer
+        exclude: ^(\.agents/skills|\.claude/skills|\.claude/agents|\.opencode)/
       - id: mixed-line-ending
         args: [--fix=lf]
+        exclude: ^(\.agents/skills|\.claude/skills|\.claude/agents|\.opencode)/
       - id: check-merge-conflict
       - id: check-case-conflict
       - id: check-added-large-files
         args: [--maxkb=500]
+        # Impeccable ships larger scripts and data files.
+        exclude: ^(\.agents|\.claude|\.opencode)/skills/impeccable/scripts/
       - id: detect-private-key
       - id: check-json
       - id: check-toml
@@ -57,6 +63,7 @@ repos:
         entry: bunx --bun --no-install biome check
         language: system
         types_or: [javascript, jsx, ts, tsx, json, css, svelte]
+        exclude: ^(\.agents/skills|\.claude/skills|\.claude/agents|\.opencode)/
       - id: biome-migrate
         name: Migrate Biome configuration
         entry: bunx --bun --no-install biome migrate --write
@@ -66,7 +73,17 @@ repos:
         always_run: true
       - id: tests
         name: Unit tests
-        entry: bun test
+        entry: bun run --bun test
         language: system
         pass_filenames: false
         always_run: true
+
+  # Rewrite apps only (design/repos.md rule 13): drop elsewhere.
+  - repo: local
+    hooks:
+      - id: docs-set
+        name: Markdown outside the docs set
+        entry: "fold this into an existing doc or the PR body:"
+        language: fail
+        files: \.md$
+        exclude: ^((README|AGENTS|CLAUDE|PRODUCT|DESIGN)\.md|docs/(SPEC(-[^/]+)?|decisions|product/legacy-spec|research/[^/]+)\.md|tasks/(plan|todo)\.md|(\.impeccable|critique|\.agents|\.claude|\.codex|\.opencode)/.*)$
