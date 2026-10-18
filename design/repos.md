@@ -65,7 +65,7 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 - Each rolled-out repo's `ci.yml` has the row's checks and smoke, on the row's runners, and its `dependabot.yml` has exactly the row's ecosystems and directories.
 - github-stats workflows filter on `master`, never `main`.
 - Each rewrite starting point's `main` tree (`gh api repos/edbfi/{repo}/git/trees/main?recursive=1`) holds only rule 12's files, its `biome.json` matches the other four byte for byte and passes the Layer 1 `$schema` check in [biome.md](biome.md#verification), and its `legacy-old/v1` branch exists.
-- In each rewrite app, a stray `.md` outside the rule 13 set fails `docs-set`, which names it.
+- In each rewrite app, a stray `.md` outside the rule 13 set fails `docs-set`, which names it; in the workspace, `rg -l 'id: docs-set' */.pre-commit-config.yaml` lists only the five apps.
 - Retiring a workflow registration: its file is absent from every branch, its runs' logs and artifacts are saved, only that workflow's runs are deleted, and the registrations are re-queried.
 
 ## Open
