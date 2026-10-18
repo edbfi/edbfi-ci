@@ -1,4 +1,4 @@
-Last updated: 1792361744 (2026-10-18T22:15:44Z)
+Last updated: 1792361949 (2026-10-18T22:19:09Z)
 
 # State
 
@@ -97,7 +97,7 @@ All [V, 2026-10-07] unless dated otherwise.
 - Dependabot alerts are on, with security updates off, in dox and the seven hotio-family docker repos (D27) [V, 2026-10-12].
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10].
 - The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the twelve Biome repos ([biome.md](design/biome.md#parameters)) and edbfi-ci-playground (pilot; PAT `edbfi-biome-migrate` covers it too) [V, 2026-10-18]; github-stats has `STATS_READ_TOKEN`. homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09]. EasyHDR has `VT_API_KEY` [V, 2026-10-11].
-- The `nightly` channels of obzorarr-docker, otpravkarr-docker and zondarr-docker build each app's `main` with the pre-rewrite build, so they fail until the rewrite ships its own container build (D28); accepted by the owner (2026-10-17).
+- The `nightly` channels of obzorarr-docker, otpravkarr-docker and zondarr-docker build each app's `main`, so they fail while it is being rewritten (D28); accepted by the owner (2026-10-17).
 - otpravkarr-docker's and zondarr-docker's `release` builds fail at `archive/null.tar.gz` until each app publishes its first plain `X.Y.Z` release; accepted by the owner (2026-10-07).
 - `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts and security updates, secret scanning and push protection are on. Main push CI, audit and the watcher pass.
 - `edbfi-ci-playground` is active for reusable CI integration tests. Keep it and its credential for further testing; each pilot verifies its own installed credential and deployment.
