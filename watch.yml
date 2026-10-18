@@ -19,7 +19,7 @@ triggers:
     action: After Dependabot's run on Monday 2026-10-13, check that its scheduled `github-actions` runs opened the pending bumps (`upload-artifact` 7.0.2, `setup-uv` 10.3.0) in repos that still lack them; then close dependabot-A1 in design/dependabot.md, or inspect each repo's Dependabot tab if none appeared.
   - id: rewrite-stack-tier
     kind: manual
-    action: Once obzorarr, otpravkarr or zondarr has a `package.json` on main, move it to Bun web (design/repos.md rule 12) with its CI jobs, smoke, Dependabot `bun` and audit entries and Biome's three layers. Once comradarr or zimuarr has its tooling-only `package.json`, check it against its tooling-only row in design/repos.md and record it in STATE.md; once either has an application, move it to its stack tier the same way.
+    action: Once comradarr or zimuarr has an application on main, move it from its tooling-only row to its stack tier (design/repos.md rule 12) with its CI jobs, smoke, Dependabot and audit entries.
   - id: kit-runtime-origin
     kind: manual
     action: Once SvelteKit ships a runtime origin setting (sveltejs/kit#17328), replace the app-owned origin fronts in poyo-studio and setun with it.

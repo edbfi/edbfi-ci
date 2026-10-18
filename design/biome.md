@@ -21,7 +21,7 @@
 ## Parameters
 
 - Workflow: [biome-migrate.yml](../templates/biome-migrate.yml); migration hook: [Bun config](../templates/pre-commit/bun-web/.pre-commit-config.yaml). The publisher applies patches to the index without checking out PR files.
-- Biome repos: guides, isfuglen, portaler, yt-redirect, docrewind, poyo-studio, setun; the five rewrite apps join with their `package.json` ([repos.md](repos.md#contract) rule 12): obzorarr, otpravkarr and zondarr with their app skeleton, comradarr and zimuarr with their tooling-only manifest.
+- Biome repos: guides, isfuglen, portaler, yt-redirect, docrewind, poyo-studio, setun, obzorarr, otpravkarr, zondarr; comradarr and zimuarr through their tooling-only manifest ([repos.md](repos.md#contract) rule 12).
 - Credential: PAT `edbfi-biome-migrate` (Contents RW), installed as the Dependabot secret `BIOME_MIGRATE_TOKEN` in every Biome repo ([coverage](../STATE.md#github-state)).
 
 ## Verification

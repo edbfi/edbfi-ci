@@ -46,7 +46,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 | Content | [Content](../templates/ci-content.yml), [static Pages](../templates/ci-content-pages.yml) |
 | Special | [repo-patches](../templates/ci-special.yml) |
 
-- With no Node reachable, these run under `--bun` with Bun 1.4.3: `bun ci`, `svelte-kit sync`, `svelte-check`, `vite build` (adapter-bun), `drizzle-kit generate` and `check`, Biome, Vitest (node, happy-dom, jsdom 30.0.1 and browser mode, Svelte 5 components included) and Playwright (`install chromium` and `test`); the seven Bun web repos install (lifecycle scripts prefixed), build and check, setun's component tests pass, and docrewind's Vitest passes on jsdom 30.0.1 but not 30.1.3 [V, 2026-10-18].
+- With no Node reachable, these run under `--bun` with Bun 1.4.3: `bun ci`, `svelte-kit sync`, `svelte-check`, `vite build` (adapter-bun), `drizzle-kit generate` and `check`, Biome, Vitest (node, happy-dom, jsdom 30.0.1 and browser mode, Svelte 5 components included) and Playwright (`install chromium` and `test`); the seven pre-rewrite Bun web repos install (lifecycle scripts prefixed), build and check, setun's component tests pass, and docrewind's Vitest passes on jsdom 30.0.1 but not 30.1.3 [V, 2026-10-18].
 - The uv `audit` invocation fails on a locked advisory and passes once it is fixed [V, 2026-10-08, wtfnzb-adapter#7, #10].
 - Pins, schedules, runners and commands live in those templates. Runner architectures were verified [V, 2026-09-27]; re-check at rollout (ci-A2).
 - Pages linter allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml), copied to `.github/actionlint.yaml`.
