@@ -12,7 +12,7 @@
    4. remote revs are frozen with `prek update --freeze` (`rev: <sha>  # frozen: vX.Y.Z`);
    5. this repo's shared hooks are added by frozen rev;
    6. gitleaks stays a local-only hook (`stages: [pre-commit]`): it runs `--staged`, so it does nothing under `--all-files`;
-   7. the fixer hooks and `check-added-large-files` skip installed agent skills as the [Content](../templates/pre-commit/content/.pre-commit-config.yaml) template does, since only their installers change them; the security hooks still scan them.
+   7. in repos that hold installed agent skills (the [Content](../templates/pre-commit/content/.pre-commit-config.yaml) and [Bun](../templates/pre-commit/bun-web/.pre-commit-config.yaml) templates), the fixer hooks and Biome skip the skill folders and `check-added-large-files` skips only Impeccable's `scripts/`, since only their installers change them; the security hooks still scan them.
 5. These coverage-gap hooks MUST exist: lock freshness (`uv lock --check`); drizzle drift (setun); `biome-migrate` ([biome.md](biome.md#contract)); wtfnzb-adapter pytest; skills docendo tests and a Bun syntax check of its scripts; pelican-eggs `check-eggs.py` and `check-pair.py`; docrewind's Biome hook `files` widened to `.svelte`; isfuglen `build:assets` before its tests.
 6. Repos without a prek config MUST get the edbfi baseline plus local hooks.
 7. Linter allowances MUST be exactly: Pages repos' `.github/actionlint.yaml` ignoring `queue`; the zizmor suppression `bot-conditions` in the Dependabot workflows; `dependabot-cooldown` on each `cooldown:` line.
