@@ -1,4 +1,4 @@
-Last updated: 1792350637 (2026-10-18T19:10:37Z)
+Last updated: 1792351013 (2026-10-18T19:16:53Z)
 
 # State
 
@@ -43,8 +43,12 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S33 | rewrite starting points: comradarr, obzorarr, otpravkarr, zimuarr and zondarr reduced to Content-tier CI, `LICENSE`, README and logo; old `main` on `legacy-old/v1` (D28) | done | [comradarr#161](https://github.com/edbfi/comradarr/pull/161); [obzorarr#253](https://github.com/edbfi/obzorarr/pull/253); [otpravkarr#170](https://github.com/edbfi/otpravkarr/pull/170); [zimuarr#35](https://github.com/edbfi/zimuarr/pull/35); [zondarr#302](https://github.com/edbfi/zondarr/pull/302); [#74](https://github.com/edbfi/edbfi-ci/pull/74) |
 | S34 | one shared, path-free `biome.json` in the five rewrite starting points (config only; nothing runs it yet) | done | [comradarr#162](https://github.com/edbfi/comradarr/pull/162); [obzorarr#255](https://github.com/edbfi/obzorarr/pull/255); [otpravkarr#172](https://github.com/edbfi/otpravkarr/pull/172); [zimuarr#36](https://github.com/edbfi/zimuarr/pull/36); [zondarr#304](https://github.com/edbfi/zondarr/pull/304); [#75](https://github.com/edbfi/edbfi-ci/pull/75) |
 | S35 | Bun-only tooling in the design and the Bun templates (D29): no `setup-node` or `.node-version`, tools under `--bun`, failing `node`/`npm`/`npx` in CI | done | [#76](https://github.com/edbfi/edbfi-ci/pull/76) |
-| S36 | Bun-only tooling ([ci.md](design/ci.md#contract) rule 8) in guides, isfuglen, portaler, yt-redirect, docrewind, poyo-studio and setun: drop `setup-node` and `.node-version`, add the failing `node`/`npm`/`npx`, run tools under `--bun` (lifecycle scripts in docrewind, poyo-studio and setun), docrewind's jsdom on 30.0.x; adopt the template's `bun run --bun test` tests hook; remove the `.agents/rules/` copies of the old shared rule files (owner, 2026-10-18) | pending | — |
+| S36 | Bun-only tooling ([ci.md](design/ci.md#contract) rule 8) in guides, isfuglen, portaler, yt-redirect, docrewind, poyo-studio and setun: drop `setup-node` and `.node-version`, add the failing `node`/`npm`/`npx`, run tools under `--bun` (lifecycle scripts in docrewind, poyo-studio and setun), docrewind's jsdom on 30.0.x; adopt the template's `bun run --bun test` tests hook; remove the `.agents/rules/` copies of the old shared rule files (owner, 2026-10-18); `packageManager` on `bun@1.4.3` | pending | — |
 | S37 | rewrite ground floor in edbfi-ci: agent guidance only in each `AGENTS.md` (D30); context state and `package.json` moves for the rewrite apps; skill exclusions, the `docs-set` hook and `bun run --bun test` in the prek templates | done | [#77](https://github.com/edbfi/edbfi-ci/pull/77) |
+| S38 | skills: a Bun syntax check replaces `node --check`, CI takes Bun from `.bun-version`, the old rules repo's mentions go | pending | — |
+| S39 | rewrite apps' context PRs: agent skills, `AGENTS.md`, the docs set and the `docs-set` hook ([repos.md](design/repos.md#contract) rule 13) in comradarr, obzorarr, otpravkarr, zimuarr and zondarr | pending | — |
+| S40 | obzorarr, otpravkarr and zondarr skeletons; each moves to Bun web | pending | — |
+| S41 | comradarr and zimuarr on their tooling-only row ([repos.md](design/repos.md#parameters)) | pending | — |
 
 ## Repos
 
@@ -101,3 +105,4 @@ All [V, 2026-10-07] unless dated otherwise.
 ## Open items
 
 - SvelteKit dev servers (poyo-studio, setun): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead [V, 2026-10-11, S25].
+- `templates/pullfrog-review.txt` still mentions `.agents/rules/*.md` and "canonical managed rule copies", retired by D30. Changing it means re-applying each repo's Pullfrog settings, an owner action [V, 2026-10-18, S37].
