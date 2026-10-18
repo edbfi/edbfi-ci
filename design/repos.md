@@ -22,11 +22,11 @@ Tiers: 27 public in-scope repos; `edbfi-ci` itself is outside the tiers. GitHub 
 
 | Tier | Repos | Stack |
 |---|---|---|
-| Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); poyo-studio, setun (SvelteKit 3 with `@sveltejs/adapter-bun` + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose) | Bun 1.4.3 (`packageManager` required), Biome 2.5 |
+| Bun web | guides, isfuglen, portaler, yt-redirect (Astro 7 + Svelte 5, Pages); docrewind (WXT MV3 extension); poyo-studio, setun (SvelteKit 3 with `@sveltejs/adapter-bun` + SQLite; setun also has a `scripts/` uv project, Dockerfile, compose); obzorarr, otpravkarr, zondarr (rewrite apps, rule 12: SvelteKit 3 with `@sveltejs/adapter-bun`, Panda CSS and Ark UI; skeletons with no database yet) | Bun 1.4.3 (`packageManager` required), Biome 2.5 |
 | Python | wtfnzb-adapter (Litestar, uv); guide-capture (bash + stdlib Python + Node, needs macOS arm64); arrsenal-of-scripts (shell/zsh/Python); printlab-project (docs + stdlib Python gateway tooling) | uv |
 | Native | EasyHDR (Rust 1.99.0, Windows-only Slint GUI, `fuzz/` crate in the root workspace, cargo-deny); github-stats (Zig 0.16, default branch `master`); homebrew-taps (casks + Linux formulae + bash/python pipeline) | |
 | Shell | pelican-eggs, mover-status | |
-| Content | edbfi (docs only); comradarr, obzorarr, otpravkarr, zimuarr, zondarr (rewrite starting points, rule 12); skills; eksamen (static site in `docs/`, Pages); 3d-designs (OpenSCAD designs with generated print files); icarus-bevy (Rust + Bevy server, no Cargo project yet) | |
+| Content | edbfi (docs only); comradarr, zimuarr (rewrite starting points on their tooling-only row, rule 12); skills; eksamen (static site in `docs/`, Pages); 3d-designs (OpenSCAD designs with generated print files); icarus-bevy (Rust + Bevy server, no Cargo project yet) | |
 | Special | repo-patches (stdlib Python tooling; scheduled `watch-hotio.yml` and dispatched `sync-hotio.yml` generate the base-image and website mirrors of Hotio) | |
 
 Hotio-family credentials (revoke neither PAT): repo-patches' `PERSONAL_TOKEN` is PAT `edbfi-hotio-mirror-sync` (Contents and Workflows RW on base-image and website); base-image's and the docker repos' `PERSONAL_TOKEN` is PAT `edbfi-hotio-container-sync`, used by their updaters; `DISCORD_WEBHOOK` feeds Hotio's `notify` job in base-image and the docker repos.
@@ -52,7 +52,7 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | pelican-eggs | `.github/scripts/check-eggs.py`, `check-pair.py` | unittest (5), `bash -n` + shellcheck on `ini-merge.sh` | ubuntu | gha |
 | mover-status | `bash -n`, shellcheck | `python3 tests/runtime.py` (timing-sensitive; Linux only) | ubuntu | gha |
 | edbfi | — | — | ubuntu | gha |
-| comradarr, obzorarr, otpravkarr, zimuarr, zondarr, until their `package.json` (rule 12) | `docs-set` hook (rule 13) | — | ubuntu | gha |
+| obzorarr, otpravkarr, zondarr | `docs-set` hook (rule 13); `check` hook (`svelte-kit sync`, Panda codegen, `svelte-check`); unit tests in prek | `smoke`: Playwright Chromium (`--with-deps`) against the built adapter-bun server: `/`, hydration, a Panda token applied, `/healthz` | ubuntu | bun `/`, gha |
 | comradarr, zimuarr, from their tooling-only `package.json` and `bun.lock` until an application exists | `docs-set` hook; Biome and `biome-migrate` hooks, `biome-migrate.yml`; CI: the [Bun web](../templates/ci-bun-web.yml) `checks` job plus `audit`; no `tests` hook | — (no smoke job) | ubuntu | bun `/`, gha |
 | 3d-designs | keeps its read-only builtin hooks: no whitespace fixers or `check-added-large-files`, so generated print files, SVG and JSON stay byte-exact | — (renders need OpenSCAD and Bambu Studio) | ubuntu | gha |
 | icarus-bevy | keeps its `exclude` and its cargo fmt/clippy/test hooks, which run once `.rs` or Cargo files exist | — | ubuntu | gha |

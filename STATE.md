@@ -1,4 +1,4 @@
-Last updated: 1792359591 (2026-10-18T21:39:51Z)
+Last updated: 1792361450 (2026-10-18T22:10:50Z)
 
 # State
 
@@ -47,7 +47,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S37 | rewrite ground floor in edbfi-ci: agent guidance only in each `AGENTS.md` (D30); context state and `package.json` moves for the rewrite apps; skill exclusions, the `docs-set` hook and `bun run --bun test` in the prek templates | done | [#77](https://github.com/edbfi/edbfi-ci/pull/77) |
 | S38 | skills: a Bun syntax check replaces `node --check`, CI takes Bun from `.bun-version`, the old rules repo's mentions go | done | [skills#51](https://github.com/edbfi/skills/pull/51); [#78](https://github.com/edbfi/edbfi-ci/pull/78) |
 | S39 | rewrite apps' context PRs: agent skills, `AGENTS.md`, the docs set and the `docs-set` hook ([repos.md](design/repos.md#contract) rule 13) in comradarr, obzorarr, otpravkarr, zimuarr and zondarr | done | [comradarr#163](https://github.com/edbfi/comradarr/pull/163); [obzorarr#256](https://github.com/edbfi/obzorarr/pull/256); [otpravkarr#174](https://github.com/edbfi/otpravkarr/pull/174); [zimuarr#37](https://github.com/edbfi/zimuarr/pull/37); [zondarr#305](https://github.com/edbfi/zondarr/pull/305); [#79](https://github.com/edbfi/edbfi-ci/pull/79) |
-| S40 | obzorarr, otpravkarr and zondarr skeletons; each moves to Bun web | pending | — |
+| S40 | obzorarr, otpravkarr and zondarr skeletons; each moves to Bun web | done | [obzorarr#257](https://github.com/edbfi/obzorarr/pull/257); [otpravkarr#175](https://github.com/edbfi/otpravkarr/pull/175); [zondarr#306](https://github.com/edbfi/zondarr/pull/306); [#81](https://github.com/edbfi/edbfi-ci/pull/81) |
 | S41 | comradarr and zimuarr on their tooling-only row ([repos.md](design/repos.md#parameters)) | done | [comradarr#164](https://github.com/edbfi/comradarr/pull/164); [zimuarr#38](https://github.com/edbfi/zimuarr/pull/38); [#80](https://github.com/edbfi/edbfi-ci/pull/80) |
 
 ## Repos
@@ -58,17 +58,17 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 |---|---|---|---|---|---|---|---|---|
 | edbfi-ci | — | S4 | live; push CI and audit verified | live | active | live; Dependabot merge observed ([#63](https://github.com/edbfi/edbfi-ci/pull/63)) [V, 2026-10-11] | — | protocol verified in playground |
 | portaler | Bun web | S6 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#120](https://github.com/edbfi/portaler/pull/120)) | Actions | — |
-| obzorarr | Content | S7, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#238](https://github.com/edbfi/obzorarr/pull/238)) | — | — |
+| obzorarr | Bun web | S7, S33, S39, S40 | live; push CI verified (checks, smoke) [V, 2026-10-18] | live | active | live; Dependabot merge observed ([#238](https://github.com/edbfi/obzorarr/pull/238)) | — | — |
 | wtfnzb-adapter | Python | S8 | live; push CI and audit verified | live | active | live; Dependabot merges observed ([#8](https://github.com/edbfi/wtfnzb-adapter/pull/8), [#9](https://github.com/edbfi/wtfnzb-adapter/pull/9)) | — | — |
 | edbfi | Content | S9 | live; push CI verified | live | active | live; Dependabot merge observed ([#36](https://github.com/edbfi/edbfi/pull/36)) | — | — |
 | guides | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#84](https://github.com/edbfi/guides/pull/84)) | Actions | — |
 | isfuglen | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#71](https://github.com/edbfi/isfuglen/pull/71)) | Actions | — |
 | yt-redirect | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#89](https://github.com/edbfi/yt-redirect/pull/89)) | Actions | — |
 | docrewind | Bun web | S10 | live; push CI and audit verified [V, 2026-10-10] | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | — |
-| otpravkarr | Content | S10, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | — |
+| otpravkarr | Bun web | S10, S33, S39, S40 | live; push CI verified (checks, smoke) [V, 2026-10-18] | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | — |
 | poyo-studio | Bun web | S10 | live; push CI verified (macOS media-tools included) | live | active | live; Dependabot merge observed ([#96](https://github.com/edbfi/poyo-studio/pull/96)) | — | — |
 | setun | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merges observed ([#113](https://github.com/edbfi/setun/pull/113), [#114](https://github.com/edbfi/setun/pull/114), [#115](https://github.com/edbfi/setun/pull/115)) | — | — |
-| zondarr | Content | S11, S26, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merges observed ([#277](https://github.com/edbfi/zondarr/pull/277), [#278](https://github.com/edbfi/zondarr/pull/278)) | — | — |
+| zondarr | Bun web | S11, S26, S33, S39, S40 | live; push CI verified (checks, smoke) [V, 2026-10-18] | live | active | live; Dependabot merges observed ([#277](https://github.com/edbfi/zondarr/pull/277), [#278](https://github.com/edbfi/zondarr/pull/278)) | — | — |
 | guide-capture | Python | S11 | live; push CI verified (macOS included) | live | active | live; Dependabot merge observed ([#39](https://github.com/edbfi/guide-capture/pull/39)) | — | — |
 | arrsenal-of-scripts | Python | S11 | live; push CI verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/arrsenal-of-scripts/pull/40)) | — | — |
 | printlab-project | Python | S11 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
@@ -96,7 +96,7 @@ All [V, 2026-10-07] unless dated otherwise.
 - guides, isfuglen, portaler, yt-redirect and eksamen deploy Pages from `ci.yml`; their `github-pages` environments allow `main` only [V, 2026-10-09].
 - Dependabot alerts are on, with security updates off, in dox and the seven hotio-family docker repos (D27) [V, 2026-10-12].
 - The Dependabot secret `DEPENDENCY_AUTOMERGE_TOKEN` exists in 30 repos: every public target, edbfi-ci, and edbfi-ci-playground (its own repository-scoped PAT); no Actions copies remain [V, 2026-10-10]. PAT `edbfi-dependabot-auto-merge` covers neither replex nor wings-vpn [owner, 2026-10-10].
-- The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the seven Bun web repos, the five rewrite apps and edbfi-ci-playground (pilot; PAT `edbfi-biome-migrate` covers it too) [V, 2026-10-18]; github-stats has `STATS_READ_TOKEN`. homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09]. EasyHDR has `VT_API_KEY` [V, 2026-10-11].
+- The Dependabot secret `BIOME_MIGRATE_TOKEN` exists in the twelve Biome repos ([biome.md](design/biome.md#parameters)) and edbfi-ci-playground (pilot; PAT `edbfi-biome-migrate` covers it too) [V, 2026-10-18]; github-stats has `STATS_READ_TOKEN`. homebrew-taps has `UPDATER_DEPLOY_KEY`, the private half of its write deploy key [V, 2026-10-09]. EasyHDR has `VT_API_KEY` [V, 2026-10-11].
 - The `nightly` channels of obzorarr-docker, otpravkarr-docker and zondarr-docker build each app's `main`, so they fail while it is a rewrite starting point; accepted by the owner (2026-10-17).
 - otpravkarr-docker's and zondarr-docker's `release` builds fail at `archive/null.tar.gz` until each app publishes its first plain `X.Y.Z` release; accepted by the owner (2026-10-07).
 - `edbfi-ci`: core merge settings, required checks, SHA pinning, Dependabot alerts and security updates, secret scanning and push protection are on. Main push CI, audit and the watcher pass.
