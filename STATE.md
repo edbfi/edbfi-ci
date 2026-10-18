@@ -1,4 +1,4 @@
-Last updated: 1792359356 (2026-10-18T21:35:56Z)
+Last updated: 1792359591 (2026-10-18T21:39:51Z)
 
 # State
 
@@ -48,7 +48,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S38 | skills: a Bun syntax check replaces `node --check`, CI takes Bun from `.bun-version`, the old rules repo's mentions go | done | [skills#51](https://github.com/edbfi/skills/pull/51); [#78](https://github.com/edbfi/edbfi-ci/pull/78) |
 | S39 | rewrite apps' context PRs: agent skills, `AGENTS.md`, the docs set and the `docs-set` hook ([repos.md](design/repos.md#contract) rule 13) in comradarr, obzorarr, otpravkarr, zimuarr and zondarr | done | [comradarr#163](https://github.com/edbfi/comradarr/pull/163); [obzorarr#256](https://github.com/edbfi/obzorarr/pull/256); [otpravkarr#174](https://github.com/edbfi/otpravkarr/pull/174); [zimuarr#37](https://github.com/edbfi/zimuarr/pull/37); [zondarr#305](https://github.com/edbfi/zondarr/pull/305); [#79](https://github.com/edbfi/edbfi-ci/pull/79) |
 | S40 | obzorarr, otpravkarr and zondarr skeletons; each moves to Bun web | pending | — |
-| S41 | comradarr and zimuarr on their tooling-only row ([repos.md](design/repos.md#parameters)) | pending | — |
+| S41 | comradarr and zimuarr on their tooling-only row ([repos.md](design/repos.md#parameters)) | done | [comradarr#164](https://github.com/edbfi/comradarr/pull/164); [zimuarr#38](https://github.com/edbfi/zimuarr/pull/38); [#80](https://github.com/edbfi/edbfi-ci/pull/80) |
 
 ## Repos
 
@@ -77,8 +77,8 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | homebrew-taps | Native | S12, S19, S32 | live; push CI verified (formulae on x86_64 and ARM64, macOS casks); cask updater live, one job per cask [V, 2026-10-12] | live | active (admin role only; the deploy key passes it, D16) | live; Dependabot merge observed ([#41](https://github.com/edbfi/homebrew-taps/pull/41)) | — | — |
 | pelican-eggs | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#37](https://github.com/edbfi/pelican-eggs/pull/37)) | — | — |
 | mover-status | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#60](https://github.com/edbfi/mover-status/pull/60)) | — | — |
-| comradarr | Content | S13, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#159](https://github.com/edbfi/comradarr/pull/159)) | — | — |
-| zimuarr | Content | S13, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#33](https://github.com/edbfi/zimuarr/pull/33)) | — | — |
+| comradarr | Content (tooling-only row) | S13, S33, S39, S41 | live; push CI verified (Biome checks) [V, 2026-10-18] | live | active | live; Dependabot merge observed ([#159](https://github.com/edbfi/comradarr/pull/159)) | — | — |
+| zimuarr | Content (tooling-only row) | S13, S33, S39, S41 | live; push CI verified (Biome checks) [V, 2026-10-18] | live | active | live; Dependabot merge observed ([#33](https://github.com/edbfi/zimuarr/pull/33)) | — | — |
 | skills | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#35](https://github.com/edbfi/skills/pull/35)) | — | — |
 | eksamen | Content | S13 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/eksamen/pull/40)) | Actions | — |
 | 3d-designs | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#5](https://github.com/edbfi/3d-designs/pull/5)) | — | — |
