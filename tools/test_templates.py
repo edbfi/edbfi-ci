@@ -20,6 +20,13 @@ HOOK_TEMPLATES = sorted(TEMPLATES.glob("pre-commit/*/.pre-commit-config.yaml"))
 GIT = shutil.which("git") or "git"
 
 
+def setUpModule() -> None:
+    # A pre-commit hook inherits GIT_DIR and GIT_INDEX_FILE; without this the fixture
+    # repositories would write to the caller's repository.
+    for key in [key for key in os.environ if key.startswith("GIT_")]:
+        _ = os.environ.pop(key)
+
+
 def mapping(value: Value) -> dict[str, Value]:
     assert isinstance(value, dict)
     return value
@@ -203,25 +210,25 @@ class TemplateContractTest(unittest.TestCase):
                 for job in mapping(workflow["jobs"]).values():
                     self.assertNotIn("concurrency", mapping(job))
 
-    def test_sveltekit_templates_set_node_before_install(self) -> None:
-        for name, node_file in (
-            ("ci-bun-web.yml", ".node-version"),
-        ):
-            jobs = mapping(load(TEMPLATES / name)["jobs"])
+    def test_bun_templates_block_node_before_install(self) -> None:
+        for path in TEMPLATES.glob("*.yml"):
+            with self.subTest(template=path.name):
+                self.assertNotIn("setup-node", path.read_text())
+        for name in ("ci-bun-web.yml", "ci-bun-pages.yml"):
             for job in ("checks", "smoke"):
                 with self.subTest(template=name, job=job):
-                    steps = [mapping(step) for step in items(mapping(jobs[job])["steps"])]
-                    uses = [str(step.get("uses", "")) for step in steps]
-                    bun = next(i for i, u in enumerate(uses) if u.startswith("oven-sh/setup-bun@"))
-                    node = next(i for i, u in enumerate(uses) if u.startswith("actions/setup-node@"))
-                    install = next(
-                        i for i, step in enumerate(steps) if "bun ci" in str(step.get("run", ""))
-                    )
-                    self.assertLess(bun, node)
-                    self.assertLess(node, install)
-                    self.assertEqual(
-                        mapping(steps[node]["with"])["node-version-file"], node_file
-                    )
+                    runs = [str(step.get("run", "")) for step in steps(name, job)]
+                    guard = next(i for i, r in enumerate(runs) if "bun-only" in r)
+                    self.assertLess(guard, runs.index("bun ci"))
+                    with tempfile.TemporaryDirectory() as temp:
+                        github_path = Path(temp) / "path"
+                        env = {"RUNNER_TEMP": temp, "GITHUB_PATH": str(github_path)}
+                        self.assertEqual(run(runs[guard], env).returncode, 0)
+                        path = f"{github_path.read_text().strip()}:{os.environ['PATH']}"
+                        for tool in ("node", "npm", "npx"):
+                            called = run(f"{tool} --version", {"PATH": path})
+                            self.assertEqual(called.returncode, 97)
+                            self.assertIn(f"::error::{tool} called", called.stderr)
 
     def test_ci_gate_results(self) -> None:
         for path in TEMPLATES.glob("ci-*.yml"):

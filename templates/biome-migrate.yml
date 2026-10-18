@@ -38,7 +38,7 @@ jobs:
       - if: steps.changed.outputs.biome == 'true'
         run: |
           bun ci --ignore-scripts
-          bunx --no-install biome migrate --write
+          bunx --bun --no-install biome migrate --write
       - id: diff
         if: steps.changed.outputs.biome == 'true'
         run: |

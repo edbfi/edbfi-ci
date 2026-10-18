@@ -9,7 +9,7 @@
 5. Jobs that never run on PRs (`audit`, `deploy`) MUST stay out of `ci-ok`.
 6. Every workflow MUST start with `permissions: {}`. Every job MUST have minimal grants and `timeout-minutes`; every checkout MUST set `persist-credentials: false`.
 7. Every action MUST be pinned to a full SHA with a `# vX.Y.Z` comment, which Dependabot updates together. `pull_request_target` MUST NOT be used anywhere.
-8. Toolchains MUST come from repo files: `setup-bun` with `bun-version-file: package.json`, `setup-uv` with `.python-version`, `rust-toolchain.toml`, `setup-zig` reading `build.zig.zon`, and for a SvelteKit 3 app `setup-node` with `node-version-file` pointing at the `.node-version` in the app's directory, before the install (Kit 3 needs Node ≥22.17 for `svelte-kit sync`, `svelte-check`, `drizzle-kit`, Vitest and Playwright).
+8. Toolchains MUST come from repo files: `setup-bun` with `bun-version-file: package.json`, `setup-uv` with `.python-version`, `rust-toolchain.toml`, `setup-zig` reading `build.zig.zon`. Bun repos MUST NOT use `setup-node` or `.node-version` and MUST NOT call Node, npm or npx (D29): package tools run under Bun, scripts through `bun run --bun` and bins through `bunx --bun`, because a bare call runs a bin's `#!/usr/bin/env node` with the runner's own Node. Lifecycle scripts (`prepare`, `postinstall`) MUST call each bin as `bun --bun <bin>`: `bun ci` doesn't apply `--bun` to them (oven-sh/bun#44584). Each `ci.yml` job that runs `bun ci` MUST first put the failing `node`, `npm` and `npx` from the Bun templates ([web](../templates/ci-bun-web.yml), [Pages](../templates/ci-bun-pages.yml)) on `PATH`. Vitest's jsdom environment MUST stay on jsdom 30.0.x: later versions fail under Bun (oven-sh/bun#45102). A tool that can't run under Bun MAY use Node only once this rule names it, with its upstream issue and a `watch.yml` entry; none is named.
 9. Installs MUST be frozen: `bun ci`, or `bun ci --ignore-scripts` with required project preparation run explicitly, omitting lifecycle steps that only install Git hooks; `uv sync --locked`; `cargo … --locked`.
 10. Runners MUST use `-latest` labels (D12). Linux ARM64 has none, so it uses the `ubuntu-<gen>-arm` label of `ubuntu-latest`'s generation.
 11. CI MUST call repo-local commands (`scripts/smoke.*`, package scripts), so every check also runs locally.
@@ -46,6 +46,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 | Content | [Content](../templates/ci-content.yml), [static Pages](../templates/ci-content-pages.yml) |
 | Special | [repo-patches](../templates/ci-special.yml) |
 
+- With no Node reachable, these run under `--bun` with Bun 1.4.3: `bun ci`, `svelte-kit sync`, `svelte-check`, `vite build` (adapter-bun), `drizzle-kit generate` and `check`, Biome, Vitest (node, happy-dom, jsdom 30.0.1 and browser mode, Svelte 5 components included) and Playwright (`install chromium` and `test`); the seven Bun web repos install (lifecycle scripts prefixed), build and check, setun's component tests pass, and docrewind's Vitest passes on jsdom 30.0.1 but not 30.1.3 [V, 2026-10-18].
 - The uv `audit` invocation fails on a locked advisory and passes once it is fixed [V, 2026-10-08, wtfnzb-adapter#7, #10].
 - Pins, schedules, runners and commands live in those templates. Runner architectures were verified [V, 2026-09-27]; re-check at rollout (ci-A2).
 - Pages linter allowance: [actionlint.pages.yaml](../templates/actionlint.pages.yaml), copied to `.github/actionlint.yaml`.
@@ -56,6 +57,7 @@ Copy a workflow as `.github/workflows/ci.yml`, then apply the repo's row in [rep
 ## Verification
 
 - actionlint and `zizmor --offline` pass on every workflow.
+- A Bun repo has no `setup-node` or `.node-version`, and its CI passes with the failing `node`, `npm` and `npx` on `PATH`.
 - The `ci-ok` gate fails on sample `needs` JSON with a failed, cancelled or unlisted skipped job, and on `{}`.
 - Two quick pushes to main each finish their own run; a newer PR head never cancels another head's run.
 - Pages: a push to main deploys; a run that finishes behind a newer commit skips `deploy-pages`.
