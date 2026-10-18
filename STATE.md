@@ -1,4 +1,4 @@
-Last updated: 1792352220 (2026-10-18T19:37:00Z)
+Last updated: 1792359356 (2026-10-18T21:35:56Z)
 
 # State
 
@@ -46,7 +46,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S36 | Bun-only tooling ([ci.md](design/ci.md#contract) rule 8) in guides, isfuglen, portaler, yt-redirect, docrewind, poyo-studio and setun: drop `setup-node` and `.node-version`, add the failing `node`/`npm`/`npx`, run tools under `--bun` (lifecycle scripts in docrewind, poyo-studio and setun), docrewind's jsdom on 30.0.x; adopt the template's `bun run --bun test` tests hook; remove the `.agents/rules/` copies of the old shared rule files (owner, 2026-10-18); `packageManager` on `bun@1.4.3` | pending | — |
 | S37 | rewrite ground floor in edbfi-ci: agent guidance only in each `AGENTS.md` (D30); context state and `package.json` moves for the rewrite apps; skill exclusions, the `docs-set` hook and `bun run --bun test` in the prek templates | done | [#77](https://github.com/edbfi/edbfi-ci/pull/77) |
 | S38 | skills: a Bun syntax check replaces `node --check`, CI takes Bun from `.bun-version`, the old rules repo's mentions go | done | [skills#51](https://github.com/edbfi/skills/pull/51); [#78](https://github.com/edbfi/edbfi-ci/pull/78) |
-| S39 | rewrite apps' context PRs: agent skills, `AGENTS.md`, the docs set and the `docs-set` hook ([repos.md](design/repos.md#contract) rule 13) in comradarr, obzorarr, otpravkarr, zimuarr and zondarr | pending | — |
+| S39 | rewrite apps' context PRs: agent skills, `AGENTS.md`, the docs set and the `docs-set` hook ([repos.md](design/repos.md#contract) rule 13) in comradarr, obzorarr, otpravkarr, zimuarr and zondarr | done | [comradarr#163](https://github.com/edbfi/comradarr/pull/163); [obzorarr#256](https://github.com/edbfi/obzorarr/pull/256); [otpravkarr#174](https://github.com/edbfi/otpravkarr/pull/174); [zimuarr#37](https://github.com/edbfi/zimuarr/pull/37); [zondarr#305](https://github.com/edbfi/zondarr/pull/305); [#79](https://github.com/edbfi/edbfi-ci/pull/79) |
 | S40 | obzorarr, otpravkarr and zondarr skeletons; each moves to Bun web | pending | — |
 | S41 | comradarr and zimuarr on their tooling-only row ([repos.md](design/repos.md#parameters)) | pending | — |
 
@@ -58,17 +58,17 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 |---|---|---|---|---|---|---|---|---|
 | edbfi-ci | — | S4 | live; push CI and audit verified | live | active | live; Dependabot merge observed ([#63](https://github.com/edbfi/edbfi-ci/pull/63)) [V, 2026-10-11] | — | protocol verified in playground |
 | portaler | Bun web | S6 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#120](https://github.com/edbfi/portaler/pull/120)) | Actions | — |
-| obzorarr | Content | S7, S33 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#238](https://github.com/edbfi/obzorarr/pull/238)) | — | — |
+| obzorarr | Content | S7, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#238](https://github.com/edbfi/obzorarr/pull/238)) | — | — |
 | wtfnzb-adapter | Python | S8 | live; push CI and audit verified | live | active | live; Dependabot merges observed ([#8](https://github.com/edbfi/wtfnzb-adapter/pull/8), [#9](https://github.com/edbfi/wtfnzb-adapter/pull/9)) | — | — |
 | edbfi | Content | S9 | live; push CI verified | live | active | live; Dependabot merge observed ([#36](https://github.com/edbfi/edbfi/pull/36)) | — | — |
 | guides | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#84](https://github.com/edbfi/guides/pull/84)) | Actions | — |
 | isfuglen | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#71](https://github.com/edbfi/isfuglen/pull/71)) | Actions | — |
 | yt-redirect | Bun web | S10 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#89](https://github.com/edbfi/yt-redirect/pull/89)) | Actions | — |
 | docrewind | Bun web | S10 | live; push CI and audit verified [V, 2026-10-10] | live | active | live; Dependabot merge observed ([#179](https://github.com/edbfi/docrewind/pull/179)) | — | — |
-| otpravkarr | Content | S10, S33 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | — |
+| otpravkarr | Content | S10, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#157](https://github.com/edbfi/otpravkarr/pull/157)) | — | — |
 | poyo-studio | Bun web | S10 | live; push CI verified (macOS media-tools included) | live | active | live; Dependabot merge observed ([#96](https://github.com/edbfi/poyo-studio/pull/96)) | — | — |
 | setun | Bun web | S10 | live; push CI verified | live | active | live; Dependabot merges observed ([#113](https://github.com/edbfi/setun/pull/113), [#114](https://github.com/edbfi/setun/pull/114), [#115](https://github.com/edbfi/setun/pull/115)) | — | — |
-| zondarr | Content | S11, S26, S33 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merges observed ([#277](https://github.com/edbfi/zondarr/pull/277), [#278](https://github.com/edbfi/zondarr/pull/278)) | — | — |
+| zondarr | Content | S11, S26, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merges observed ([#277](https://github.com/edbfi/zondarr/pull/277), [#278](https://github.com/edbfi/zondarr/pull/278)) | — | — |
 | guide-capture | Python | S11 | live; push CI verified (macOS included) | live | active | live; Dependabot merge observed ([#39](https://github.com/edbfi/guide-capture/pull/39)) | — | — |
 | arrsenal-of-scripts | Python | S11 | live; push CI verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/arrsenal-of-scripts/pull/40)) | — | — |
 | printlab-project | Python | S11 | live; push CI verified | live | active | live; no Dependabot PR yet (nothing outdated) | — | — |
@@ -77,8 +77,8 @@ Each repo's core rollout state is in the table below [V, 2026-10-09]; `—` mean
 | homebrew-taps | Native | S12, S19, S32 | live; push CI verified (formulae on x86_64 and ARM64, macOS casks); cask updater live, one job per cask [V, 2026-10-12] | live | active (admin role only; the deploy key passes it, D16) | live; Dependabot merge observed ([#41](https://github.com/edbfi/homebrew-taps/pull/41)) | — | — |
 | pelican-eggs | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#37](https://github.com/edbfi/pelican-eggs/pull/37)) | — | — |
 | mover-status | Shell | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#60](https://github.com/edbfi/mover-status/pull/60)) | — | — |
-| comradarr | Content | S13, S33 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#159](https://github.com/edbfi/comradarr/pull/159)) | — | — |
-| zimuarr | Content | S13, S33 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#33](https://github.com/edbfi/zimuarr/pull/33)) | — | — |
+| comradarr | Content | S13, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#159](https://github.com/edbfi/comradarr/pull/159)) | — | — |
+| zimuarr | Content | S13, S33, S39 | live; push CI verified [V, 2026-10-17] | live | active | live; Dependabot merge observed ([#33](https://github.com/edbfi/zimuarr/pull/33)) | — | — |
 | skills | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#35](https://github.com/edbfi/skills/pull/35)) | — | — |
 | eksamen | Content | S13 | live; push CI and deploy verified | live | active | live; Dependabot merge observed ([#40](https://github.com/edbfi/eksamen/pull/40)) | Actions | — |
 | 3d-designs | Content | S13 | live; push CI verified | live | active | live; Dependabot merge observed ([#5](https://github.com/edbfi/3d-designs/pull/5)) | — | — |
