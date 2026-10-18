@@ -1,4 +1,4 @@
-Last updated: 1792237811 (2026-10-17T11:50:11Z)
+Last updated: 1792340077 (2026-10-18T16:14:37Z)
 
 # State
 
@@ -43,6 +43,8 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S32 | homebrew-taps' cask updater runs one job per cask on per-cask timeouts, verified with two probe casks | done | [homebrew-taps#49](https://github.com/edbfi/homebrew-taps/pull/49), [homebrew-taps#50](https://github.com/edbfi/homebrew-taps/pull/50), [homebrew-taps#51](https://github.com/edbfi/homebrew-taps/pull/51), [homebrew-taps#52](https://github.com/edbfi/homebrew-taps/pull/52); [#73](https://github.com/edbfi/edbfi-ci/pull/73) |
 | S33 | rewrite starting points: comradarr, obzorarr, otpravkarr, zimuarr and zondarr reduced to Content-tier CI, `LICENSE`, README and logo; old `main` on `legacy-old/v1` (D28) | done | [comradarr#161](https://github.com/edbfi/comradarr/pull/161); [obzorarr#253](https://github.com/edbfi/obzorarr/pull/253); [otpravkarr#170](https://github.com/edbfi/otpravkarr/pull/170); [zimuarr#35](https://github.com/edbfi/zimuarr/pull/35); [zondarr#302](https://github.com/edbfi/zondarr/pull/302); [#74](https://github.com/edbfi/edbfi-ci/pull/74) |
 | S34 | one shared, path-free `biome.json` in the five rewrite starting points (config only; nothing runs it yet) | done | [comradarr#162](https://github.com/edbfi/comradarr/pull/162); [obzorarr#255](https://github.com/edbfi/obzorarr/pull/255); [otpravkarr#172](https://github.com/edbfi/otpravkarr/pull/172); [zimuarr#36](https://github.com/edbfi/zimuarr/pull/36); [zondarr#304](https://github.com/edbfi/zondarr/pull/304); [#75](https://github.com/edbfi/edbfi-ci/pull/75) |
+| S35 | Bun-only tooling in the design and the Bun templates (D29): no `setup-node` or `.node-version`, tools under `--bun`, failing `node`/`npm`/`npx` in CI | done | [#76](https://github.com/edbfi/edbfi-ci/pull/76) |
+| S36 | Bun-only tooling ([ci.md](design/ci.md#contract) rule 8) in guides, isfuglen, portaler, yt-redirect, docrewind, poyo-studio and setun: drop `setup-node` and `.node-version`, add the failing `node`/`npm`/`npx`, run tools under `--bun` (lifecycle scripts in docrewind, poyo-studio and setun), docrewind's jsdom on 30.0.x | pending | — |
 
 ## Repos
 

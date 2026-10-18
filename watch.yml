@@ -38,3 +38,9 @@ triggers:
     repo: edbfi/obzorarr
     above: 0.1.11
     action: Inspect the latest release's tag and source. Once a plain X.Y.Z release contains SvelteKit 3, use a workflows PR into obzorarr-docker's release branch (design/repos.md rule 8) to remove the obsolete scripts/serve.ts* copies and the bun start entry, checking the remaining differences against nightly. Keep the issue open until that release exists.
+  - id: bun-jsdom-vm
+    kind: manual
+    action: Once a Bun release fixes oven-sh/bun#45102, check that Vitest's jsdom environment passes on the latest jsdom under `bunx --bun vitest run`, then drop the jsdom 30.0.x cap from design/ci.md rule 8 and let docrewind take the bump.
+  - id: bun-lifecycle-shim
+    kind: manual
+    action: Once `bun ci` applies the `--bun` node shim to lifecycle scripts (oven-sh/bun#44584), drop the lifecycle-script clause from design/ci.md rule 8.

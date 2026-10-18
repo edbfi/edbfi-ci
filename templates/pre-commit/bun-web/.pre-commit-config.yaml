@@ -54,12 +54,12 @@ repos:
     hooks:
       - id: biome
         name: Biome checks
-        entry: bunx --no-install biome check
+        entry: bunx --bun --no-install biome check
         language: system
         types_or: [javascript, jsx, ts, tsx, json, css, svelte]
       - id: biome-migrate
         name: Migrate Biome configuration
-        entry: bunx --no-install biome migrate --write
+        entry: bunx --bun --no-install biome migrate --write
         language: system
         stages: [manual]
         pass_filenames: false

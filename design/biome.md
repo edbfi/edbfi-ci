@@ -3,7 +3,7 @@
 ## Contract
 
 1. Layer 1: `biome.json` `$schema` MUST be `./node_modules/@biomejs/biome/configuration_schema.json`, so schema-version changes alone don't rewrite `biome.json`; migrations may still change its configuration. Target repos' agent docs, where they exist, MUST NOT name a Biome version.
-2. Layer 2: every Biome repo MUST have the manual-stage hook `biome-migrate: bunx --no-install biome migrate --write`, `language: system`, `pass_filenames: false`. A needed migration modifies files, which fails prek and turns `ci-ok` red.
+2. Layer 2: every Biome repo MUST have the manual-stage hook `biome-migrate: bunx --bun --no-install biome migrate --write`, `language: system`, `pass_filenames: false`. A needed migration modifies files, which fails prek and turns `ci-ok` red.
 3. Layer 3: the seven Biome repos MUST carry `biome-migrate.yml`.
 4. It MUST trigger on `pull_request` `[opened, synchronize, reopened]`, filtered by the three auto-merge conditions ([auto-merge.md](auto-merge.md#contract), with the same zizmor suppression) and by a diff touching `@biomejs/biome`.
 5. Concurrency MUST be `biome-migrate-<PR>-<head.sha>` with cancel-in-progress.

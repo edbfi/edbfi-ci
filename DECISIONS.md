@@ -31,6 +31,7 @@ All resolved. The rules they produce live in [design/](design/); this file only 
 | D26 | Archive replex, an outdated fork (owner, 2026-10-12); its secrets, PATs, deploy keys and Actions settings stay as they are. | replex archived ([STATE](STATE.md#github-state)); [repos.md](design/repos.md#contract) rule 3 |
 | D27 | Dependabot alerts are on, with security updates off, in the out-of-scope dox and hotio-family docker repos, so vulnerable pins are flagged without opening PRs (owner, 2026-10-12). | alert settings ([STATE](STATE.md#github-state)) |
 | D28 | Rewrite comradarr, obzorarr, otpravkarr, zimuarr and zondarr from scratch: each `main` becomes a Content-tier starting point and the old `main` stays on `legacy-old/v1`; their docker repos' `nightly` failures are accepted (owner, 2026-10-17). | [repos.md](design/repos.md#contract) rule 12 |
+| D29 | Bun repos use Bun alone to install and run their tooling, with no Node, npm or npx; Node only as a named exception (owner, 2026-10-18). | [ci.md](design/ci.md#contract) rule 8; the failing `node`, `npm` and `npx` in the Bun templates |
 
 ## Blockers
 
