@@ -56,7 +56,7 @@ Adaptations (Dependabot directories double as the `audit` matrix, [ci.md](ci.md#
 | comradarr, zimuarr, from their tooling-only `package.json` and `bun.lock` until an application exists | `docs-set` hook; Biome and `biome-migrate` hooks, `biome-migrate.yml`; CI: the [Bun web](../templates/ci-bun-web.yml) `checks` job plus `audit`; no `tests` hook | — (no smoke job) | ubuntu | bun `/`, gha |
 | 3d-designs | keeps its read-only builtin hooks: no whitespace fixers or `check-added-large-files`, so generated print files, SVG and JSON stay byte-exact | — (renders need OpenSCAD and Bambu Studio) | ubuntu | gha |
 | icarus-bevy | keeps its `exclude` and its cargo fmt/clippy/test hooks, which run once `.rs` or Cargo files exist | — | ubuntu | gha |
-| skills | docendo tests; a Bun syntax check of each `.js`/`.mjs` file (`bun build --no-bundle <file>` exits 1 on a syntax error) | `scripts/check-content.py` | ubuntu | gha |
+| skills | docendo tests; `bun build --no-bundle` on each `.js`/`.mjs` file, one per call; CI takes Bun from `.bun-version` (no `package.json`) | `scripts/check-content.py` | ubuntu | gha |
 | eksamen | Pages deploy of `docs/` | `scripts/smoke.sh`: serve `docs/`, `/index.html`, `/optagelsesprover.html` | ubuntu | gha |
 | repo-patches | `python3 -m unittest discover -s tools -p 'test_*.py'` | — | ubuntu | gha |
 

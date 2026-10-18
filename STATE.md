@@ -1,4 +1,4 @@
-Last updated: 1792351013 (2026-10-18T19:16:53Z)
+Last updated: 1792352220 (2026-10-18T19:37:00Z)
 
 # State
 
@@ -45,7 +45,7 @@ Take the first step whose status isn't `done` or `blocked`; a blocked step names
 | S35 | Bun-only tooling in the design and the Bun templates (D29): no `setup-node` or `.node-version`, tools under `--bun`, failing `node`/`npm`/`npx` in CI | done | [#76](https://github.com/edbfi/edbfi-ci/pull/76) |
 | S36 | Bun-only tooling ([ci.md](design/ci.md#contract) rule 8) in guides, isfuglen, portaler, yt-redirect, docrewind, poyo-studio and setun: drop `setup-node` and `.node-version`, add the failing `node`/`npm`/`npx`, run tools under `--bun` (lifecycle scripts in docrewind, poyo-studio and setun), docrewind's jsdom on 30.0.x; adopt the template's `bun run --bun test` tests hook; remove the `.agents/rules/` copies of the old shared rule files (owner, 2026-10-18); `packageManager` on `bun@1.4.3` | pending | — |
 | S37 | rewrite ground floor in edbfi-ci: agent guidance only in each `AGENTS.md` (D30); context state and `package.json` moves for the rewrite apps; skill exclusions, the `docs-set` hook and `bun run --bun test` in the prek templates | done | [#77](https://github.com/edbfi/edbfi-ci/pull/77) |
-| S38 | skills: a Bun syntax check replaces `node --check`, CI takes Bun from `.bun-version`, the old rules repo's mentions go | pending | — |
+| S38 | skills: a Bun syntax check replaces `node --check`, CI takes Bun from `.bun-version`, the old rules repo's mentions go | done | [skills#51](https://github.com/edbfi/skills/pull/51); [#78](https://github.com/edbfi/edbfi-ci/pull/78) |
 | S39 | rewrite apps' context PRs: agent skills, `AGENTS.md`, the docs set and the `docs-set` hook ([repos.md](design/repos.md#contract) rule 13) in comradarr, obzorarr, otpravkarr, zimuarr and zondarr | pending | — |
 | S40 | obzorarr, otpravkarr and zondarr skeletons; each moves to Bun web | pending | — |
 | S41 | comradarr and zimuarr on their tooling-only row ([repos.md](design/repos.md#parameters)) | pending | — |
