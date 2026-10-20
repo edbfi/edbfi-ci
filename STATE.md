@@ -1,4 +1,4 @@
-Last updated: 1792361949 (2026-10-18T22:19:09Z)
+Last updated: 1792488015 (2026-10-20T09:20:15Z)
 
 # State
 
@@ -105,4 +105,4 @@ All [V, 2026-10-07] unless dated otherwise.
 ## Open items
 
 - SvelteKit dev servers (poyo-studio, setun): only the first server render after start carries UnoCSS's styles, so later pages paint unstyled until the client JS runs. Importing in the root layout and a warmup didn't fix it. Investigate Kit 3 dev style inlining against UnoCSS's virtual module; setun's `content.filesystem` is a lead [V, 2026-10-11, S25].
-- `templates/pullfrog-review.txt` still mentions `.agents/rules/*.md` and "canonical managed rule copies", retired by D30. Changing it means re-applying each repo's Pullfrog settings, an owner action [V, 2026-10-18, S37].
+- `templates/pullfrog-review.txt` follows D30. The 42 Pullfrog-configured repositories keep the previous prompt until it is re-applied with `pullfrog config set prompts.review` ([ci.md](design/ci.md#parameters)), an owner action [V, 2026-10-20].
