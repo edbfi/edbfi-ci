@@ -4,7 +4,8 @@
 # a skipped workflow leaves the required checks pending.
 # Bun only: a bare bin runs its `#!/usr/bin/env node` with the runner's Node, so scripts run with
 # `bun run --bun`, bins with `bunx --bun`, and lifecycle scripts call `bun --bun <bin>` (bun ci
-# ignores --bun there, oven-sh/bun#44584). Vitest's jsdom stays on 30.0.x until oven-sh/bun#45102.
+# ignores --bun there, oven-sh/bun#44584). Repos on Vitest's jsdom environment keep jsdom on 30.0.x
+# until oven-sh/bun#45102 is fixed.
 name: CI
 on:
   pull_request:

@@ -4,7 +4,8 @@
 # a skipped workflow leaves the required checks pending.
 # Bun only: a bare bin runs its `#!/usr/bin/env node` with the runner's Node, so scripts run with
 # `bun run --bun`, bins with `bunx --bun`, and lifecycle scripts call `bun --bun <bin>` (bun ci
-# ignores --bun there, oven-sh/bun#44584). Vitest's jsdom stays on 30.0.x until oven-sh/bun#45102.
+# ignores --bun there, oven-sh/bun#44584). Repos on Vitest's jsdom environment keep jsdom on 30.0.x
+# until oven-sh/bun#45102 is fixed.
 name: CI
 on:
   pull_request:
@@ -58,6 +59,7 @@ jobs:
       - run: bun run --bun build
       - run: bun run --bun smoke
       - if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        # Not withastro/action: it installs Bun latest, unfrozen.
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with: { path: dist }
   ci-ok:
