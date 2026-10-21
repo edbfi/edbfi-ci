@@ -64,6 +64,7 @@ jobs:
           printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
       - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with: { python-version: "${{ steps.python.outputs.version }}" }
+      # Keep pip-audit until the dependency graph's SBOM lists this project's locked transitive packages.
       - run: |
           requirements="$RUNNER_TEMP/audit-requirements.txt"
           uv export --locked --all-groups --no-emit-project --no-emit-workspace --format requirements-txt --output-file "$requirements"

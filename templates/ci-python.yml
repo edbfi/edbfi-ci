@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Copy as .github/workflows/ci.yml; adapt commands, directories and runners to design/repos.md.
-# Allocate a distinct weekly minute during rollout. Every added PR job belongs in ci-ok.
+# Copy as .github/workflows/ci.yml; adapt commands, directories and runners to the repo.
+# Give each repo its own weekly minute. Every added PR job belongs in ci-ok. No paths: filter:
+# a skipped workflow leaves the required checks pending.
 name: CI
 on:
   pull_request:
@@ -8,6 +9,7 @@ on:
   workflow_dispatch:
   schedule: [{ cron: "17 2 * * 0" }]   # weekly audit + main revalidation; minute unique per repo
 permissions: {}
+# The head SHA keeps a re-run from cancelling a newer head; main runs never cancel each other.
 concurrency:
   group: ${{ github.event_name == 'pull_request' && format('ci-pr-{0}-{1}', github.event.pull_request.number, github.event.pull_request.head.sha) || format('ci-{0}', github.sha) }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -82,6 +84,7 @@ jobs:
           printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
       - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with: { python-version: "${{ steps.python.outputs.version }}" }
+      # Keep pip-audit until the dependency graph's SBOM lists this project's locked transitive packages.
       - run: |
           requirements="$RUNNER_TEMP/audit-requirements.txt"
           uv export --locked --all-groups --no-emit-project --no-emit-workspace --format requirements-txt --output-file "$requirements"

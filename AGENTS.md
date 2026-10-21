@@ -1,43 +1,32 @@
 # Agent instructions
 
-`edbfi-ci` is the single source of truth for CI across the edbfi repos: design, state, shared code and runbook. The work happens here, one step at a time.
+`edbfi-ci` holds the shared CI for the edbfi repos ([README](README.md)). Work on what you are asked.
 
-**Start:** read this file, then [STATE.md](STATE.md), and take the first step whose status isn't `done` or `blocked`.
+## Rules
 
-## Working model
+- Docs hold only what the code can't say: the policy in the README, the GitHub-side setup in [SETUP.md](SETUP.md), and short comments next to the code they explain. Most changes need no doc change. When a fact changes, search for every other statement of it and fix or delete it; never append history.
+- No reports in the repo: evidence, deviations and "Owner actions" go in the PR body.
+- Never write secret values. Don't change GitHub settings, secrets or other repos, publish anything or contact upstream projects, unless the task says so.
+- Conventional Commits with a DCO sign-off (`git commit -s`), on a branch, through a PR. New source files carry the `AGPL-3.0-only` SPDX line.
+- Privileged workflow jobs (holding a secret, or PR-reachable with write access) follow [privileged_jobs.py](hooks/edbfi_hooks/privileged_jobs.py)'s rules; the hook checks only part of them.
 
-1. **One step per session, one PR per step.** A step may also open PRs in the target repos it touches. Its `edbfi-ci` PR records the outcome.
-2. **Every step ends with the [cleanup gate](MAINTENANCE.md#cleanup-gate), which blocks the step.** A step isn't done until the gate passes, and the gate's changes are part of the same PR.
-3. **Docs describe only two things:** the target design ([design/](design/)) and the current state ([STATE.md](STATE.md), [DECISIONS.md](DECISIONS.md)). Anything finished is removed from plans and reduced to state. Anything superseded is deleted, not marked as old.
-4. **Each fact lives in one place.**
-   - Code and concrete values (pins, schedules, labels, commands) live in `templates/` or `hooks/`. Docs link to the file instead of copying it.
-   - Rules live in exactly one `design/*.md`.
-   - Progress lives only in `STATE.md`.
-5. **No reports in the repo.** Session summaries, logs, test evidence, migration checklists and "what I did" go in the **PR body**, never in a file. `git log` and the PR history are the history.
-6. **Be precise, not complete.** Leave out anything that doesn't change what someone would do. A one-line reason is enough; drop reasons that restate the rule. Don't add a new doc file unless an existing module truly can't hold the content.
-7. **Automated guards back these rules** ([`tools/doc_guard`](tools/doc_guard/doc_guard.py)). Never weaken a guard or raise a cap to get past it. Trim the content instead.
-8. **Never write secret values.** Secret names are fine. Don't change GitHub settings, secrets or other repos, publish anything (releases, images, deploys) or contact upstream projects, except where the current step says so. Anything that needs the owner goes under "Owner actions" in the PR body.
+## Pull requests
 
-## Design modules
-
-Each `design/*.md` has exactly the sections Contract · Parameters · Verification · Open · Why.
-
-- **Contract:** numbered MUST and MUST NOT rules.
-- **Parameters:** only values that no template holds yet; once a template exists, a link to it.
-- **Verification:** concrete checks; each rollout step runs the checks for its modules.
-- **Open:** unverified assumptions as IDs (`ci-A1`), each saying what would close it.
-- **Why:** at most 5 one-line bullets.
+- After opening a PR and after each push, wait up to 30 minutes for Pullfrog's review of the head. Without one, ask once with `@pullfrog review` and wait 30 more minutes, then record `no bot review received`. Never use Pullfrog's Fix links.
+- Check each finding against the source and answer it once: fixed, with the commit, or rejected, with the reason. Owner decisions beat bot suggestions. Resolve the threads you answered.
+- Merge only once the review loop has ended on the current head and its required checks have passed, including the `pr-policy` run of the last title or body edit: the admin bypass lets a merge skip a pending check. Use `gh pr merge --auto --squash`, or a direct squash merge when the owner asks for one. A stacked PR merges only after its parent, retargeted to main.
 
 ## Environment
 
-- **Workspace:** the `edbfi` account folder in the machine's GitHub directory (e.g. `~/github/edbfi`); paths below are relative to it.
-- **Working copy:** `edbfi-ci` (`git@github.com-edbfi:edbfi/edbfi-ci.git`), public, default branch `main`.
-- **License:** AGPL-3.0-only. Keep `LICENSE`; use this SPDX identifier in package metadata and new source files.
-- **Target repos:** clone into `<repo>` if missing, and `git fetch --prune` before relying on a clone. A clone may hold the owner's uncommitted edits: never stash, reset or commit them; work in a `git worktree` from `origin/<default>` instead.
-- **Push guard:** at session start, set `git config remote.origin.pushurl no-push-allowed` in every clone of the hotio-family repos ([repos.md](design/repos.md#contract)). Never unset it; push deliberately with `git push git@github.com-edbfi:edbfi/<repo>.git <branch>`.
-- **`gh`:** a shim picks the GitHub account from the folder it runs in and refuses to run outside the workspace, so run it from inside.
-- **Archive:** `edbfi-investigations/2026-10-02-sveltekit-3-migration` (local-only, beside the machine's GitHub directory, not on every machine) holds the SvelteKit 3 migration: ledgers, logs, PR bodies and the archived migration plans. Read it only when this repo doesn't answer a question; this repo wins. Never copy text from it or edit it.
-- **Rules:** read every `.agents/rules/*.md` in the repo you work in, if the directory exists; project rules override these instructions.
-- **Commits:** Conventional Commits with a DCO sign-off (`git commit -s`). Work on a branch and open a PR; follow [auto-merge.md](design/auto-merge.md#contract), including its pre-rollout exception.
-- **Tool choice:** Prefer `gh`, `git` and other purpose-built CLIs for repository operations. For browser or frontend interaction, and website access using a signed-in session, use the `ego-browser` tool and skill instead of built-in browser tools.
-- **Tools:** verified versions are in [design/prek.md](design/prek.md#parameters); check for newer ones at the start of each step.
+- Workspace: the `edbfi` account folder in the machine's GitHub directory (e.g. `~/github/edbfi`). The `gh` shim picks the account from the folder it runs in, so run it inside.
+- Other repos: follow their own `AGENTS.md` and `.agents/rules/*.md`, which win over this file. Clone if missing and `git fetch --prune` before relying on a clone. A clone may hold the owner's uncommitted edits: never stash, reset or commit them; work in a `git worktree` from `origin/<default>`.
+- Browser work and signed-in sites: use the `ego-browser` tool and skill.
+
+## Hotio family
+
+caddy, qbittorrent, qflood, sabnzbd, obzorarr-docker, otpravkarr-docker, zondarr-docker, base-image and website follow Hotio's own CI, not this repo's.
+
+- In every clone of these repos, set `git config remote.origin.pushurl no-push-allowed` and never unset it; push deliberately with `git push git@github.com-edbfi:edbfi/<repo>.git <branch>`.
+- Merging into a docker repo's channel branch publishes that channel's image, so even a pin bump is a release. PRs there come from a branch named `workflows`, the one branch `call-build` doesn't publish.
+- `call-build.yml` and `call-update.yml` stay byte-identical to Hotio's except that `uses:` points at `edbfi/base-image/.github/workflows/{build,update}-on-call.yml@workflows`. These repos keep the default `GITHUB_TOKEN` permission `write`.
+- base-image and website are generated from Hotio by repo-patches' `sync-hotio.yml`: change the generator, never the mirror.

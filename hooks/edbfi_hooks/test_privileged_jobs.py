@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 import contextlib
 import io
-import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -32,13 +31,7 @@ class PrivilegedJobsTest(unittest.TestCase):
 
     def test_reference_templates(self) -> None:
         root = Path(__file__).resolve().parents[2]
-        # S2 moves these templates; read their canonical location in either form.
-        templates = list((root / "templates").glob("*.yml"))
-        texts = [path.read_text() for path in templates]
-        for path in (root / "design").glob("*.md"):
-            texts.extend(
-                re.findall(r"```yaml\n(.*?)\n```", path.read_text(), re.DOTALL)
-            )
+        texts = [path.read_text() for path in (root / "templates").glob("*.yml")]
         tested = 0
         for text in texts:
             value = workflow(text)

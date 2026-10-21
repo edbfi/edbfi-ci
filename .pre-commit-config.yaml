@@ -1,4 +1,4 @@
-# CI runs the manual stage: prek run --all-files --hook-stage manual (design/prek.md).
+# CI runs the manual stage: prek run --all-files --hook-stage manual.
 default_install_hook_types: [pre-commit, commit-msg]
 default_stages: [pre-commit, manual]
 repos:
@@ -96,20 +96,13 @@ repos:
         language_version: "3.14"
         additional_dependencies: [PyYAML]
         pass_filenames: false
-        files: ^(hooks/|design/|templates/|pyproject\.toml|\.pre-commit-hooks\.yaml)
+        files: ^(hooks/|templates/|pyproject\.toml|\.pre-commit-hooks\.yaml)
       - id: check-peers-tests
         name: check-peers tests
         entry: bun test hooks/check-peers.test.ts
         language: system
         pass_filenames: false
         files: ^(hooks/|package\.json|\.pre-commit-hooks\.yaml)
-      - id: doc-guard
-        name: doc-guard
-        entry: python3 tools/doc_guard/doc_guard.py
-        language: python
-        language_version: "3.14"
-        pass_filenames: false
-        always_run: true
       - id: tooling-tests
         name: tooling guard tests
         entry: python3 -m unittest discover -s tools -t .
@@ -117,4 +110,4 @@ repos:
         language_version: "3.14"
         additional_dependencies: [PyYAML]
         pass_filenames: false
-        files: ^(tools/|templates/|watch\.yml|\.github/workflows/|\.github/dependabot\.yml|\.prekignore|pyproject\.toml)
+        files: ^(tools/|templates/|\.github/workflows/|\.github/dependabot\.yml|\.prekignore|pyproject\.toml)

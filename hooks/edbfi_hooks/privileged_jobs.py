@@ -1,5 +1,22 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-"""Reject actions, containers and services in privileged workflow jobs."""
+"""Reject actions, containers and services in privileged workflow jobs.
+
+A job is privileged if it references a secret other than GITHUB_TOKEN, or if it is
+reachable from a PR event and grants any write permission. Dependabot bumps actions
+with no cooldown, so a compromised release would otherwise run next to a secret.
+
+This hook enforces only the structural part. Privileged jobs must also, by review:
+- run only inline shell and preinstalled tools, plus toolchains fetched from a
+  pinned URL with a checked SHA-256; never check out PR code or restore caches;
+- treat PR-derived data as data, never execute it;
+- take artifacts in as biome-migrate.yml does: download into a fresh mktemp dir,
+  require exactly one regular file, apply patches in a fresh `git init` dir,
+  reject creates, deletes, renames and mode changes, and run git with hooks off;
+- pass credentials per command (`git -c http.extraheader=...`), never in .git/config;
+- guard dispatchable write jobs with `github.ref == 'refs/heads/main'`.
+These guards assume owner-only write access; move secrets into environments with
+branch policies before giving anyone else write access.
+"""
 
 import re
 import sys

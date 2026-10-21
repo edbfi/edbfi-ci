@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Copy as .github/workflows/ci.yml; adapt commands, directories and runners to design/repos.md.
-# Allocate a distinct weekly minute during rollout. Every added PR job belongs in ci-ok.
+# Copy as .github/workflows/ci.yml; adapt commands, directories and runners to the repo.
+# Give each repo its own weekly minute. Every added PR job belongs in ci-ok. No paths: filter:
+# a skipped workflow leaves the required checks pending.
+# Bun only: a bare bin runs its `#!/usr/bin/env node` with the runner's Node, so scripts run with
+# `bun run --bun`, bins with `bunx --bun`, and lifecycle scripts call `bun --bun <bin>` (bun ci
+# ignores --bun there, oven-sh/bun#44584). Repos on Vitest's jsdom environment keep jsdom on 30.0.x
+# until oven-sh/bun#45102 is fixed.
 name: CI
 on:
   pull_request:
@@ -8,6 +13,7 @@ on:
   workflow_dispatch:
   schedule: [{ cron: "17 2 * * 0" }]   # weekly audit + main revalidation; minute unique per repo
 permissions: {}
+# The head SHA keeps a re-run from cancelling a newer head; main runs never cancel each other.
 concurrency:
   group: ${{ github.event_name == 'pull_request' && format('ci-pr-{0}-{1}', github.event.pull_request.number, github.event.pull_request.head.sha) || format('ci-{0}', github.sha) }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -21,7 +27,7 @@ jobs:
         with: { persist-credentials: false }
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with: { bun-version-file: package.json }
-      - name: Fail on node, npm and npx (design/ci.md rule 8)
+      - name: Fail on node, npm and npx (Bun only)
         run: |
           mkdir -p "$RUNNER_TEMP/bun-only"
           for tool in node npm npx; do
@@ -41,7 +47,7 @@ jobs:
         with: { persist-credentials: false }
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with: { bun-version-file: package.json }
-      - name: Fail on node, npm and npx (design/ci.md rule 8)
+      - name: Fail on node, npm and npx (Bun only)
         run: |
           mkdir -p "$RUNNER_TEMP/bun-only"
           for tool in node npm npx; do

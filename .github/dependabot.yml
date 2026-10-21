@@ -3,21 +3,21 @@ updates:
   - package-ecosystem: uv
     directory: /
     schedule: { interval: weekly, day: monday, time: "05:00", timezone: Europe/Copenhagen }
-    cooldown: { exclude: ["*"] } # zizmor: ignore[dependabot-cooldown] -- D2: no cooldown
+    cooldown: { exclude: ["*"] } # zizmor: ignore[dependabot-cooldown] -- updates merge on green without delay
     commit-message: { prefix: chore, include: scope }
     groups:
       patch-minor: { patterns: ["*"], update-types: [minor, patch] }
   - package-ecosystem: github-actions
-    directories: ["/", "/templates"] # design/dependabot.md rule 7
+    directories: ["/", "/templates"] # "/" reads only .github/workflows
     schedule: { interval: weekly, day: monday, time: "05:00", timezone: Europe/Copenhagen }
-    cooldown: { exclude: ["*"] } # zizmor: ignore[dependabot-cooldown] -- D2: no cooldown
+    cooldown: { exclude: ["*"] } # zizmor: ignore[dependabot-cooldown] -- updates merge on green without delay
     commit-message: { prefix: chore, include: scope }
     groups:
       patch-minor: { patterns: ["*"], update-types: [minor, patch] }
   - package-ecosystem: pre-commit
-    directories: ["/", "/templates/pre-commit/*"] # design/dependabot.md rule 7
+    directories: ["/", "/templates/pre-commit/*"] # one config per directory
     schedule: { interval: weekly, day: monday, time: "05:00", timezone: Europe/Copenhagen }
-    cooldown: { exclude: ["*"] } # zizmor: ignore[dependabot-cooldown] -- D2: no cooldown
+    cooldown: { exclude: ["*"] } # zizmor: ignore[dependabot-cooldown] -- updates merge on green without delay
     commit-message: { prefix: chore, include: scope }
     groups:
       patch-minor: { patterns: ["*"], update-types: [minor, patch] }

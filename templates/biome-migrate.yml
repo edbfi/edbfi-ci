@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-only
+# Commits `biome migrate` to Dependabot's Biome PRs, then re-enables auto-merge on the new head,
+# because this workflow races dependabot-auto-merge.yml.
 name: Biome migration
 on:
   pull_request:
