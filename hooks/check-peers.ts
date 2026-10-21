@@ -1,5 +1,7 @@
 #!/usr/bin/env bun
 // SPDX-License-Identifier: AGPL-3.0-only
+// Bun only warns about unmet peers and `bun ci` still exits 0, so without this check a
+// mismatched Dependabot update would auto-merge. No allowlist by design.
 import { existsSync, readFileSync, realpathSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 

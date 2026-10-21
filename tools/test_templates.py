@@ -293,7 +293,7 @@ class TemplateContractTest(unittest.TestCase):
             self.assertEqual(len(shared), 1)
 
     def test_vendored_skills_and_docs_set(self) -> None:
-        # design/prek.md rule 4.7 and design/repos.md rule 13, identical in both templates.
+        # Skill-folder excludes and the docs-set hook, identical in both templates.
         hooks = {
             name: {
                 str(hook["id"]): hook
@@ -486,7 +486,7 @@ class AutoMergeTest(ScriptTest):
         live_steps = items(mapping(live["enable"])["steps"])
         code = script("dependabot-auto-merge.yml", "enable")
         self.assertEqual(mapping(live_steps[0])["run"], code)
-        # biome-migrate.yml's enable job runs the same script (design/biome.md rule 8).
+        # biome-migrate.yml's enable job runs the same script.
         self.assertEqual(script("biome-migrate.yml", "enable"), code)
         self.env.update(
             {"HEAD_SHA": "old", "PR_URL": "https://github.com/owner/repo/pull/2"}
