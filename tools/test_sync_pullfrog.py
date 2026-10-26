@@ -10,7 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = (ROOT / "templates/pullfrog.yml").read_text()
 SCRIPT = ROOT / "tools/sync_pullfrog.py"
 OLD = "pullfrog/pullfrog@" + "1" * 40 + " # v0.1.9"
-NEW = "pullfrog/pullfrog@" + "2" * 40 + " # v0.1.100"
+MAJOR = int(TEMPLATE.split("pullfrog/pullfrog@")[1].split(" # v")[1].split(".")[0])
+NEW = "pullfrog/pullfrog@" + "2" * 40 + f" # v{MAJOR + 1}.0.0"
 
 
 def pinned(text: str, pin: str) -> str:
