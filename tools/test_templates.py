@@ -18,6 +18,38 @@ ROOT = Path(__file__).resolve().parents[1]
 TEMPLATES = ROOT / "templates"
 HOOK_TEMPLATES = sorted(TEMPLATES.glob("pre-commit/*/.pre-commit-config.yaml"))
 GIT = shutil.which("git") or "git"
+# Paths biome-migrate.yml's allowlist accepts, and paths it must not touch.
+FORMATTED = (
+    "biome.json",
+    "biome.jsonc",
+    "sub/biome.json",
+    "src/a.ts",
+    "src/b.js",
+    "src/c.mjs",
+    "src/d.cjs",
+    "src/e.jsx",
+    "src/f.mts",
+    "src/g.cts",
+    "src/h.tsx",
+    "src/i.css",
+    "src/j.svelte",
+    "src/k.astro",
+    "src/l.json",
+    "src/m.jsonc",
+)
+SKIPPED = (
+    ".github/workflows/x.yml",
+    ".github/workflows/x.json",
+    ".github/scripts/x.ts",
+    "package.json",
+    "sub/package.json",
+    ".agents/skills/x/y.ts",
+    ".claude/x.js",
+    ".opencode/x.json",
+    "README.md",
+    "x.yml",
+    "src/n.TS",
+)
 
 
 def setUpModule() -> None:
@@ -792,6 +824,103 @@ raise SystemExit(subprocess.call([os.environ["REAL_GIT"], *args]))
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("stale info", result.stderr)
         self.assertEqual(self.published(), newer)
+
+    def seed(self, *paths: str) -> None:
+        for path in paths:
+            target = self.source / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            _ = target.write_text("seed\n")
+        _ = self.git("add", "--all")
+        _ = self.git(
+            "-c",
+            "core.hooksPath=/dev/null",
+            "commit",
+            "-qs",
+            "-m",
+            "test: seed fixture",
+        )
+        self.head = self.git("rev-parse", "HEAD")
+        _ = self.git("push", "-f", str(self.origin), "HEAD:refs/heads/dependabot/biome")
+        self.env.update({"HEAD_SHA": self.head, "CURRENT_SHA": self.head})
+
+    def reformat(self, *paths: str) -> subprocess.CompletedProcess[str]:
+        _ = self.git("reset", "--hard", self.head)
+        _ = self.git("clean", "-fd")
+        _ = self.git("push", "-f", str(self.origin), "HEAD:refs/heads/dependabot/biome")
+        for path in paths:
+            with (self.source / path).open("a") as stream:
+                _ = stream.write("formatted\n")
+        self.patch()
+        return self.apply()
+
+    def selected(self) -> list[str]:
+        """Run the migrate job's formatter step and return the paths it hands to Biome."""
+        log = self.root / "bunx.log"
+        log.unlink(missing_ok=True)
+        self.executable("bunx", '#!/bin/sh\nprintf "%s\\n" "$@" >> "$RUNNER_TEMP/bunx.log"\n')
+        result = run(script("biome-migrate.yml", "migrate", 2), self.env, self.source)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        if not log.exists():
+            return []
+        args = log.read_text().splitlines()
+        self.assertEqual(
+            args[:7],
+            [
+                "--bun",
+                "--no-install",
+                "biome",
+                "format",
+                "--write",
+                "--no-errors-on-unmatched",
+                "--files-ignore-unknown=true",
+            ],
+        )
+        self.assertTrue(all(arg.startswith("./") for arg in args[7:]))
+        return sorted(arg.removeprefix("./") for arg in args[7:])
+
+    def test_new_source_file_is_rejected(self) -> None:
+        _ = (self.source / "src").mkdir()
+        _ = (self.source / "src/new.ts").write_text("export {};\n")
+        self.patch()
+        self.assertNotEqual(self.apply().returncode, 0)
+        self.assertEqual(self.published(), self.head)
+
+    def test_mixed_patch_with_one_forbidden_path_is_rejected(self) -> None:
+        self.seed("src/a.ts", "package.json")
+        for path in ("src/a.ts", "package.json"):
+            with (self.source / path).open("a") as stream:
+                _ = stream.write("formatted\n")
+        self.patch()
+        self.assertNotEqual(self.apply().returncode, 0)
+        self.assertEqual(self.published(), self.head)
+
+    def test_migrate_formats_exactly_what_apply_accepts(self) -> None:
+        # Non-regular files are never formatted, because apply accepts 100644 only.
+        _ = (self.source / "run.ts").write_text("seed\n")
+        (self.source / "run.ts").chmod(0o755)
+        (self.source / "link.ts").symlink_to("src/a.ts")
+        self.seed(*FORMATTED, *SKIPPED)
+        self.assertEqual(self.selected(), sorted(FORMATTED))
+        # One patch over every selected path: any path apply rejects fails the whole patch.
+        result = self.reformat(*FORMATTED)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotEqual(self.published(), self.head)
+        for path in (*SKIPPED, "run.ts"):
+            with self.subTest(path=path):
+                self.assertNotEqual(self.reformat(path).returncode, 0)
+                self.assertEqual(self.published(), self.head)
+
+    def test_migrate_and_apply_share_one_allowlist(self) -> None:
+        pattern = re.compile(r"^ +((?:package\.json|\*\.js)\|[^)\n]*)\)", re.MULTILINE)
+        migrate = pattern.findall(script("biome-migrate.yml", "migrate", 2))
+        apply = pattern.findall(script("biome-migrate.yml", "apply"))
+        self.assertEqual(len(migrate), 2)
+        self.assertEqual(migrate, apply)
+
+    def test_nothing_is_formatted_without_source_files(self) -> None:
+        self.assertEqual(self.selected(), ["biome.json"])
+        _ = self.git("rm", "-q", "biome.json")
+        self.assertEqual(self.selected(), [])
 
 
 if __name__ == "__main__":
