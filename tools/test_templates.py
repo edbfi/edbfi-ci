@@ -694,6 +694,8 @@ class BiomePatchTest(ScriptTest):
         _ = self.git("init", "-q")
         _ = self.git("config", "user.name", "Fixture")
         _ = self.git("config", "user.email", "fixture@example.invalid")
+        # The caller's global or XDG ignore file (often listing .codex/) must not untrack fixtures.
+        _ = self.git("config", "core.excludesFile", os.devnull)
         _ = (self.source / "biome.json").write_text('{"version": 1}\n')
         _ = (self.source / "other.txt").write_text("protected\n")
         _ = self.git("add", ".")
@@ -859,6 +861,7 @@ raise SystemExit(subprocess.call([os.environ["REAL_GIT"], *args]))
             target.parent.mkdir(parents=True, exist_ok=True)
             _ = target.write_text("seed\n")
         _ = self.git("add", "--all")
+        self.assertLessEqual(set(paths), set(self.git("ls-files").splitlines()))
         _ = self.git(
             "-c",
             "core.hooksPath=/dev/null",
