@@ -36,6 +36,8 @@ FORMATTED = (
     "src/k.astro",
     "src/l.json",
     "src/m.jsonc",
+    "src/o.html",
+    "src/p.svg",
 )
 SKIPPED = (
     ".github/workflows/x.yml",
@@ -46,6 +48,10 @@ SKIPPED = (
     ".agents/skills/x/y.ts",
     ".claude/x.js",
     ".opencode/x.json",
+    ".codex/hooks.json",
+    ".impeccable/config.json",
+    "skills-lock.json",
+    "sub/skills-lock.json",
     "README.md",
     "x.yml",
     "src/n.TS",
@@ -324,6 +330,29 @@ class TemplateContractTest(unittest.TestCase):
             ]
             self.assertEqual(len(shared), 1)
 
+    def test_biome_hook_leaves_file_selection_to_biome_json(self) -> None:
+        # One whole-repo run of the repo's lint script, the same command locally and in CI.
+        path = TEMPLATES / "pre-commit/bun-web/.pre-commit-config.yaml"
+        biome = [
+            hook
+            for repo in items(load(path)["repos"])
+            for hook in map(mapping, items(mapping(repo)["hooks"]))
+            if hook["id"] == "biome"
+        ]
+        self.assertEqual(
+            biome,
+            [
+                {
+                    "id": "biome",
+                    "name": "Biome checks",
+                    "entry": "bun run --bun lint",
+                    "language": "system",
+                    "pass_filenames": "false",
+                    "always_run": "true",
+                }
+            ],
+        )
+
     def test_vendored_skills_and_docs_set(self) -> None:
         # Skill-folder excludes and the docs-set hook, identical in both templates.
         hooks = {
@@ -341,7 +370,6 @@ class TemplateContractTest(unittest.TestCase):
         for name in fixers:
             self.assertEqual(content[name]["exclude"], vendored)
             self.assertEqual(bun[name]["exclude"], vendored)
-        self.assertEqual(bun["biome"]["exclude"], vendored)
         self.assertNotIn("exclude", content["detect-private-key"])
         for path in (".agents/skills/a/x", ".claude/agents/a.md", ".opencode/a.md"):
             self.assertRegex(path, vendored)
@@ -666,6 +694,8 @@ class BiomePatchTest(ScriptTest):
         _ = self.git("init", "-q")
         _ = self.git("config", "user.name", "Fixture")
         _ = self.git("config", "user.email", "fixture@example.invalid")
+        # The caller's global or XDG ignore file (often listing .codex/) must not untrack fixtures.
+        _ = self.git("config", "core.excludesFile", os.devnull)
         _ = (self.source / "biome.json").write_text('{"version": 1}\n')
         _ = (self.source / "other.txt").write_text("protected\n")
         _ = self.git("add", ".")
@@ -831,6 +861,7 @@ raise SystemExit(subprocess.call([os.environ["REAL_GIT"], *args]))
             target.parent.mkdir(parents=True, exist_ok=True)
             _ = target.write_text("seed\n")
         _ = self.git("add", "--all")
+        self.assertLessEqual(set(paths), set(self.git("ls-files").splitlines()))
         _ = self.git(
             "-c",
             "core.hooksPath=/dev/null",
