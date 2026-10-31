@@ -5,7 +5,7 @@ The GitHub-side setup, which no file in a repo records. Order matters.
 1. Copy the matching `ci-*.yml`, `pr-policy.yml`, `dependabot.*.yml` and `pre-commit/<stack>/` config from `templates/`, adapted to the repo. Pages repos also take `actionlint.pages.yaml` as `.github/actionlint.yaml`, Biome repos `biome-migrate.yml`, and repos with a scheduled workflow `immortality.yml`. CI calls repo-local commands, so every check also runs locally.
 2. Merge it, so `ci-ok` and `pr-policy` have run: GitHub offers only checks that ran in the last 7 days.
 3. Apply the settings and ruleset below.
-4. Only then add `dependabot-auto-merge.yml`.
+4. Only then add `dependabot-auto-merge.yml`, and grant a Bun repo `edbfi-bun-maintenance`: both enable auto-merge, which merges at once without the ruleset.
 5. Turn on Dependabot security updates last: a security PR opened before `dependabot.yml` lands can't be rebased.
 6. Fix required-peer mismatches on main before enabling `check-peers`, or main starts red.
 
@@ -34,6 +34,7 @@ Fine-grained PATs, each granted the repos that use it:
 | `DEPENDENCY_AUTOMERGE_TOKEN` | Dependabot, never Actions | `edbfi-dependabot-auto-merge`: Contents, Pull requests, Workflows RW | auto-merge, Biome migration |
 | `BIOME_MIGRATE_TOKEN` | Dependabot | `edbfi-biome-migrate`: Contents RW | Biome migration |
 | `IMMORTALITY_TOKEN` | Actions | `edbfi-workflow-immortality`: Actions RW, Metadata R | `immortality.yml` |
+| `BUN_MAINTENANCE_TOKEN` | Actions, edbfi-ci only | `edbfi-bun-maintenance`: Contents, Pull requests RW | `bun-maintenance.yml` |
 
 Hotio family: repo-patches' `PERSONAL_TOKEN` is `edbfi-hotio-mirror-sync`; base-image's and the docker repos' `PERSONAL_TOKEN` is `edbfi-hotio-container-sync`. Revoke neither.
 

@@ -16,7 +16,7 @@ Every public edbfi repo with a `ci.yml` and `pr-policy.yml`; repo-patches only f
 
 - `templates/`: each file's header says where to copy it; [SETUP.md](SETUP.md) covers a new repo.
 - `hooks/` and [`.pre-commit-hooks.yaml`](.pre-commit-hooks.yaml): `privileged-jobs` and `check-peers`. Cut a `vX.Y.Z` tag only when these change; consumers pin the tag's frozen SHA and Dependabot moves it.
-- `tools/`: template lints and tests, and `sync_pullfrog.py`.
+- `tools/`: template lints and tests, `sync_pullfrog.py`, and `bun_maintenance.py`, run daily by `bun-maintenance.yml`: Bun runtime-bump and audit-fix PRs, which Dependabot can't open (dependabot-core#4830; no Bun security updates).
 
 ## Local checks
 

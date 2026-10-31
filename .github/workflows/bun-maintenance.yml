@@ -1,0 +1,72 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Opens Bun runtime-bump and audit-fix PRs in every edbfi Bun repo, which Dependabot
+# can't (tools/bun_maintenance.py says why). `plan` runs Bun on the repos' default
+# branches without secrets; `apply` holds BUN_MAINTENANCE_TOKEN, so it follows
+# privileged_jobs.py: inline shell and preinstalled tools only, and only on main.
+name: Bun maintenance
+on:
+  schedule: [{ cron: "37 5 * * *" }]   # daily; minute unique per repo
+  workflow_dispatch:
+    inputs:
+      repos:
+        type: string
+        description: Comma-separated repo names to limit the run to; empty for all
+        default: ''
+permissions: {}
+defaults: { run: { shell: bash } }
+concurrency:
+  group: bun-maintenance
+  cancel-in-progress: false
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions: { contents: read }
+    outputs:
+      has_work: ${{ steps.plan.outputs.has_work }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - id: target
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: python3 tools/bun_maintenance.py target
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with: { bun-version: "${{ steps.target.outputs.target }}" }
+      - id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOS: ${{ inputs.repos }}
+        run: python3 tools/bun_maintenance.py plan --repos "$REPOS" --out "$RUNNER_TEMP/plan"
+      - if: steps.plan.outputs.has_work == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: bun-maintenance-plan
+          path: ${{ runner.temp }}/plan/plan.json
+          if-no-files-found: error
+          retention-days: 1
+  apply:
+    needs: [plan]
+    if: github.ref == 'refs/heads/main' && needs.plan.outputs.has_work == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions: { actions: read }
+    steps:
+      # This repository is public: an anonymous fetch of the triggering commit
+      # needs no credential, and nothing is written to .git/config.
+      - name: Fetch this repository at the triggering commit
+        env: { GIT_TERMINAL_PROMPT: "0" }
+        run: |
+          git -c core.hooksPath=/dev/null init --quiet .
+          git -c core.hooksPath=/dev/null fetch --quiet --depth 1 --no-tags "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git" "$GITHUB_SHA"
+          git -c core.hooksPath=/dev/null checkout --quiet --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Download the plan
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          mkdir "$RUNNER_TEMP/plan"
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" -n bun-maintenance-plan -D "$RUNNER_TEMP/plan"
+      - name: Apply
+        env:
+          BUN_MAINTENANCE_TOKEN: ${{ secrets.BUN_MAINTENANCE_TOKEN }}
+          REPOS: ${{ inputs.repos }}
+        run: python3 tools/bun_maintenance.py apply --repos "$REPOS" --plan-dir "$RUNNER_TEMP/plan"
