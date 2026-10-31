@@ -152,6 +152,36 @@ class GitTest(unittest.TestCase):
             bm.apply_repo(repo, stale, "1.4.4", "token", work)
         prs.assert_not_called()
 
+    def apply_with(self, files: dict[str, str]) -> list[tuple[str, str]]:
+        """apply_repo's publish calls (branch, title) for a main holding files."""
+        head = self.commit(files)
+        branch = bm.git(self.work, "branch", "--show-current")
+        origin = Path(self.enterContext(tempfile.TemporaryDirectory())) / "edbfi"
+        _ = bm.git(origin.parent, "clone", "--quiet", "--bare", str(self.work), str(origin / "x.git"))
+        repo = bm.Repo("edbfi/x", branch, head, tuple((path, "") for path in files), True)
+        work = Path(self.enterContext(tempfile.TemporaryDirectory()))
+        current = bm.Entry("edbfi/x", head, "ok", "", (), ())
+        calls: list[tuple[str, str]] = []
+
+        def publish(_: bm.Target, branch: str, _tree: str | None, _status: str, title: str, _body: str) -> bool:
+            calls.append((branch, title))
+            return True
+
+        with mock.patch.object(bm, "GITHUB", str(origin.parent)), mock.patch.object(bm.Target, "publish", publish):
+            try:
+                bm.apply_repo(repo, current, "1.4.4", "token", work)
+            except bm.Error:
+                calls.append(("raised", ""))
+        return calls
+
+    def test_broken_pin_still_publishes_the_audit_branch(self) -> None:
+        calls = self.apply_with({"package.json": TABS.replace("bun@1.4.2", "bun@latest")})
+        self.assertEqual([branch for branch, _ in calls], [bm.AUDIT, "raised"])
+
+    def test_title_names_the_oldest_changed_pin(self) -> None:
+        calls = self.apply_with({"package.json": TABS.replace("1.4.2", "1.4.4"), ".bun-version": "1.4.2\n"})
+        self.assertEqual(calls[0], (bm.RUNTIME, "chore(deps): bump Bun from 1.4.2 to 1.4.4"))
+
 
 class TrustTest(unittest.TestCase):
     def test_matching_plan_binds(self) -> None:

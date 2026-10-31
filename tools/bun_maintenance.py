@@ -65,6 +65,7 @@ class Repo:
     sha: str
     files: tuple[tuple[str, str], ...]
     has_lock: bool
+    broken: str = ""  # why its pin can't be bumped; it still gets audit PRs
 
 
 @dataclass(frozen=True)
@@ -400,7 +401,7 @@ def latest_bun(token: str) -> str:
     return match[1]
 
 
-def discover(token: str, only: str) -> list[Repo]:
+def discover(token: str, only: str, target: str) -> list[Repo]:
     """Public, unarchived edbfi repos with pr-policy.yml and a root Bun pin."""
     pages = as_list(
         load(
@@ -423,8 +424,14 @@ def discover(token: str, only: str) -> list[Repo]:
             continue
         pins, has_lock = root_pins(as_list(as_dict(api(f"repos/{name}/git/trees/{sha}", token))["tree"]))
         files = {path: api_raw(f"repos/{name}/contents/{path}?ref={sha}", token) or "" for path in pins}
-        if current_pin(files) is not None:
-            repos.append(Repo(name, branch, sha, tuple(sorted(files.items())), has_lock))
+        try:
+            if current_pin(files) is None:
+                continue
+            _ = bump(files, target)
+            broken = ""
+        except (Error, ValueError) as error:
+            broken = str(error)
+        repos.append(Repo(name, branch, sha, tuple(sorted(files.items())), has_lock, broken))
     wanted = {f"{OWNER}/{part.strip()}" for part in only.split(",") if part.strip()}
     if unknown := wanted - {repo.name for repo in repos}:
         raise Error(f"not Bun repos: {', '.join(sorted(unknown))}")
@@ -490,7 +497,9 @@ def audit_repo(repo: Repo, work: Path) -> Entry:
             cwd=work,
             check=False,
         )
-        _ = as_dict(load(fix.stdout))
+        report = as_dict(load(fix.stdout))
+        if report.get("manifestUnavailable") or report.get("unaudited"):
+            raise Error("bun audit fix could not read every package")
         after = advisories(run(["bun", "audit", "--json"], cwd=work, check=False).stdout)
     except (ValueError, Error) as error:
         log(f"{repo.name}: bun audit failed: {error}")
@@ -502,7 +511,7 @@ def audit_repo(repo: Repo, work: Path) -> Entry:
 def plan(only: str, out: Path) -> int:
     token = os.environ.get("GH_TOKEN", "")
     target = latest_bun(token)
-    repos = discover(token, only)
+    repos = discover(token, only, target)
     if run(["bun", "--version"]).stdout.strip() != target:
         raise Error(f"plan must run on Bun {target}")
     entries: list[Entry] = []
@@ -514,9 +523,14 @@ def plan(only: str, out: Path) -> int:
             entry = audit_repo(repo, Path(work))
         entries.append(entry)
         pending = any(open_prs(repo.name, branch, token) for branch in (RUNTIME, AUDIT))
-        has_work |= bool(bump(files, target)) or bool(entry.audit_patch) or pending
+        # A broken pin still sends the run to apply, which reports it and fails.
+        runtime = bool(repo.broken) or bool(bump(files, target))
+        has_work |= runtime or bool(entry.audit_patch) or pending
         audit = "error" if entry.status == "error" else "fix" if entry.audit_patch else "clean"
-        summarize(f"| {repo.name} | {current_pin(files)} | {audit} | {', '.join(entry.left)} |")
+        pin = "broken" if repo.broken else current_pin(files)
+        summarize(f"| {repo.name} | {pin} | {audit} | {', '.join(entry.left)} |")
+        if repo.broken:
+            print(f"::error::{repo.name}: {repo.broken}", flush=True)
         if entry.status == "error":
             print(f"::warning::{repo.name}: bun audit failed, no audit change this run", flush=True)
         if entry.left:
@@ -706,16 +720,21 @@ def apply_repo(repo: Repo, entry: Entry | None, target: str, token: str, work: P
     repo_target = Target(repo, work, main, token, run_url)
     # Read at the fetched head, not discovery's API snapshot.
     files = {path: run(["git", "show", f"{main}:{path}"], cwd=work).stdout for path, _ in repo.files}
-    pin = current_pin(files) or ""
-    new = bump(files, target)
     footer = f"Opened by [bun-maintenance]({run_url}) in edbfi-ci."
-    _ = repo_target.publish(
-        RUNTIME,
-        edited_tree(work, main, new) if new else None,
-        "ok",
-        f"chore(deps): bump Bun from {pin} to {target}",
-        f"Bumps the Bun pin to [{target}](https://github.com/oven-sh/bun/releases/tag/bun-v{target}).\n\n{footer}",
-    )
+    try:
+        new = bump(files, target)
+        broken = None
+    except (Error, ValueError) as error:
+        new, broken = {}, error
+    if broken is None:
+        old = min((current_pin({path: files[path]}) or target for path in new), key=version, default=target)
+        _ = repo_target.publish(
+            RUNTIME,
+            edited_tree(work, main, new) if new else None,
+            "ok",
+            f"chore(deps): bump Bun from {old} to {target}",
+            f"Bumps the Bun pin to [{target}](https://github.com/oven-sh/bun/releases/tag/bun-v{target}).\n\n{footer}",
+        )
     status = entry.status if entry is not None else "error"
     patch = entry.audit_patch if entry is not None else ""
     fixed = "".join(f"- {item}\n" for item in entry.fixed) if entry is not None else ""
@@ -730,6 +749,8 @@ def apply_repo(repo: Repo, entry: Entry | None, target: str, token: str, work: P
         "fix(deps): refresh vulnerable lockfile entries",
         f"{body}\n{footer}",
     )
+    if broken is not None:
+        raise broken
 
 
 def apply(only: str, plan_dir: Path) -> int:
@@ -738,7 +759,7 @@ def apply(only: str, plan_dir: Path) -> int:
         raise Error("BUN_MAINTENANCE_TOKEN is not set (see SETUP.md)")
     text = read_artifact(plan_dir)
     target = latest_bun(token)
-    repos = discover(token, only)
+    repos = discover(token, only, target)
     entries = bind(text, target, {repo.name for repo in repos})
     failed: list[str] = []
     for repo in repos:
