@@ -955,7 +955,6 @@ raise SystemExit(subprocess.call([os.environ["REAL_GIT"], *args]))
         self.assertEqual(self.selected(), [])
 
 
-
 VT = TEMPLATES / "release-virustotal.sh"
 VT_START = "<!-- virustotal-results:start -->"
 VT_END = "<!-- virustotal-results:end -->"
@@ -1102,6 +1101,7 @@ class VirusTotalTest(ScriptTest):
                 result = self.notes(body)
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("unmatched VirusTotal markers", result.stderr)
+
 
 if __name__ == "__main__":
     _ = unittest.main()
