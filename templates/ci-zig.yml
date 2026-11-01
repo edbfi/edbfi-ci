@@ -5,7 +5,7 @@
 name: CI
 on:
   pull_request:
-  push: { branches: [master] }
+  push: { branches: [main] }
   workflow_dispatch:
   schedule: [{ cron: "17 2 * * 0" }]   # weekly main revalidation; minute unique per repo
 permissions: {}
