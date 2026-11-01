@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 """Exercise the shipped workflow scripts and their security boundaries locally."""
 
+import hashlib
 import json
 import os
 import re
@@ -953,6 +954,154 @@ raise SystemExit(subprocess.call([os.environ["REAL_GIT"], *args]))
         _ = self.git("rm", "-q", "biome.json")
         self.assertEqual(self.selected(), [])
 
+
+
+VT = TEMPLATES / "release-virustotal.sh"
+VT_START = "<!-- virustotal-results:start -->"
+VT_END = "<!-- virustotal-results:end -->"
+VT_KEY = "fixture-vt-key"
+# Replays queued responses, logs each argv and records a VT_API_KEY that reached its environment.
+VT_CURL = r"""#!/usr/bin/env bash
+set -euo pipefail
+if [[ -n "${VT_API_KEY+x}" ]]; then : > "$RUNNER_TEMP/leaked"; fi
+printf '%s\n' "$*" >> "$RUNNER_TEMP/curl.log"
+n=$(($(wc -l < "$RUNNER_TEMP/curl.log")))
+out=
+while (($#)); do case "$1" in -o) out="$2"; shift 2 ;; *) shift ;; esac; done
+[[ -f "$RUNNER_TEMP/queue/$n.status" ]] || exit 7
+cp "$RUNNER_TEMP/queue/$n.json" "$out"
+cat "$RUNNER_TEMP/queue/$n.status"
+"""
+
+
+class VirusTotalTest(ScriptTest):
+    queued: int = 0
+
+    @override
+    def setUp(self) -> None:
+        super().setUp()
+        self.executable("curl", VT_CURL)
+        (self.root / "queue").mkdir()
+        self.queued = 0
+        # Every setting is pinned, so the caller's environment can't leak in.
+        self.env.update(
+            {
+                "VT_API_KEY": VT_KEY,
+                "VT_API_URL": "https://vt.invalid/api/v3",
+                "VT_GUI_URL": "https://vt.invalid/gui",
+                "VT_SPACING_SECONDS": "0",
+                "VT_BACKOFF_SECONDS": "0",
+                "VT_RETRIES": "3",
+                "VT_POLLS": "3",
+                "VT_POLL_SECONDS": "0",
+            }
+        )
+
+    def answer(self, status: int, body: object) -> None:
+        self.queued += 1
+        _ = (self.root / "queue" / f"{self.queued}.status").write_text(str(status))
+        _ = (self.root / "queue" / f"{self.queued}.json").write_text(json.dumps(body))
+
+    def requests(self) -> list[str]:
+        log = self.root / "curl.log"
+        return log.read_text().splitlines() if log.exists() else []
+
+    def scan(self, size: int = 5) -> tuple[subprocess.CompletedProcess[str], Path]:
+        asset = self.root / "asset.zip"
+        if size > 1024:
+            asset.touch()
+            os.truncate(asset, size)
+        else:
+            _ = asset.write_bytes(b"x" * size)
+        block = self.root / "block.md"
+        result = self.execute(f'bash "{VT}" scan "{asset}" "{block}"')
+        self.assertFalse((self.root / "leaked").exists(), "curl saw VT_API_KEY")
+        self.assertTrue(all(VT_KEY not in line for line in self.requests()))
+        return result, block
+
+    def completed(self, sha: str) -> dict[str, object]:
+        stats = {"malicious": 0, "suspicious": 1, "undetected": 60}
+        return {
+            "data": {"attributes": {"status": "completed", "stats": stats}},
+            "meta": {"file_info": {"sha256": sha}},
+        }
+
+    def test_mode_is_executable(self) -> None:
+        self.assertTrue(os.access(VT, os.X_OK))
+
+    def test_scan_writes_stats_and_links(self) -> None:
+        sha = hashlib.sha256(b"x" * 5).hexdigest()
+        self.answer(200, {"data": {"type": "analysis", "id": "a/b="}})
+        self.answer(200, {"data": {"attributes": {"status": "queued"}}})
+        self.answer(200, self.completed(sha))
+        result, block = self.scan()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        text = block.read_text()
+        self.assertTrue(text.startswith(VT_START) and text.rstrip().endswith(VT_END))
+        self.assertIn(f"`{sha}`", text)
+        self.assertIn("0 malicious, 1 suspicious, 60 undetected", text)
+        self.assertIn("https://vt.invalid/gui/file-analysis/a%2Fb%3D/detection", text)
+        self.assertIn(f"https://vt.invalid/gui/file/{sha}/detection", text)
+        requests = self.requests()
+        self.assertEqual(len(requests), 3)
+        self.assertTrue(requests[0].endswith(" https://vt.invalid/api/v3/files"))
+        self.assertTrue(requests[2].endswith(" https://vt.invalid/api/v3/analyses/a%2Fb%3D"))
+
+    def test_analysis_of_another_file_fails(self) -> None:
+        self.answer(200, {"data": {"type": "analysis", "id": "a"}})
+        self.answer(200, self.completed("0" * 64))
+        result, _ = self.scan()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("analysed a different file", result.stderr)
+
+    def test_rate_limit_is_retried(self) -> None:
+        self.answer(429, {"error": {"code": "QuotaExceededError"}})
+        self.answer(200, {"data": {"type": "analysis", "id": "a"}})
+        self.answer(200, self.completed(hashlib.sha256(b"x" * 5).hexdigest()))
+        result, _ = self.scan()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("HTTP 429 QuotaExceededError", result.stderr)
+        self.assertEqual(len(self.requests()), 3)
+
+    def test_large_upload_url_must_stay_on_virustotal(self) -> None:
+        self.answer(200, {"data": "https://evil.invalid/api/v3/upload"})
+        result, _ = self.scan(32 * 1024 * 1024 + 1)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("upload URL outside VirusTotal", result.stderr)
+        requests = self.requests()
+        self.assertEqual(len(requests), 1)
+        self.assertTrue(requests[0].endswith(" https://vt.invalid/api/v3/files/upload_url"))
+
+    def notes(self, body: str) -> subprocess.CompletedProcess[str]:
+        _ = (self.root / "release.json").write_text(json.dumps({"body": body}))
+        _ = (self.root / "block.md").write_text(f"{VT_START}\nnew\n{VT_END}\n")
+        return self.execute(f'bash "{VT}" notes release.json block.md out.md')
+
+    def test_notes_place_the_block(self) -> None:
+        block = f"{VT_START}\nnew\n{VT_END}"
+        cases = {
+            "": f"{block}\n",
+            " \n": f"{block}\n",
+            "Notes\n": f"Notes\n\n{block}\n",
+            f"Intro\n{VT_START}\nold\n{VT_END}\nOutro": f"Intro\n{block}\nOutro",
+        }
+        for body, expected in cases.items():
+            with self.subTest(body=body):
+                result = self.notes(body)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                out = (self.root / "out.md").read_text()
+                self.assertEqual(out, expected)
+                # A second run over its own output changes nothing.
+                self.assertEqual(self.notes(out).returncode, 0)
+                self.assertEqual((self.root / "out.md").read_text(), out)
+
+    def test_notes_refuse_unmatched_markers(self) -> None:
+        pair = f"{VT_START}\nold\n{VT_END}"
+        for body in (f"a\n{VT_START}\nb", f"a\n{VT_END}\nb", f"{VT_END}\n{VT_START}", f"{pair}\n{pair}", f"{VT_END}\n{pair}"):
+            with self.subTest(body=body):
+                result = self.notes(body)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("unmatched VirusTotal markers", result.stderr)
 
 if __name__ == "__main__":
     _ = unittest.main()
