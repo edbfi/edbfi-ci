@@ -103,6 +103,11 @@ repos:
         language: system
         pass_filenames: false
         files: ^(hooks/|package\.json|\.pre-commit-hooks\.yaml)
+      - id: shellcheck
+        name: ShellCheck shell templates
+        entry: shellcheck -S error
+        language: system
+        files: ^templates/.*\.sh$
       - id: tooling-tests
         name: tooling guard tests
         entry: python3 -m unittest discover -s tools -t .
