@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Keep the repository's typing gate strict; fix code instead of weakening it."""
 
 import io

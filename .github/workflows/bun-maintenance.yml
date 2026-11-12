@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: AGPL-3.0-or-later
 # Opens Bun runtime-bump and audit-fix PRs in every edbfi Bun repo, which Dependabot
 # can't (tools/bun_maintenance.py says why). `plan` runs Bun on the repos' default
 # branches without secrets; `apply` holds BUN_MAINTENANCE_TOKEN, so it follows

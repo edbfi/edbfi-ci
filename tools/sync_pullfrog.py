@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Copy the central Pullfrog workflow into local checkouts, or check for drift.
 
 Action pins (`uses: owner/repo@<sha> # vX.Y.Z`) are not drift: Dependabot moves

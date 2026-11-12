@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Open Bun runtime-bump and audit-fix PRs in the edbfi Bun repos.
 
 Dependabot can't bump `packageManager` (dependabot/dependabot-core#4830) and has no
