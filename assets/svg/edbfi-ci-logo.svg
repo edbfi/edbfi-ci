@@ -1,0 +1,12 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title description">
+  <title id="title">edbfi-ci logo</title>
+  <desc id="description">Three connected check nodes representing shared CI.</desc>
+  <path d="M64 72h128l-64 112Z" fill="none" stroke="#32b8a1" stroke-width="12" stroke-linejoin="round"/>
+  <g fill="#123449" stroke="#68e0ca" stroke-width="5">
+    <circle cx="64" cy="72" r="32"/>
+    <circle cx="192" cy="72" r="32"/>
+    <circle cx="128" cy="184" r="32"/>
+  </g>
+  <path d="m50 72 10 10 18-20m100 10 10 10 18-20m-92 122 10 10 18-20" fill="none" stroke="#f0fffb" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
