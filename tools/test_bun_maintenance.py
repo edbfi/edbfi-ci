@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """bun_maintenance.py's edits, validators, trust binding and publish decisions."""
 
 import json

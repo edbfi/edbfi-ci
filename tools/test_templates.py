@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Exercise the shipped workflow scripts and their security boundaries locally."""
 
 import hashlib

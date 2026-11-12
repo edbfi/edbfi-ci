@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/svg/edbfi-ci-logo.svg" alt="edbfi-ci logo" width="256" height="256">
+  <img src="assets/svg/edbfi-ci-logo.svg" alt="edbfi-ci logo" width="160" height="160">
 </p>
 
 <h1 align="center">edbfi-ci</h1>
@@ -7,7 +7,7 @@
 <p align="center"><strong>Shared CI templates, policy hooks, and review automation for edbfi repositories.</strong></p>
 
 <p align="center">
-  <a href="https://github.com/edbfi/edbfi-ci/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0--only-blue?style=flat" alt="License: AGPL-3.0-only"></a>
+  <a href="https://github.com/edbfi/edbfi-ci/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0--or--later-blue?style=flat" alt="License: AGPL-3.0-or-later"></a>
   <a href="https://github.com/python/cpython" title="CPython source"><img src="https://img.shields.io/badge/Python-3776AB?style=flat&amp;logo=python&amp;logoColor=white" alt="Python"></a>
   <a href="https://github.com/actions/runner" title="GitHub Actions runner source"><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&amp;logo=githubactions&amp;logoColor=white" alt="GitHub Actions"></a>
   <a href="https://github.com/j178/prek"><img src="https://img.shields.io/badge/prek-4169E1?style=flat" alt="prek"></a>
@@ -40,4 +40,6 @@ prek run --all-files --hook-stage manual
 
 ## License
 
-[AGPL-3.0-only](LICENSE).
+Except where otherwise noted, original edbfi-ci code and artwork is free software: you can redistribute it and/or modify it under the terms of the [GNU Affero General Public License](LICENSE) as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version (`AGPL-3.0-or-later`).
+
+Third-party code and assets retain their existing license notices, including the MIT-licensed PhrozenByte workflow script.

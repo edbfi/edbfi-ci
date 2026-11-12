@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: AGPL-3.0-or-later
 """Reject actions, containers and services in privileged workflow jobs.
 
 A job is privileged if it references a secret other than GITHUB_TOKEN, or if it is

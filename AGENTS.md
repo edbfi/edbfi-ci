@@ -7,7 +7,7 @@
 - Docs hold only what the code can't say: the policy in the README, the GitHub-side setup in [SETUP.md](SETUP.md), and short comments next to the code they explain. Most changes need no doc change. When a fact changes, search for every other statement of it and fix or delete it; never append history.
 - No reports in the repo: evidence, deviations and "Owner actions" go in the PR body.
 - Never write secret values. Don't change GitHub settings, secrets or other repos, publish anything or contact upstream projects, unless the task says so.
-- Conventional Commits with a DCO sign-off (`git commit -s`), on a branch, through a PR. New source files carry the `AGPL-3.0-only` SPDX line.
+- Conventional Commits with a DCO sign-off (`git commit -s`), on a branch, through a PR. New source files carry the `AGPL-3.0-or-later` SPDX line.
 - Privileged workflow jobs (holding a secret, or PR-reachable with write access) follow [privileged_jobs.py](hooks/edbfi_hooks/privileged_jobs.py)'s rules; the hook checks only part of them.
 
 ## Pull requests
