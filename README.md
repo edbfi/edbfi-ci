@@ -1,4 +1,17 @@
-# edbfi-ci
+<p align="center">
+  <img src="assets/svg/edbfi-ci-logo.svg" alt="edbfi-ci logo" width="256" height="256">
+</p>
+
+<h1 align="center">edbfi-ci</h1>
+
+<p align="center"><strong>Shared CI templates, policy hooks, and review automation for edbfi repositories.</strong></p>
+
+<p align="center">
+  <a href="https://github.com/edbfi/edbfi-ci/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0--only-blue?style=flat" alt="License: AGPL-3.0-only"></a>
+  <a href="https://github.com/python/cpython" title="CPython source"><img src="https://img.shields.io/badge/Python-3776AB?style=flat&amp;logo=python&amp;logoColor=white" alt="Python"></a>
+  <a href="https://github.com/actions/runner" title="GitHub Actions runner source"><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&amp;logo=githubactions&amp;logoColor=white" alt="GitHub Actions"></a>
+  <a href="https://github.com/j178/prek"><img src="https://img.shields.io/badge/prek-4169E1?style=flat" alt="prek"></a>
+</p>
 
 Shared CI for the edbfi repos: workflow, Dependabot and prek templates, two shared prek hooks and the Pullfrog review workflow. Each repo carries its own copy of the templates, and its Dependabot PRs, majors included, merge on their own once CI passes. Changing a template here doesn't update the copies.
 
