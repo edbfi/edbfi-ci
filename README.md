@@ -11,6 +11,7 @@
   <a href="https://github.com/python/cpython" title="CPython source"><img src="https://img.shields.io/badge/Python-3776AB?style=flat&amp;logo=python&amp;logoColor=white" alt="Python"></a>
   <a href="https://github.com/actions/runner" title="GitHub Actions runner source"><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&amp;logo=githubactions&amp;logoColor=white" alt="GitHub Actions"></a>
   <a href="https://github.com/j178/prek"><img src="https://img.shields.io/badge/prek-4169E1?style=flat" alt="prek"></a>
+  <a href="https://github.com/edbfi/edbfi-ci/actions/workflows/ci.yml?query=branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/edbfi/edbfi-ci/ci.yml?branch=main&amp;event=push&amp;label=CI&amp;style=flat" alt="CI"></a>
 </p>
 
 Shared CI for the edbfi repos: workflow, Dependabot and prek templates, two shared prek hooks and the Pullfrog review workflow. Each repo carries its own copy of the templates, and its Dependabot PRs, majors included, merge on their own once CI passes. Changing a template here doesn't update the copies.
